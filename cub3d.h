@@ -54,7 +54,7 @@ typedef struct s_data
 	t_map		map;
 	int			len;
 //	t_list		list;
-}	t_data;
+}t_data;
 
 int		init_mlx(t_data *data);
 int		parsing();

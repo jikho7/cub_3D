@@ -6,7 +6,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "mlx/mlx.h"
-# include <fcntl.h>
+#include "libft/libft.h"
+#include <fcntl.h>
 
 
 # define BUFFER_SIZE 11
@@ -39,12 +40,6 @@ typedef struct s_map
 	int mapS;
 }t_map;
 
-// typedef struct s_list
-// {
-// 	void			*content;
-// 	struct s_list	*next;
-// }t_list;
-
 typedef struct s_data
 {
 	void		*mlx;
@@ -53,7 +48,7 @@ typedef struct s_data
 	t_player	player;
 	t_map		map;
 	int			len;
-//	t_list		list;
+	t_list		list;
 }t_data;
 
 int		init_mlx(t_data *data);
@@ -64,4 +59,6 @@ char	*gnl_strchr(char *s);
 size_t	gnl_strlen(char *s);
 char	*gnl_strjoin(char *s1, char *s2);
 //void	init(t_list *info);
+void	display_node(t_list *lst);
+void	display_lst(t_list **ptr_to_head, char *name);
 #endif

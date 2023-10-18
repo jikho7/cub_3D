@@ -1,4 +1,4 @@
-EA ./textures/maison1.png		    
+EA ./textures/maison1.png
 NO ./textures/Wall_North.png
 SO ./textures/Wall_South.png
 WE ./textures/Wall_West.png
@@ -32,15 +32,15 @@ C 0,220,0
 
 
 
-    
-	 
-	   
-	    
-		 
-		  
-		   
-		    
-			 
-			  
-			   
-			    
+
+
+
+
+
+
+
+
+
+
+
+

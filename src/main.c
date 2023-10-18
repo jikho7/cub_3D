@@ -1,6 +1,4 @@
-# include "../cub3d.h"
-#include "mlx.h"
-#include "libft.h"
+# include <cub3d.h>
 
 int main()
 {

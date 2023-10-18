@@ -1,5 +1,5 @@
-# include "../cub3d.h"
-#include "mlx.h"
+# include <cub3d.h>
+
 // void	info_display(t_data *data);
 
 // int	render(t_data *data)

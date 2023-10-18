@@ -1,1 +1,8 @@
+.DS_Store
+.*
+.gitignore
+a.out
+a.out.dSYM/*
 libft/.git*
+*.o
+test

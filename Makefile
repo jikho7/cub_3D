@@ -8,6 +8,10 @@ SRCS		= $(addprefix $(SRC_PATH)/,$(SRC))
 OBJ			= ${SRCS:.c=.o}
 LIBFT		= libft
 
+SRCT 	= circle.c draw.c
+SRCTS 	= $(addprefix $(SRC_PATH)/,$(SRCT))
+OBJT	= ${SRCTS:.c=.o}
+
 all: $(NAME)
 
 .c.o:
@@ -21,6 +25,13 @@ $(NAME) : $(OBJ)
 	make -C mlx
 	cp mlx/libmlx.dylib .
 	$(CC) $(CFLAGS) $(OBJ) -Llibft -lft -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+
+circle : $(OBJT)
+	make -C $(LIBFT)
+	cp libft/libft.a .
+	make -C mlx
+	cp mlx/libmlx.dylib .
+	$(CC) $(CFLAGS) $(OBJT) -Llibft -lft -Lmlx -lmlx -framework OpenGL -framework AppKit -o circle
 
 clean :
 	rm -f $(OBJ)

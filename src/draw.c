@@ -1,73 +1,40 @@
 # include "../cub3d.h"
-#include "mlx.h"
-// void	info_display(t_data *data);
+#include "../mlx/mlx.h"
+#include <stdio.h>
 
-// int	render(t_data *data)
-// {
-// 	data->len = fra_strlen(*data->av1);
-// 	data->check = fra_strncmp(*data->av1, "julia", 5);
-// 	if (data->check == 0 && data->len == 5)
-// 		julia (&data->img, data->fra, data);
-// 	else if (data->len == 10)
-// 	{
-// 		data->check = fra_strncmp(*data->av1, "mandelbrot", 10);
-// 		if (data->check == 0)
-// 			mandelbrot (&data->img, data->fra, data);
-// 		else
-// 			reject();
-// 	}
-// 	else if (data->len == 12)
-// 	{
-// 		data->check = fra_strncmp(*data->av1, "burning_ship", 12);
-// 		if (data->check == 0)
-// 			burning_ship (&data->img, data->fra);
-// 		else
-// 			reject();
-// 	}
-// 	else
-// 		reject();
-// 	pixel_put(&data->img, 350, 350, 0xFF0000);
-// 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.img_ptr, 0, 0);
-// 	info_display(data);
-// 	return (0);
-// }
+int	min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
 
-// void	pixel_put(t_img *img, int x, int y, int color)
-// {
-// 	char	*pixel;
+int	max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
 
-// 	if (x < WID && x > 0 && y < HEI && y > 0)
-// 	{
-// 		pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
-// 		*(int *)pixel = color;
-// 	}
-// }
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
 
-// int	set_color(t_fra *fra, t_img *img)
-// {
+	dst = data->addr + (y * data->line_len + x * (data->bpp / 8));
+	*(unsigned int *)dst = color;
+}
 
+int	trgb(int t, int red, int green, int blue)
+{
+	return (t << 24 | red << 16 | green << 8 | blue);
+}
 
-// 	if (fra->i == -2)
-// 		pixel_put(img, fra->col, fra->row, 0x000000);
-// 	if (fra->i >= 1 && fra->i < 10)
-// 		pixel_put(img, fra->col, fra->row, fra->c + (fra->i * 1000));
-// 	if (fra->i >= 2 && fra->i < 6)
-// 		pixel_put(img, fra->col, fra->row, fra->c + (fra->i * 2000));
-// 	if (fra->i >= 6 && fra->i < 10)
-// 		pixel_put(img, fra->col, fra->row, fra->c + (fra->i * 3000));
-// 	if (fra->i >= 10 && fra->i < 20)
-// 		pixel_put(img, fra->col, fra->row, fra->c + (fra->i * 4000));
-// 	if (fra->i >= 20 && fra->i < 30)
-// 		pixel_put(img, fra->col, fra->row, fra->c + (fra->i * 5000));
-// 	if (fra->i >= 30 && fra->i < 100)
-// 		pixel_put(img, fra->col, fra->row, fra->c + (fra->i * 5000));
-// 	if (fra->i >= 100 && fra->i < 400)
-// 		pixel_put(img, fra->col, fra->row, fra->c + (fra->i * 5000));
-// 	if (fra->i == 400)
-// 		pixel_put(img, fra->col, fra->row, 0x000000);
-// 	else
-// 		pixel_put(img, fra->col, fra->row, fra->c + (fra->i * 1000));
+int	grad(int i)
+{
+	int	r;
+	int	g;
 
-
-// 	return (0);
-// }
+	r = min(max(0, i - 510), 255);
+	g = min(min(i, 1020 - i), 255);
+	return (trgb(0, r, g, min(255, max(0, 510 - i))));
+}

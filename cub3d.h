@@ -8,7 +8,6 @@
 #include "mlx/mlx.h"
 # include <fcntl.h>
 
-
 # define BUFFER_SIZE 11
 # define WIN_WIDTH 1440
 # define WIN_HEIGHT 960
@@ -16,14 +15,6 @@
 # define TEXTURE_HEIGHT 64
 # define FOV 60
 
-// typedef struct s_img
-// {
-// 	void	*img_ptr;
-// 	char	*addr;
-// 	int		bpp;
-// 	int		line_len;
-// 	int		endian;
-// }	t_img;
 
 typedef struct s_complex {
 	double	x;
@@ -67,23 +58,6 @@ typedef struct s_map
 	int mapS;
 }		t_map;
 
-// typedef struct s_list
-// {
-// 	void			*content;
-// 	struct s_list	*next;
-// }t_list;
-
-// typedef struct s_data
-// {
-// 	void		*mlx;
-// 	void		*mlx_win;
-// 	t_img		img;
-// 	t_player	player;
-// 	t_map		map;
-// 	int			len;
-// //	t_list		list;
-// }t_data;
-
 int		init_mlx(t_data *data);
 int		parsing();
 int		gnl_cub(int fd);
@@ -95,5 +69,4 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int	trgb(int t, int red, int green, int blue);
 int	grad(int i);
 
-//void	init(t_list *info);
 #endif

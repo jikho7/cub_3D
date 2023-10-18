@@ -1,40 +1,111 @@
 # include <cub3d.h>
 
-int create_lst(t_list *info);
-t_list	*ft_lstnew(char *str);
-void	add_back(t_list **head, t_list *node_to_add);
+int create_lst(t_parse **info);
+t_parse	*lstnew(char *str);
+void	add_back(t_parse **head, t_parse *node_to_add);
+void is_valid(t_check *lst);
+void read_lst(t_parse **lst, t_check *check_lst);
+void init_struct_parse(t_check *check);
 
 int parsing()
 {
-	t_list *info = NULL;
+	t_parse *info = NULL;
+	t_check check;
 
-	create_lst(info);
+	init_struct_parse(&check);
+	create_lst(&info);
+	read_lst(&info, &check);
+	is_valid(&check);
 	return (0);
 }
 
-int create_lst(t_list *info)
+int create_lst(t_parse **info)
 {
 	int fd;
-	t_list *new = NULL;
+	t_parse *new = NULL;
 
 	fd = open("map0.cub", O_RDONLY);
 	if(fd == -1)
 		return (1);
-	info = ft_lstnew(get_next_line(fd));
-	while(get_next_line(fd) != NULL)
+	while(1)
 	{
-		new = ft_lstnew(get_next_line(fd));
-//		display_node(new);
-		add_back(&info, new);
+		new = lstnew(get_next_line(fd));
+		add_back(info, new);
+		if (new->content == NULL)
+			break;
 	}
-	display_lst(&info, "map");
+	//display_lst(info, "map");
 	return (0);
-
 }
 
-void	display_lst(t_list **ptr_to_head, char *name)
+t_parse	*lstnew(char *str)
 {
-	t_list	*current_node;
+	t_parse	*new_element;
+
+	new_element = ft_calloc(1, (sizeof(t_parse)));
+	if (new_element == NULL)
+		return (NULL);
+	(*new_element).content = str;
+	new_element->next = NULL;
+	return (new_element);
+}
+
+void	add_back(t_parse **head, t_parse *node_to_add)
+{
+	t_parse	*current;
+
+	current = *head;
+	if (*head == NULL)
+	{
+		*head = node_to_add;
+		return ;
+	}
+	while (current->next)
+		current = current->next;
+	current->next = node_to_add;
+	node_to_add->next = NULL;
+}
+
+void read_lst(t_parse **lst, t_check *check_lst)
+{
+	t_parse *tmp;
+
+	tmp = *lst;
+	while (tmp->next != NULL)
+	{
+		if (ft_strncmp(tmp->content, "EA ", 3) == 0)
+			check_lst->EA++;
+		if (ft_strncmp(tmp->content, "NO ", 3) == 0)
+			check_lst->NO++;
+		if (ft_strncmp(tmp->content, "SO ", 3) == 0)
+			check_lst->SO++;
+		if (ft_strncmp(tmp->content, "WE ", 3) == 0)
+			check_lst->WE++;
+		display_node(tmp);
+		tmp = tmp->next;
+	}
+}
+
+void is_valid(t_check *lst)
+{
+	if (lst->NO > 1|| lst->EA > 1 || lst->SO > 1|| lst->WE > 1)
+	{
+		printf("Error: Doublon\n");
+		return ;
+	}
+}
+
+void init_struct_parse(t_check *check)
+{
+	check->EA = 0;
+	check->NO = 0;
+	check->SO = 0;
+	check->WE = 0;
+}
+
+void	display_lst(t_parse **ptr_to_head, char *name)
+{
+	t_parse	*current_node;
 	int		count;
 
 	current_node = *ptr_to_head;
@@ -57,7 +128,7 @@ void	display_lst(t_list **ptr_to_head, char *name)
 	printf("\n");
 }
 
-void	display_node(t_list *lst)
+void	display_node(t_parse *lst)
 {
 	if (lst != NULL)
 	{
@@ -65,27 +136,4 @@ void	display_node(t_list *lst)
 			lst->content,
 			lst->next);
 	}
-}
-
-t_list	*ft_lstnew(char *str)
-{
-	t_list	*new_element;
-
-	new_element = ft_calloc(1, (sizeof(t_list)));
-	if (new_element == NULL)
-		return (NULL);
-	(*new_element).content = str;
-	new_element->next = NULL;
-	return (new_element);
-}
-
-void	add_back(t_list **head, t_list *node_to_add)
-{
-	t_list	*current;
-
-	current = *head;
-	while (current->next)
-		current = current->next;
-	current->next = node_to_add;
-	node_to_add->next = NULL;
 }

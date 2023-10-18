@@ -6,7 +6,10 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "mlx/mlx.h"
-# include <fcntl.h>
+#include "libft/libft.h"
+#include <fcntl.h>
+#include <string.h>
+
 
 # define BUFFER_SIZE 11
 # define WIN_WIDTH 1440
@@ -15,6 +18,19 @@
 # define TEXTURE_HEIGHT 64
 # define FOV 60
 
+typedef struct s_check
+{
+	int				EA;
+	int				NO;
+	int				SO;
+	int				WE;
+}t_check;
+
+typedef struct s_parse
+{
+	void			*content;
+	struct s_parse	*next;
+}t_parse;
 
 typedef struct s_complex {
 	double	x;
@@ -73,4 +89,6 @@ int	trgb(int t, int red, int green, int blue);
 int	grad(int i);
 
 //void	init(t_list *info);
+void	display_node(t_parse *lst);
+void	display_lst(t_parse **ptr_to_head, char *name);
 #endif

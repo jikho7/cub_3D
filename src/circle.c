@@ -1,10 +1,4 @@
-#include "../cub3d.h"
-#include "../mlx/mlx.h"
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
+#include <cub3d.h>
 
 void	circle(double size, t_data *win)
 {
@@ -104,7 +98,7 @@ int	key_hook(int keycode, t_vars *vars)
 
 	angle = M_PI / 6;
 	if (keycode == 13)
-	{	
+	{
 		if (cancle(vars->you->posX + vars->you->dirX, vars->you->posY - vars->you->dirY))
 			return (0);
 		vars->you->posX += vars->you->dirX;
@@ -126,7 +120,7 @@ int	key_hook(int keycode, t_vars *vars)
 		vars->you->posX -= vars->you->dirY;
 		vars->you->posY -= vars->you->dirX;
 		character(vars->win->size, vars->win, vars->you);
-	}	
+	}
 	else if (keycode == 2)
 	{
 		if (cancle(vars->you->posX + vars->you->dirY, vars->you->posY + vars->you->dirX))
@@ -170,8 +164,8 @@ int	key_hook(int keycode, t_vars *vars)
 		if (i >= 0 && i < size && j >= 0 && j < size)
 		{
 	   		my_mlx_pixel_put(win, i, j, grad(1000));
-	   		printf("%f, %f\n", x, y); 
-		}	
+	   		printf("%f, %f\n", x, y);
+		}
 	}
 	else if (mousecode == 2)
 		printf("mouseright\n");
@@ -225,7 +219,7 @@ int main(int argc, char **argv)
 	// 					{1,0,1,0,0,0,0,0,0,0,1},
 	// 					{1,0,1,0,0,0,0,0,0,0,1},
 	// 					{1,1,1,1,1,1,1,1,1,1,1}};
-	
+
 	if (argc != 2)
 	{
 		printf("forgot argument");

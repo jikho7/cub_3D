@@ -6,12 +6,6 @@
 #include <unistd.h>
 #include <string.h>
 
-void	circle(double size, t_data *win)
-{
-	(void) size;
-	(void) win;
-}
-
 int chara(int i, int j, t_player *you)
 {
 	float	x;
@@ -97,6 +91,7 @@ void	character(double size, t_data *win, t_player *you)
 	}
 }
 
+
 int	key_hook(int keycode, t_vars *vars)
 {
 	float angle;
@@ -107,32 +102,32 @@ int	key_hook(int keycode, t_vars *vars)
 	{	
 		if (cancle(vars->you->posX + vars->you->dirX, vars->you->posY - vars->you->dirY))
 			return (0);
-		vars->you->posX += vars->you->dirX/10;
-		vars->you->posY -= vars->you->dirY/10;
+		vars->you->posX += vars->you->dirX;
+		vars->you->posY -= vars->you->dirY;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if (keycode == 1)
 	{
 		if (cancle(vars->you->posX - vars->you->dirX, vars->you->posY + vars->you->dirY))
 			return (0);
-		vars->you->posX -= vars->you->dirX/10;
-		vars->you->posY += vars->you->dirY/10;
+		vars->you->posX -= vars->you->dirX;
+		vars->you->posY += vars->you->dirY;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if (keycode == 0)
 	{
 		if (cancle(vars->you->posX - vars->you->dirY, vars->you->posY - vars->you->dirX))
 			return (0);
-		vars->you->posX -= vars->you->dirY/10;
-		vars->you->posY -= vars->you->dirX/10;
+		vars->you->posX -= vars->you->dirY;
+		vars->you->posY -= vars->you->dirX;
 		character(vars->win->size, vars->win, vars->you);
 	}	
 	else if (keycode == 2)
 	{
 		if (cancle(vars->you->posX + vars->you->dirY, vars->you->posY + vars->you->dirX))
 			return (0);
-		vars->you->posX += vars->you->dirY/10;
-		vars->you->posY += vars->you->dirX/10;
+		vars->you->posX += vars->you->dirY;
+		vars->you->posY += vars->you->dirX;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if (keycode == 123)
@@ -140,6 +135,8 @@ int	key_hook(int keycode, t_vars *vars)
 		tdirx = vars->you->dirX*cos(angle) - vars->you->dirY*sin(angle);
 		vars->you->dirY = vars->you->dirY*cos(angle) + vars->you->dirX*sin(angle);
 		vars->you->dirX = tdirx;
+		vars->you->planeX = (vars->you->dirX*cos(M_PI / 2) - vars->you->dirY*sin(M_PI / 2)) * 0.1;
+		vars->you->planeY = (vars->you->dirY*cos(M_PI / 2) + vars->you->dirX*sin(M_PI / 2)) * 0.1;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if(keycode == 124)
@@ -147,6 +144,8 @@ int	key_hook(int keycode, t_vars *vars)
 		tdirx = vars->you->dirX*cos(-angle) - vars->you->dirY*sin(-angle);
 		vars->you->dirY = vars->you->dirY*cos(-angle) + vars->you->dirX*sin(-angle);
 		vars->you->dirX = tdirx;
+		vars->you->planeX = (vars->you->dirX*cos(M_PI / 2) - vars->you->dirY*sin(M_PI / 2)) * 0.1;
+		vars->you->planeY = (vars->you->dirY*cos(M_PI / 2) + vars->you->dirX*sin(M_PI / 2)) * 0.1;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if (keycode == 53)
@@ -155,46 +154,6 @@ int	key_hook(int keycode, t_vars *vars)
 		printf("%d\n", keycode);
 	return(0);
 }
-
-/*int mouse_hook(int mousecode, int i, int j, t_data *win)
-{
-	double x;
-	double y;
-	double size;
-
-	size = win->size;
-	x = win->zoom * (4 * ((double)(i + win->t.x) - size/2) / size);
-	y = win->zoom * (4 * (size/2 - (double)(j + win->t.y)) / size);
-	if (mousecode == 1)
-	{
-		if (i >= 0 && i < size && j >= 0 && j < size)
-		{
-	   		my_mlx_pixel_put(win, i, j, grad(1000));
-	   		printf("%f, %f\n", x, y); 
-		}	
-	}
-	else if (mousecode == 2)
-		printf("mouseright\n");
-	else if (mousecode == 3)
-		printf("mousemiddle\n");
-	else if (mousecode == 4)
-	{
-		win->zoom *= 1.1;
-		win->t.x += (i - win->size / 2) / 10;
-		win->t.y += (j - win->size / 2) / 10;
-		circle(win->size, win);
-	}
-	else if (mousecode == 5)
-	{
-		win->zoom /= 1.1;
-		win->t.x += (i - win->size / 2) / 10;
-		win->t.y += (j - win->size / 2) / 10;
-		circle(win->size, win);
-	}
-	else
-		printf("%i\n", mousecode);
-	return(0);
-}*/
 
 int render_new_frame(t_vars *vars)
 {
@@ -207,6 +166,11 @@ int destroy(t_vars *vars)
 	free(vars->win);
 	free(vars);
 	exit(0);
+}
+
+int view(t_player you)
+{
+
 }
 
 int main(int argc, char **argv)
@@ -238,9 +202,10 @@ int main(int argc, char **argv)
 	you->posY = win->size/2;
 	you->dirX = 0;
 	you->dirY = 20;
+	you->planeX = (you->dirX*cos(M_PI / 2) - you->dirY*sin(M_PI / 2)) * 0.1;
+	you->planeY = (you->dirY*cos(M_PI / 2) + you->dirX*sin(M_PI / 2)) * 0.1 ;
 	character(win->size, win, you);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
-	//mlx_hook(vars->mlx_win, 4 ,0L, mouse_hook, win);
 	mlx_loop_hook(vars->mlx, render_new_frame, vars);
 	mlx_hook(vars->mlx_win, 17 ,0L, destroy, vars);
 	mlx_key_hook(vars->mlx_win, key_hook, vars);

@@ -27,6 +27,9 @@ typedef struct s_player
 	float posY;
 	float dirX;
 	float dirY;
+	float planeX;
+	float planeY;
+
 }		t_player;
 
 typedef struct s_data {
@@ -69,4 +72,5 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int	trgb(int t, int red, int green, int blue);
 int	grad(int i);
 
+//void	init(t_list *info);
 #endif

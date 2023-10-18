@@ -1,6 +1,6 @@
-# include "../cub3d.h"
-#include "../mlx/mlx.h"
-#include <stdio.h>
+# include <cub3d.h>
+
+// void	info_display(t_data *data);
 
 int	min(int a, int b)
 {

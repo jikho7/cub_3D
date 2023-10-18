@@ -20,15 +20,18 @@
 
 typedef struct s_check
 {
-	int				EA;
-	int				NO;
-	int				SO;
-	int				WE;
+	int		EA;
+	int		NO;
+	int		SO;
+	int		WE;
+	int		C;
+	int		F;
+	int		wrong_spell;
 }t_check;
 
 typedef struct s_parse
 {
-	void			*content;
+	char			*content;
 	struct s_parse	*next;
 }t_parse;
 

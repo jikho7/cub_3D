@@ -1,7 +1,7 @@
 EA ./textures/maison1.png
 NO ./textures/Wall_North.png
 SO ./textures/Wall_South.png
-EA ./textures/Wall_West.png
+WE ./textures/Wall_West.png
 
 F 255,222,120
 

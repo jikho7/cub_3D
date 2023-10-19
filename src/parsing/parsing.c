@@ -13,6 +13,10 @@ void	check_tex_extension(t_parse **info, t_check *check);
 void	check_spelling(t_parse **lst, t_check *check_lst);
 void	check_F_C(t_parse **info);
 int		ft_is_str_digit(char *str);
+void	check_if_info_after_map(t_parse **info, t_check *check);
+void	strtrim_F_C(t_parse info, int i);
+void	check_excess_info(t_parse **info);
+void	strtrim_cub(t_parse info);
 
 int parsing(char *map)
 {
@@ -26,24 +30,134 @@ int parsing(char *map)
 	create_lst(&info, &check);
 	//printf("3\n");
 	read_lst(&info, &check);
+	check_excess_info(&info);
+	display_lst(&info, "check0");
 	//printf("4\n");
 	check_tex_extension(&info, &check);
+	//display_lst(&info, "check1");
 	check_F_C(&info);
+	//display_lst(&info, "check2");
 	//printf("5\n");
 	check_spelling(&info, &check);
+	//check_if_info_after_map(&info, &check);
+	//display_lst(&info, "check3");
 	//printf("6\n");
 	is_valid(&check);
 	//printf("7\n");
 	return (0);
 }
 
+void	check_excess_info(t_parse **info)
+{
+	t_parse *tmp;
+	char sign[] = {'\t', ' '};
+	tmp = *info;
+	while (tmp->next != NULL)
+	{
+		ft_strtrim(tmp->content, sign);
+		if (ft_strncmp(tmp->content, "EA ", 3) == 0 || ft_strncmp(tmp->content, "EA", 2) == 0)
+			tmp = tmp->next;
+		else if (ft_strncmp(tmp->content, "NO ", 3) == 0 || ft_strncmp(tmp->content, "NO", 2) == 0)
+			tmp = tmp->next;
+		else if (ft_strncmp(tmp->content, "SO ", 3) == 0 || ft_strncmp(tmp->content, "SO", 2) == 0)
+			tmp = tmp->next;
+		else if (ft_strncmp(tmp->content, "WE ", 3) == 0 || ft_strncmp(tmp->content, "WE", 2) == 0)
+			tmp = tmp->next;
+		else if (ft_strncmp(tmp->content, "F ", 2) == 0)
+			tmp = tmp->next;
+		else if (ft_strncmp(tmp->content, "C ", 2) == 0)
+			tmp = tmp->next;
+		else if (*tmp->content == '\n')
+			tmp = tmp->next;
+		else if (ft_strncmp(tmp->content, "1", 1) == 0 || ft_strncmp(tmp->content, "0", 1) == 0)
+			tmp = tmp->next;
+		else if (*tmp->content == EOF)
+			tmp = tmp->next;
+		else
+		{
+			error_msg(5);
+		}
+		tmp = tmp->next;
+	}
+}
+
+// void check_if_info_after_map(t_parse **info, t_check *check)
+// {
+// 	t_parse *tmp;
+// 	int i;
+// 	int j;
+// 	i = 0;
+
+// 	tmp = *info;
+// 	while (tmp->next != NULL)
+// 	{
+// 		printf("BEGIN check line[%d]: %s\n", i, tmp->content);
+// 		if (tmp->content[i] == ' ' || tmp->content[i] == '\t' || tmp->content[i] == '1' || tmp->content[i] == '0')
+// 		{
+// 			j = 0;
+// 			while (tmp->content[j])
+// 			{
+// 				if (tmp->content[j] == '1' || tmp->content[j] == '0')
+// 				{
+// 					check->is_map = 1;
+// 					break;
+// 				}
+// 				j++;
+// 			}
+// 			i++;
+// 		}
+// 		//if ((tmp->content[i] != ' ' || tmp->content[i] != '\t' || tmp->content[i] != '1' || tmp->content[i] != '0' || tmp->content[i] != '\n') && check->is_map == 1)
+// 		printf(">>>check line: %c\n", tmp->content[i]);
+// 		if ((tmp->content[i] != '0' && tmp->content[i] != '1' && tmp->content[i] != '\n' && tmp->content[i] != EOF && tmp->content[i] != ' ' && tmp->content[i] != '\t' && tmp->content[i] != '\0') && check->is_map == 1)
+// 		{
+// 			printf("check line: %c\n", tmp->content[i]);
+// 			printf("Error: Smbol after map/n");
+// 			return ;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
+
+// void check_if_info_after_map(t_parse **info, t_check *check)
+// {
+// 	t_parse *tmp;
+// 	int i;
+// 	int j;
+// 	i = 0;
+
+// 	tmp = *info;
+// 	while (tmp->next != NULL)
+// 	{
+// 		//printf("BEGIN check line[%d]: %s\n", i, tmp->content);
+// 		if (tmp->content[i] == ' ' || tmp->content[i] == '\t' || tmp->content[i] == '\n')
+// 		{
+// 			while (tmp->content[i] == ' ' || tmp->content[i] == '\t' || tmp->content[i] == '\n')
+// 				i++;
+// 			if (tmp->content[i] == '1' || tmp->content[i] == '0')
+// 			{
+// 				check->is_map = 1;
+// 				tmp = tmp->next;
+// 			}
+// 		//	if (check->EA == 1 || check->NO == 1 || check->SO == 1 || check->WE == 1)
+// 		}
+// 		if (check->is_map == 1 && ft_strncmp(tmp->content, "EA ", 3) == 0 || ft_strncmp(tmp->content, "EA", 2) == 0)
+// 		if (ft_strncmp(tmp->content, "NO ", 3) == 0|| ft_strncmp(tmp->content, "NO", 2) == 0)
+// 		if (ft_strncmp(tmp->content, "SO ", 3) == 0|| ft_strncmp(tmp->content, "SO", 2) == 0)
+// 		if (ft_strncmp(tmp->content, "WE ", 3) == 0|| ft_strncmp(tmp->content, "WE", 2) == 0)
+// 		if (ft_strncmp(tmp->content, "F ", 2) == 0|| ft_strncmp(tmp->content, "F", 1) == 0)
+// 		if (ft_strncmp(tmp->content, "C ", 2) == 0|| ft_strncmp(tmp->content, "C", 1) == 0)
+// 		tmp = tmp->next;
+// 		//printf(">>>check line: %c\n", tmp->content[i]);
+// 	}
+// }
+
 void check_F_C(t_parse **info)
 {
 	t_parse *tmp;
 	int size;
-	char **split;
+//	char **split;
 	int i;
-	char sign[] = {'F', 'C', ' ', '\n'};
+	//char sign[] = {'F', 'C', ' ', '\n'};
 
 	tmp = *info;
 	while(tmp->next != NULL)
@@ -52,18 +166,39 @@ void check_F_C(t_parse **info)
 		size = ft_strlen(tmp->content);
 		if (strncmp(tmp->content, "F", 1) == 0 || strncmp(tmp->content, "C", 1) == 0)
 		{
-			tmp->content = ft_strtrim(tmp->content, sign);
-			split = ft_split(tmp->content, ',');
-			while (split[i])
-			{
-				if (ft_is_str_digit(split[i]) == 1)
-				{
-					error_msg(4);
-				}
-				i++;
-			}
+			strtrim_F_C(*tmp, i);
+			// tmp->content = ft_strtrim(tmp->content, sign);
+			// split = ft_split(tmp->content, ',');
+			// while (split[i])
+			// {
+			// 	if (ft_is_str_digit(split[i]) == 1)
+			// 	{
+			// 		error_msg(4);
+			// 	}
+			// 	i++;
+			// }
 		}
 		tmp = tmp->next;
+	}
+//	tmp = *info;
+}
+
+void strtrim_F_C(t_parse info, int i)
+{
+	char sign[] = {'F', 'C', ' ', '\n'};
+	t_parse cpy;
+	char **split;
+
+	cpy = info;
+	cpy.content = ft_strtrim(cpy.content, sign);
+	split = ft_split(cpy.content, ',');
+	while (split[i])
+	{
+		if (ft_is_str_digit(split[i]) == 1)
+		{
+			error_msg(4);
+		}
+		i++;
 	}
 }
 
@@ -171,17 +306,17 @@ void read_lst(t_parse **lst, t_check *check_lst)
 	tmp = *lst;
 	while (tmp->next != NULL)
 	{
-		if (ft_strncmp(tmp->content, "EA ", 3) == 0)
+		if (ft_strncmp(tmp->content, "EA ", 3) == 0 || ft_strncmp(tmp->content, "EA", 2) == 0)
 			check_lst->EA++;
-		if (ft_strncmp(tmp->content, "NO ", 3) == 0)
+		if (ft_strncmp(tmp->content, "NO ", 3) == 0|| ft_strncmp(tmp->content, "NO", 2) == 0)
 			check_lst->NO++;
-		if (ft_strncmp(tmp->content, "SO ", 3) == 0)
+		if (ft_strncmp(tmp->content, "SO ", 3) == 0|| ft_strncmp(tmp->content, "SO", 2) == 0)
 			check_lst->SO++;
-		if (ft_strncmp(tmp->content, "WE ", 3) == 0)
+		if (ft_strncmp(tmp->content, "WE ", 3) == 0|| ft_strncmp(tmp->content, "WE", 2) == 0)
 			check_lst->WE++;
-		if (ft_strncmp(tmp->content, "F ", 2) == 0)
+		if (ft_strncmp(tmp->content, "F ", 2) == 0|| ft_strncmp(tmp->content, "F", 1) == 0)
 			check_lst->F++;
-		if (ft_strncmp(tmp->content, "C ", 2) == 0)
+		if (ft_strncmp(tmp->content, "C ", 2) == 0|| ft_strncmp(tmp->content, "C", 1) == 0)
 			check_lst->C++;
 	//	display_node(tmp);
 	//	printf("check1\n");
@@ -230,6 +365,7 @@ void init_struct_check(t_check *check, char *map)
 	check->C = 0;
 	check->F = 0;
 	check->wrong_spell = 0;
+	check->is_map = 0;
 }
 
 void error_msg(int option)
@@ -244,7 +380,9 @@ void error_msg(int option)
 		printf("Error: Invalid texture extension\n");
 	if (option == 4)
 		printf("Error: Bad coordinates\n");
-	return ;
+	if (option == 5)
+		printf("Error: Excessive information\n");
+	exit(0) ;
 }
 
 void	display_lst(t_parse **ptr_to_head, char *name)

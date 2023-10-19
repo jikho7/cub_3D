@@ -28,6 +28,7 @@ typedef struct s_check
 	int		C;
 	int		F;
 	int		wrong_spell;
+	int		is_map;
 }t_check;
 
 typedef struct s_parse

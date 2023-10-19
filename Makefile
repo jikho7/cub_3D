@@ -18,7 +18,7 @@ OBJT	= ${SRCTS:.c=.o}
 all: $(NAME)
 
 .c.o:
-	${CC} ${CFLAGS} -Imlx -I. -c $< -o ${<:.c=.o}
+	${CC} ${CFLAGS} -I. -c $< -o ${<:.c=.o}
 ## -I. include les dossier .h du dossier courant (racine)
 ## <> possible si inculs a la compilation (-I) (a la place de "").
 ## mettre $(MAKE) a la place de make ecrit en dur, bonne pratique.

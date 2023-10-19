@@ -58,7 +58,6 @@ typedef struct s_data {
 	double		zoom;
 	t_complex	t;
 	int			itter;
-	int			*map[10][10];
 }	t_data;
 
 typedef struct s_vars {

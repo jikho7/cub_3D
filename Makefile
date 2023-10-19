@@ -13,6 +13,10 @@ SRCT 	= circle.c draw.c
 SRCTS 	= $(addprefix $(SRC_PATH)/,$(SRCT))
 OBJT	= ${SRCTS:.c=.o}
 
+SRCR = raycasting.c draw.c
+SRCRS 	= $(addprefix $(SRC_PATH)/,$(SRCR))
+OBJR	= ${SRCRS:.c=.o}
+
 all: $(NAME)
 
 .c.o:
@@ -27,16 +31,13 @@ $(MLX) :
 	@$(MAKE) -C mlx_openGL
 
 $(NAME) : $(OBJ) $(LIBFT) $(MLX)
-##	make -C mlx
-##	cp mlx/libmlx.dylib .
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
 
 circle : $(OBJT) $(LIBFT) $(MLX)
-##	make -C $(LIBFT)
-##	cp libft/libft.a .
-##	make -C mlx
-##	cp mlx/libmlx.dylib .
 	$(CC) $(CFLAGS) $(OBJT) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o circle
+
+ray : $(OBJR) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(OBJR) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o ray
 
 clean :
 	rm -f $(OBJ)

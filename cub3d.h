@@ -20,6 +20,7 @@
 
 typedef struct s_check
 {
+	char	*map;
 	int		EA;
 	int		NO;
 	int		SO;
@@ -78,7 +79,7 @@ typedef struct s_map
 }t_map;
 
 int		init_mlx(t_data *data);
-int		parsing();
+int		parsing(char *map);
 int		gnl_cub(int fd);
 char	*get_next_line(int fd);
 char	*gnl_strchr(char *s);

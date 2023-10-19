@@ -1,59 +1,128 @@
 # include <cub3d.h>
 
-// check extension .cub
-// check extension .png
-int create_lst(t_parse **info);
+int		create_lst(t_parse **info, t_check *check);
 t_parse	*lstnew(char *str);
 void	add_back(t_parse **head, t_parse *node_to_add);
-void is_valid(t_check *lst);
-void read_lst(t_parse **lst, t_check *check_lst);
-void init_struct_parse(t_check *check);
-void check_spelling(t_parse **lst, t_check *check_lst);
-void error_msg(int option);
-void check_map_extension(char *name);
+void	is_valid(t_check *lst);
+void	read_lst(t_parse **lst, t_check *check_lst);
+void	init_struct_check(t_check *check, char *map);
+void	check_spelling(t_parse **lst, t_check *check_lst);
+void	error_msg(int option);
+void	check_map_extension(char *name);
+void	check_tex_extension(t_parse **info, t_check *check);
+void	check_spelling(t_parse **lst, t_check *check_lst);
+void	check_F_C(t_parse **info);
+int		ft_is_str_digit(char *str);
 
-int parsing()
+int parsing(char *map)
 {
-	//(void)map;
 	t_parse *info = NULL;
 	t_check check;
 
-	//check_map_extension(map);
-	init_struct_parse(&check);
-	create_lst(&info);
+	init_struct_check(&check, map);
+	//printf("1\n");
+	check_map_extension(map);
+	//printf("2\n");
+	create_lst(&info, &check);
+	//printf("3\n");
 	read_lst(&info, &check);
+	//printf("4\n");
+	check_tex_extension(&info, &check);
+	check_F_C(&info);
+	//printf("5\n");
 	check_spelling(&info, &check);
+	//printf("6\n");
 	is_valid(&check);
+	//printf("7\n");
 	return (0);
 }
 
-void check_map_extension(char *map)
+void check_F_C(t_parse **info)
 {
-	//int i;
-	(void)map;
-	char *name = "map0.csub";
+	t_parse *tmp;
+	int size;
+	char **split;
+	int i;
+	char sign[] = {'F', 'C', ' ', '\n'};
+
+	tmp = *info;
+	while(tmp->next != NULL)
+	{
+		i = 0;
+		size = ft_strlen(tmp->content);
+		if (strncmp(tmp->content, "F", 1) == 0 || strncmp(tmp->content, "C", 1) == 0)
+		{
+			tmp->content = ft_strtrim(tmp->content, sign);
+			split = ft_split(tmp->content, ',');
+			while (split[i])
+			{
+				if (ft_is_str_digit(split[i]) == 1)
+				{
+					error_msg(4);
+				}
+				i++;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
+int ft_is_str_digit(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+void check_tex_extension(t_parse **info, t_check *check)
+{
+	(void)check;
+	t_parse *tmp;
 	int size;
 	const char *cpy;
 
-	size = ft_strlen(name);
-//	i = size - 4;
-	cpy = (name + (size - 4));
-	printf("cpy : %s\n", cpy);
-	printf("size : %d\n", size);
-	// if (ft_strncmp(cpy, ".cub", 4) == 1)
-	//  	printf("invalid extension\n");
-	// while (name[size - i])
-	// {
-
-	// }
+	tmp = *info;
+	while (tmp->next != NULL)
+	{
+		size = ft_strlen(tmp->content);
+		cpy = (tmp->content + (size - 5));
+		if ((strncmp(tmp->content, "EA", 2) == 0 || strncmp(tmp->content, "NO", 2) == 0 ||strncmp(tmp->content, "SO", 2) == 0 || strncmp(tmp->content, "WE", 2) == 0) && (strncmp(cpy, ".png", 4) != 0))
+		{
+			error_msg(3);
+		}
+		tmp = tmp->next;
+	}
 }
 
-int create_lst(t_parse **info)
+void check_map_extension(char *map_name)
+{
+	int size;
+	const char *cpy;
+
+	size = ft_strlen(map_name);
+	cpy = (map_name + (size - 4));
+	// printf("map_name : %s\n", map_name);
+	//printf("cpy : %s\n", cpy);
+	// printf("size : %d\n", size);
+	if (ft_strncmp(cpy, ".cub", 4) != 0)
+	 	error_msg(2);
+}
+
+int create_lst(t_parse **info, t_check *check)
 {
 	int fd;
 	t_parse *new = NULL;
 
-	fd = open("map0.cub", O_RDONLY);
+	fd = open(check->map, O_RDONLY);
 	if(fd == -1)
 		return (1);
 	while(1)
@@ -100,10 +169,8 @@ void read_lst(t_parse **lst, t_check *check_lst)
 	t_parse *tmp;
 
 	tmp = *lst;
-	printf("check0\n");
 	while (tmp->next != NULL)
 	{
-		printf("check1\n");
 		if (ft_strncmp(tmp->content, "EA ", 3) == 0)
 			check_lst->EA++;
 		if (ft_strncmp(tmp->content, "NO ", 3) == 0)
@@ -117,7 +184,7 @@ void read_lst(t_parse **lst, t_check *check_lst)
 		if (ft_strncmp(tmp->content, "C ", 2) == 0)
 			check_lst->C++;
 	//	display_node(tmp);
-		printf("check1\n");
+	//	printf("check1\n");
 		tmp = tmp->next;
 	}
 }
@@ -145,18 +212,17 @@ void is_valid(t_check *lst)
 {
 	if (lst->NO > 1|| lst->EA > 1 || lst->SO > 1|| lst->WE > 1 || lst->F > 1 || lst->C > 1)
 	{
-		//printf("error msg doublon\n");
 		error_msg(0);
 	}
 	if (lst->wrong_spell > 0)
 	{
-		//printf("error msg wrong spelling\n");
 		error_msg(1);
 	}
 }
 
-void init_struct_parse(t_check *check)
+void init_struct_check(t_check *check, char *map)
 {
+	check->map = ft_strdup(map);
 	check->EA = 0;
 	check->NO = 0;
 	check->SO = 0;
@@ -172,6 +238,12 @@ void error_msg(int option)
 		printf("Error: Doublon\n");
 	if (option == 1)
 		printf("Error: Wrong spell\n");
+	if (option == 2)
+		printf("Error: Invalid extension\n");
+	if (option == 3)
+		printf("Error: Invalid texture extension\n");
+	if (option == 4)
+		printf("Error: Bad coordinates\n");
 	return ;
 }
 

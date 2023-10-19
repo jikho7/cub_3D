@@ -2,9 +2,11 @@ NAME		= cub3D
 CC			= gcc
 CFLAGS		= -Wall -Werror -Wextra
 SRC_PATH	= ./src
+PARSE_PATH	= ./src/parsing
 
-SRC			=	main.c window.c draw.c get_next_line.c get_next_line_utils.c hooks.c init.c parsing.c
-SRCS		= $(addprefix $(SRC_PATH)/,$(SRC))
+SRC			=	main.c
+PARSE		=	get_next_line.c get_next_line_utils.c parsing.c
+SRCS		= $(addprefix $(SRC_PATH)/,$(SRC)) $(addprefix $(PARSE_PATH)/,$(PARSE)) $(addprefix $(CIRCLE_PATH)/,$(CIRCLE))
 OBJ			= ${SRCS:.c=.o}
 LIBFT		= libft/libft.a
 MLX			= mlx_openGL/libmlx.a

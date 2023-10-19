@@ -1,13 +1,11 @@
 EA ./textures/maison1.png
 NO ./textures/Wall_North.png
 SO ./textures/Wall_South.png
-EA ./textures/Wall_West.png
+WE ./textures/Wall_West.png
 
 F 255,222,120
 
 C 0,220,0
-
-
 
 11111111111111111111
 10000000000000000001
@@ -20,16 +18,7 @@ C 0,220,0
 10000000000000000001
 11111111111111111111
 
-
-
-
-
-
-
-
-
-
-
+j
 
 
 

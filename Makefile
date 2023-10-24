@@ -5,11 +5,12 @@ SRC_PATH	= ./src
 PARSE_PATH	= ./src/parsing
 
 SRC			=	main.c
-PARSE		=	get_next_line.c get_next_line_utils.c parsing.c
+PARSE		=	get_next_line.c get_next_line_utils.c parsing.c check_parsing.c lst_utils.c parsing_utils.c
 SRCS		= $(addprefix $(SRC_PATH)/,$(SRC)) $(addprefix $(PARSE_PATH)/,$(PARSE)) $(addprefix $(CIRCLE_PATH)/,$(CIRCLE))
 OBJ			= ${SRCS:.c=.o}
 LIBFT		= libft/libft.a
 MLX			= mlx_openGL/libmlx.a
+MLX_L		= mlx_linux/libmlx.a
 
 SRCT 	= circle.c draw.c
 SRCTS 	= $(addprefix $(SRC_PATH)/,$(SRCT))
@@ -32,8 +33,10 @@ $(LIBFT) :
 $(MLX) :
 	@$(MAKE) -C mlx_openGL
 
-$(NAME) : $(OBJ) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
+$(NAME) : $(OBJ) $(LIBFT) $(MLX_L)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX_L) -o $(NAME)
+##$(NAME) : $(OBJ) $(LIBFT) $(MLX)
+##	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
 
 circle : $(OBJT) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(OBJT) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o circle

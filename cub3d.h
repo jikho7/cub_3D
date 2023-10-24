@@ -31,6 +31,18 @@ typedef struct s_check
 	int		is_map;
 }t_check;
 
+typedef struct s_matrice
+{
+	int		height;
+	int		width;
+}t_matrice;
+
+typedef struct  s_f_fill
+{
+    int           x;
+    int           y;
+}t_f_fill;
+
 typedef struct s_parse
 {
 	char			*content;
@@ -83,8 +95,7 @@ typedef struct s_map
 }		t_map;
 
 int		init_mlx(t_data *data);
-int		parsing(char *map);
-int		gnl_cub(int fd);
+
 char	*get_next_line(int fd);
 char	*gnl_strchr(char *s);
 size_t	gnl_strlen(char *s);
@@ -95,7 +106,31 @@ int	grad(int i);
 int	min(int a, int b);
 int	max(int a, int b);
 
-//void	init(t_list *info);
+
+/*----------------PARSING-----------------*/
+int		parsing(char *map);
+void	read_lst(t_parse **lst, t_check *check_lst);
+void	init_struct_check(t_check *check, char *map);
+void	check_spelling(t_parse **lst, t_check *check_lst);
+void	init_matrice(t_matrice *matrice);
+void	check_map_extension(char *name);
+void	check_tex_extension(t_parse **info, t_check *check);
+void	check_spelling(t_parse **lst, t_check *check_lst);
+void	check_F_C(t_parse **info);
+int		ft_is_str_digit(char *str);
+void	check_if_info_after_map(t_parse **info, t_check *check);
+void	strtrim_F_C(t_parse info, int i);
+void	check_excess_info(t_parse **info);
+void	strtrim_lst(t_parse **info);
+char** create_matrice(t_parse **info, t_matrice *matrice);
+void	matrice_size(t_parse **map, t_matrice *matrice);
+/*----------------LISTS-----------------*/
+void	add_back(t_parse **head, t_parse *node_to_add);
+
+/*----------------ERRORS-----------------*/
+void	error_msg(int option);
+int		create_lst(t_parse **info, t_check *check);
+t_parse	*lstnew(char *str);
 void	display_node(t_parse *lst);
 void	display_lst(t_parse **ptr_to_head, char *name);
 #endif

@@ -1,11 +1,5 @@
 #include <cub3d.h>
 
-void	circle(double size, t_data *win)
-{
-	(void) size;
-	(void) win;
-}
-
 int chara(int i, int j, t_player *you)
 {
 	float	x;
@@ -91,103 +85,167 @@ int sgn(float n)
 	return (0);
 }
 
-void raycasting(t_player *you, t_data *win)
+void draw_wall(float distance, int i, int side, t_data *win)
 {
-	float	rayDirX;
-	float	rayDirY;
-	float	camX;
-	float	sideDistX;
-	float	sideDistY;
-	float	deltaX;
-	float	deltaY;
-	float	AdeltaX;
-	float	AdeltaY;
+	int j;
+	int	hight;
+	int	percentile;
+	int	red;
+
+	hight = win->square;
+	percentile = max(0,(win->size * (distance - hight)) / distance);
+	printf("h %d\n", percentile);
+	j = 0;
+	red = side * 200;
+	while (j <= win->size / 2)
+	{
+		if (j < percentile)
+		{
+			my_mlx_pixel_put(win, i, j, trgb(1,100,100,0));
+			my_mlx_pixel_put(win, i, win->size - j, trgb(1,0,100,100));
+		}
+		else
+		{
+			my_mlx_pixel_put(win, i, j, trgb(1,red,0,200));
+			my_mlx_pixel_put(win, i, win->size - j, trgb(1,red,0,200));
+		}
+		j++;
+	}
+}
+
+void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, t_data *win, t_player *you)
+{
 	float	delta;
-	int		step;
-	float	normRay;
+	float	camX;
+
+	camX = 2 * (double)i/win->size - 1;
+	rayDir->x = you->dirX + you->planeX * camX;
+	rayDir->y = -(you->dirY - you->planeY * camX);
+	if (rayDir->x >= 0.0001 || rayDir->x <= -0.0001 )
+	{
+		sqDelta->x = sqrt(win->square*win->square * (1 + (rayDir->y * rayDir->y) / (rayDir->x * rayDir->x)));
+		if (rayDir->x > 0)
+			delta = ceilf(you->posX / win->square) * win->square - you->posX;
+		else 
+			delta = you->posX - floorf(you->posX / win->square) * win->square;
+		sideDist->x = delta * sqrt((1 + (rayDir->y * rayDir->y) / (rayDir->x * rayDir->x)));
+	}
+	else
+	{
+		sideDist->y = 10000000;
+		sqDelta->x = 100000000;
+	}
+	if (rayDir->y >= 0.0001 || rayDir->y <= -0.0001 )
+	{
+		sqDelta->y = sqrt(win->square*win->square  * (1 + (rayDir->x * rayDir->x) / (rayDir->y * rayDir->y)));
+		if (rayDir->y > 0)
+			delta = ceilf(you->posY / win->square) * win->square - you->posY;
+		else 
+			delta = you->posY - floorf(you->posY / win->square) * win->square;
+		sideDist->y = delta * sqrt((1 + (rayDir->x * rayDir->x) / (rayDir->y * rayDir->y)));
+	}
+	else
+	{
+		sideDist->x = 10000000;
+		sqDelta->y = 100000000;
+	}
+}
+
+int	DDA(t_player *you, t_data *win, t_complex rayDir, t_complex sqDelta, t_complex *sideDist)
+{
+	t_complex Adelta;
 	int		mapX;
 	int		mapY;
+	int		step;
+
+	mapX = you->posX / win->square;
+	mapY = you->posY / win->square;
+	Adelta.x = 0;
+	Adelta.y = 0;
+	if (sideDist->x < sideDist->y)
+	{
+		mapX += sgn(rayDir.x);
+		step = 0;
+		Adelta.x = sqDelta.x;
+	}
+	else
+	{
+		mapY += sgn(rayDir.y);
+		step = 1;
+		Adelta.y = sqDelta.y;
+	}
+	while (1)
+	{
+		if (wall(mapX * win->square + win->square/2, mapY * win->square + win->square/2, win))
+			break;
+		if (sideDist->x + Adelta.x < sideDist->y + Adelta.y)
+		{
+			sideDist->x += Adelta.x;
+			step = 0;
+			mapX += sgn(rayDir.x);
+			Adelta.x = sqDelta.x;
+		}
+		else
+		{
+			sideDist->y += Adelta.y;
+			step = 1;
+			mapY += sgn(rayDir.y);
+			Adelta.y = sqDelta.y;
+		}
+	}
+	return (step);
+}
+
+float proj_dist(t_complex a, t_complex b)
+{
+	return ((a.x*b.x + a.y*b.y) / sqrtf(b.x*b.x + b.y*b.y));
+}
+
+float unfisheye(t_player *you, t_complex rayDir, float sideDist)
+{
+	t_complex	dir;
+	t_complex	dist;
+	float		normRay;
+
+	normRay = sqrt(rayDir.x * rayDir.x + rayDir.y * rayDir.y);
+	dir.x = you->dirX;
+	dir.y = you->dirY;
+	dist.x = rayDir.x * sideDist / normRay;
+	dist.y = rayDir.y * sideDist / normRay;
+	return (proj_dist(dist, dir));
+}
+
+void raycasting(t_player *you, t_data *win)
+{
+	t_complex rayDir;
+	t_complex sideDist;
+	t_complex sqDelta;
+	int		step;
+	float	normRay;
 	int i;
 
 	i = 0;
 	while (i <= win->size)
 	{
-		camX = 2 * (double)i/win->size - 1;
-		rayDirX = you->dirX + you->planeX * camX;
-		rayDirY = -(you->dirY - you->planeY * camX);
-		normRay = sqrt(rayDirX * rayDirX + rayDirY * rayDirY);
-		//draw_line(win, you->posX, you->posY, you->posX + rayDirX*win->square/normRay, you->posY + rayDirY*win->square/normRay, trgb(1,i,0,100));
-		if (rayDirX >= 0.0001 || rayDirX <= -0.0001 )
-		{
-			deltaX = sqrt(win->square*win->square * (1 + (rayDirY * rayDirY) / (rayDirX * rayDirX)));
-			if (rayDirX > 0)
-				delta = ceilf(you->posX / win->square) * win->square - you->posX;
-			else 
-				delta = you->posX - floorf(you->posX / win->square) * win->square;
-			sideDistX = delta * sqrt((1 + (rayDirY * rayDirY) / (rayDirX * rayDirX)));
-		}
-		else
-		{
-			sideDistY = 10000000;
-			deltaX = 100000000;
-		}
-		if (rayDirY >= 0.0001 || rayDirY <= -0.0001 )
-		{
-			deltaY = sqrt(win->square*win->square  * (1 + (rayDirX * rayDirX) / (rayDirY * rayDirY)));
-			if (rayDirY > 0)
-				delta = ceilf(you->posY / win->square) * win->square - you->posY;
-			else 
-				delta = you->posY - floorf(you->posY / win->square) * win->square;
-			sideDistY = delta * sqrt((1 + (rayDirX * rayDirX) / (rayDirY * rayDirY)));
-		}
-		else
-		{
-			sideDistX = 10000000;
-			deltaY = 100000000;
-		}
-		//draw_line(win, you->posX, you->posY, you->posX + rayDirX * sideDistX / normRay, you->posY + rayDirY * sideDistX / normRay, trgb(1,0,255,255));
-		//draw_line(win, you->posX, you->posY, you->posX + rayDirX * sideDistY / normRay, you->posY + rayDirY * sideDistY / normRay, trgb(1,225,255,0));
-		//DDA
-		mapX = you->posX / win->square;
-		mapY = you->posY / win->square;
-		AdeltaX = 0;
-		AdeltaY = 0;
-		if (sideDistX < sideDistY)
-		{
-			mapX += sgn(rayDirX);
-			step = 0;
-			AdeltaX = deltaX;
-		}
-		else
-		{
-			mapY += sgn(rayDirY);
-			step = 1;
-			AdeltaY = deltaY;
-		}
-		while (1)
-		{
-			if (wall(mapX * win->square + win->square/2, mapY * win->square + win->square/2, win))
-				break;
-			if (sideDistX + AdeltaX < sideDistY + AdeltaY)
-			{
-				sideDistX += AdeltaX;
-				step = 0;
-				mapX += sgn(rayDirX);
-				AdeltaX = deltaX;
-			}
-			else
-			{
-				sideDistY += AdeltaY;
-				step = 1;
-				mapY += sgn(rayDirY);
-				AdeltaY = deltaY;
-			}
-		}
+		set_ray(i, &rayDir, &sqDelta, &sideDist, win, you);
+		step = DDA(you, win, rayDir, sqDelta, &sideDist);
+		normRay = sqrt(rayDir.x * rayDir.x + rayDir.y * rayDir.y);
 		if (step == 0)
-			draw_line(win, you->posX, you->posY, you->posX + rayDirX * sideDistX / normRay, you->posY + rayDirY * sideDistX / normRay, trgb(1,255,100,0));
+		{
+			// CARTE VU DU DESSUS
+			//draw_line(win, you->posX, you->posY, you->posX + rayDir.x * sideDist.x / normRay, you->posY + rayDir.y * sideDist.x / normRay, trgb(1,255,100,0));
+			// 3D avec fisheye
+			//draw_wall(sideDist.x, i, 0, win);
+			// 3D sans fisheye
+			draw_wall(unfisheye(you, rayDir, sideDist.x), i, 0, win);
+		}
 		else
-			draw_line(win, you->posX, you->posY, you->posX + rayDirX * sideDistY / normRay, you->posY + rayDirY * sideDistY / normRay, trgb(1,255,100,0));
-		i += 5;
+		{
+			//draw_line(win, you->posX, you->posY, you->posX + rayDir.x * sideDist.y / normRay, you->posY + rayDir.y * sideDist.y / normRay, trgb(1,255,100,0));
+			//draw_wall(sideDist.y, i, 1, win);
+			draw_wall(unfisheye(you, rayDir, sideDist.y), i, 1, win);
+		}
+		i += 1;
 	}
 }
 
@@ -208,172 +266,11 @@ void	character(double size, t_data *win, t_player *you)
 			else
 				my_mlx_pixel_put(win, i, j, trgb(1,0,0,0));
 			if (i%win->square == 0 || j%win->square == 0)
-				my_mlx_pixel_put(win, i, j, trgb(1,200,200,200));
+				my_mlx_pixel_put(win, i, j, trgb(1,100,100,100));
 			j++;
 		}
 		i++;
 	}
 	direction(you, win);
 	raycasting(you, win);
-}
-
-int	key_hook(int keycode, t_vars *vars)
-{
-	float angle;
-	float tdirx;
-
-	angle = M_PI / 12;
-	if (keycode == 13)
-	{
-		if (cancle(vars->you->posX + vars->you->dirX/5, vars->you->posY - vars->you->dirY/5, vars->win))
-			return (0);
-		vars->you->posX += vars->you->dirX/5;
-		vars->you->posY -= vars->you->dirY/5;
-		character(vars->win->size, vars->win, vars->you);
-	}
-	else if (keycode == 1)
-	{
-		if (cancle(vars->you->posX - vars->you->dirX/5, vars->you->posY + vars->you->dirY/5, vars->win))
-			return (0);
-		vars->you->posX -= vars->you->dirX/5;
-		vars->you->posY += vars->you->dirY/5;
-		character(vars->win->size, vars->win, vars->you);
-	}
-	else if (keycode == 0)
-	{
-		if (cancle(vars->you->posX - vars->you->dirY/5, vars->you->posY - vars->you->dirX/5, vars->win))
-			return (0);
-		vars->you->posX -= vars->you->dirY/5;
-		vars->you->posY -= vars->you->dirX/5;
-		character(vars->win->size, vars->win, vars->you);
-	}
-	else if (keycode == 2)
-	{
-		if (cancle(vars->you->posX + vars->you->dirY/5, vars->you->posY + vars->you->dirX/5, vars->win))
-			return (0);
-		vars->you->posX += vars->you->dirY/5;
-		vars->you->posY += vars->you->dirX/5;
-		character(vars->win->size, vars->win, vars->you);
-	}
-	else if (keycode == 123)
-	{
-		tdirx = vars->you->dirX*cos(angle) - vars->you->dirY*sin(angle);
-		vars->you->dirY = vars->you->dirY*cos(angle) + vars->you->dirX*sin(angle);
-		vars->you->dirX = tdirx;
-		vars->you->planeX = vars->you->dirY;
-		vars->you->planeY = vars->you->dirX;
-		character(vars->win->size, vars->win, vars->you);
-	}
-	else if(keycode == 124)
-	{
-		tdirx = vars->you->dirX*cos(-angle) - vars->you->dirY*sin(-angle);
-		vars->you->dirY = vars->you->dirY*cos(-angle) + vars->you->dirX*sin(-angle);
-		vars->you->dirX = tdirx;
-		vars->you->planeX = vars->you->dirY;
-		vars->you->planeY = vars->you->dirX;
-		character(vars->win->size, vars->win, vars->you);
-	}
-	else if (keycode == 53)
-		mlx_destroy_window(vars->mlx, vars->mlx_win);
-	else
-		printf("%d\n", keycode);
-	return(0);
-}
-
-int mouse_hook(int mousecode, int i, int j, t_data *win)
-{
-	if (mousecode == 1)
-		printf("(i,j) = (%d,%d)\n", i, j);
-	(void) win;
-	/*double x;
-	double y;
-	double size;
-
-	size = win->size;
-	x = win->zoom * (4 * ((double)(i + win->t.x) - size/2) / size);
-	y = win->zoom * (4 * (size/2 - (double)(j + win->t.y)) / size);
-	if (mousecode == 1)
-	{
-		if (i >= 0 && i < size && j >= 0 && j < size)
-		{
-	   		my_mlx_pixel_put(win, i, j, grad(1000));
-	   		printf("%f, %f\n", x, y);
-		}
-	}
-	else if (mousecode == 2)
-		printf("mouseright\n");
-	else if (mousecode == 3)
-		printf("mousemiddle\n");
-	else if (mousecode == 4)
-	{
-		win->zoom *= 1.1;
-		win->t.x += (i - win->size / 2) / 10;
-		win->t.y += (j - win->size / 2) / 10;
-		circle(win->size, win);
-	}
-	else if (mousecode == 5)
-	{
-		win->zoom /= 1.1;
-		win->t.x += (i - win->size / 2) / 10;
-		win->t.y += (j - win->size / 2) / 10;
-		circle(win->size, win);
-	}
-	else
-		printf("%i\n", mousecode);*/
-	return(0);
-}
-
-int render_new_frame(t_vars *vars)
-{
-	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->win->img, 0, 0);
-	return(0);
-}
-
-int destroy(t_vars *vars)
-{
-	free(vars->win);
-	free(vars);
-	exit(0);
-}
-
-int main(int argc, char **argv)
-{
-	t_vars *vars;
-	t_data	*win;
-	t_player *you;
-	
-	if (argc != 2)
-	{
-		printf("forgot argument");
-		return (1);
-	}
-	vars = malloc(sizeof(t_vars));
-	win = malloc(sizeof(t_data));
-	you = malloc(sizeof(t_player));
-	vars->you = you;
-	vars->mlx = mlx_init();
-	win->square = 10 * atoi(argv[1]);
-	win->size = 11 * win->square;
-	vars->mlx_win = mlx_new_window(vars->mlx, win->size, win->size, "Play");
-	vars->win = win;
-	win->img = mlx_new_image(vars->mlx, win->size, win->size);
-	win->addr = mlx_get_data_addr(win->img, &(win->bpp), &(win->line_len), &(win->endian));
-
-	win->zoom = 1;
-	win->t.x = 0;
-	win->t.y = 0;
-	you->posX = win->size/2;
-	you->posY = win->size/2;
-	you->dirX = 0;
-	you->dirY = 20;
-	win->square = 60;
-	you->planeX = (you->dirX*cos(M_PI / 2) - you->dirY*sin(M_PI / 2));
-	you->planeY = (you->dirY*cos(M_PI / 2) + you->dirX*sin(M_PI / 2));
-	character(win->size, win, you);
-	mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
-	mlx_hook(vars->mlx_win, 4 ,0L, mouse_hook, win);
-	mlx_loop_hook(vars->mlx, render_new_frame, vars);
-	mlx_hook(vars->mlx_win, 17 ,0L, destroy, vars);
-	mlx_hook(vars->mlx_win, 2, 0L, key_hook, vars);
-	mlx_loop(vars->mlx);
 }

@@ -50,8 +50,8 @@ typedef struct s_parse
 }t_parse;
 
 typedef struct s_complex {
-	double	x;
-	double	y;
+	float	x;
+	float	y;
 }	t_complex;
 
 typedef struct s_player
@@ -74,13 +74,15 @@ typedef struct s_data {
 	int			size;
 	double		zoom;
 	t_complex	t;
+	int			square;
 	int			itter;
-}	t_data;
+}		t_data;
 
 typedef struct s_vars {
 	void		*mlx;
 	void		*mlx_win;
 	t_data		*win;
+
 	t_complex	c;
 	char		*frac;
 	t_player	*you;
@@ -99,10 +101,15 @@ char	*get_next_line(int fd);
 char	*gnl_strchr(char *s);
 size_t	gnl_strlen(char *s);
 char	*gnl_strjoin(char *s1, char *s2);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int	trgb(int t, int red, int green, int blue);
-int	grad(int i);
 
+/*----------------DRAWING-----------------*/
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int		trgb(int t, int red, int green, int blue);
+int		grad(int i);
+int		min(int a, int b);
+int		max(int a, int b);
+void	character(double size, t_data *win, t_player *you);
+int cancle(float posX, float posY, t_data *win);
 
 /*----------------PARSING-----------------*/
 int		parsing(char *map);

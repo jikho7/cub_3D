@@ -4,5 +4,6 @@
 a.out
 a.out.dSYM/*
 libft/.git*
+Lift/*.a
 *.o
 test

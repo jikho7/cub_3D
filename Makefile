@@ -1,5 +1,5 @@
 NAME		= cub3D
-CC			= gcc
+CC			= gcc #-g3 -fsanitize=address
 CFLAGS		= -Wall -Werror -Wextra
 SRC_PATH	= ./src
 PARSE_PATH	= ./src/parsing
@@ -42,7 +42,7 @@ ray : $(OBJR) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(OBJR) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o ray
 
 clean :
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(OBJT) $(OBJR)
 	make clean -C mlx
 	make clean -C libft
 

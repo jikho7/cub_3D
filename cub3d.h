@@ -62,8 +62,9 @@ typedef struct s_data {
 	int			size;
 	double		zoom;
 	t_complex	t;
+	int			square;
 	int			itter;
-}	t_data;
+}		t_data;
 
 typedef struct s_vars {
 	void		*mlx;
@@ -91,6 +92,8 @@ char	*gnl_strjoin(char *s1, char *s2);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int	trgb(int t, int red, int green, int blue);
 int	grad(int i);
+int	min(int a, int b);
+int	max(int a, int b);
 
 //void	init(t_list *info);
 void	display_node(t_parse *lst);

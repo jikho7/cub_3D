@@ -116,11 +116,13 @@ void	check_spelling(t_parse **lst, t_check *check_lst);
 void	check_F_C(t_parse **info);
 int		ft_is_str_digit(char *str);
 void	check_if_info_after_map(t_parse **info, t_check *check);
-void	strtrim_F_C(t_parse info, int i);
+//void	strtrim_F_C(t_parse info, int i);
 void	check_excess_info(t_parse **info);
 void	strtrim_lst(t_parse **info);
 char** create_matrice(t_parse **info, t_matrice *matrice);
 void	matrice_size(t_parse **map, t_matrice *matrice);
+void reduce_spaces_to_one(t_parse ** lst);
+void reduce_spaces_F_C(char *str);
 /*----------------LISTS-----------------*/
 void	add_back(t_parse **head, t_parse *node_to_add);
 

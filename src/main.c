@@ -15,6 +15,6 @@ int main(int ac, char **av)
 	//mlx_key_hook(data.mlx_win, &keyboard_input, &data);
 	//mlx_loop_hook(data.mlx, &render, &data);
 	//mlx_loop(data.mlx);
-
+	printf(">>>>>DONE>>>\n");
 	return (0);
 }

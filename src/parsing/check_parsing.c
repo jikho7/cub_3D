@@ -1,9 +1,14 @@
 # include <cub3d.h>
 
+void reduce_spaces_to_one(t_parse ** lst);
+int size_len(char *str);
+void strtrim_F_C(char *str);
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
+
 void	check_excess_info(t_parse **info)
 {
 	t_parse *tmp;
-	
+
 	tmp = *info;
 	while (tmp->next != NULL)
 	{
@@ -19,7 +24,7 @@ void	check_excess_info(t_parse **info)
 			tmp = tmp->next;
 		else if (ft_strncmp(tmp->content, "C ", 2) == 0)
 			tmp = tmp->next;
-		else if (*tmp->content == '\n')
+		else if (*tmp->content == '\n' || *tmp->content == '\0')
 			tmp = tmp->next;
 		else if (ft_strncmp(tmp->content, "1", 1) == 0 || ft_strncmp(tmp->content, "0", 1) == 0)
 			tmp = tmp->next;
@@ -57,35 +62,37 @@ void check_F_C(t_parse **info)
 {
 	t_parse *tmp;
 	int size;
-	int i;
+	char *cpy;
 
 	tmp = *info;
 	size = 0;
-	printf("%d\n", size);
 	while(tmp->next != NULL)
 	{
-		i = 0;
-		size = ft_strlen(tmp->content);
 		if (strncmp(tmp->content, "F", 1) == 0 || strncmp(tmp->content, "C", 1) == 0)
 		{
-			strtrim_F_C(*tmp, i);
+			cpy = ft_strdup(tmp->content);
+			strtrim_F_C(cpy);
+			free(cpy);
 		}
 		tmp = tmp->next;
 	}
 }
 
-void strtrim_F_C(t_parse info, int i)
+void strtrim_F_C(char *str)
 {
+	int i = 0;
 	char sign[] = {'F', 'C', ' ', '\n'};
-	t_parse cpy;
 	char **split;
 
-	cpy = info;
-	cpy.content = ft_strtrim(cpy.content, sign);
-	split = ft_split(cpy.content, ',');
+	i = 0;
+	split = ft_split(str, ',');
+
+	i = 0;
 	while (split[i])
 	{
-		if (ft_is_str_digit(split[i]) == 1)
+		split[i] = ft_strtrim(split[i], sign);
+		printf("split[%d]: %s\n", i, split[i]);
+		if (ft_is_str_digit(split[i]) != 0)
 		{
 			error_msg(4);
 		}
@@ -101,10 +108,10 @@ int ft_is_str_digit(char *str)
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-		{
-			return (1);
-		}
-		i++;
+			{
+				return (1);
+			}
+			i++;
 	}
 	return (0);
 }
@@ -121,6 +128,7 @@ void check_tex_extension(t_parse **info, t_check *check)
 	{
 		size = ft_strlen(tmp->content);
 		cpy = (tmp->content + (size - 5));
+		//printf("tex exten: %s\n", tmp->content);
 		if ((strncmp(tmp->content, "EA", 2) == 0 || strncmp(tmp->content, "NO", 2) == 0 ||strncmp(tmp->content, "SO", 2) == 0 || strncmp(tmp->content, "WE", 2) == 0) && (strncmp(cpy, ".png", 4) != 0))
 		{
 			error_msg(3);
@@ -140,6 +148,61 @@ void check_map_extension(char *map_name)
 	 	error_msg(2);
 }
 
+
+void reduce_spaces_to_one(t_parse ** lst)
+{
+	t_parse *tmp;
+	int i;
+	int j;
+	char *res;
+	int size;
+
+	j = 0;
+	tmp = *lst;
+	while (tmp->next != NULL)
+	{
+		size = size_len(tmp->content);
+		res = ft_calloc(size, sizeof(char));
+		i = 0;
+		j = 0;
+		while (tmp->content[i])
+		{
+			if (tmp->content[i] == ' ')
+				i++;
+			else if (tmp->content[i])
+			{
+				res[j] = tmp->content[i];
+				j++;
+				i++;
+			}
+		}
+		free(tmp->content);
+		tmp->content = NULL;
+		tmp->content = res;
+		tmp = tmp->next;
+	}
+}
+
+int size_len(char *str)
+{
+	int i;
+	int j;
+
+	j = 0;
+	i = 0;
+	while (str[i])
+	{
+		while (str[i] && str[i] == ' ')
+			i++;
+		while (str[i] && str[i] != ' ')
+		{
+			i++;
+			j++;
+		}
+	}
+	return (j);
+}
+
 void check_spelling(t_parse **lst, t_check *check_lst)
 {
 	t_parse *tmp;
@@ -149,10 +212,10 @@ void check_spelling(t_parse **lst, t_check *check_lst)
 	{
 		if (ft_strncmp(tmp->content, "EA", 2) == 0 || ft_strncmp(tmp->content, "NO", 2) == 0 || ft_strncmp(tmp->content, "SO", 2) == 0 || ft_strncmp(tmp->content, "WE", 2) == 0)
 		{
-            if (ft_strncmp((tmp->content + 3), "./", 2) != 0)
-            {
-			    check_lst->wrong_spell++;
-            }
+			if (ft_strncmp((tmp->content + 2), "./", 2) != 0)
+			{
+				check_lst->wrong_spell++;
+			}
 		}
 		tmp = tmp->next;
 	}
@@ -160,4 +223,22 @@ void check_spelling(t_parse **lst, t_check *check_lst)
 	{
 		error_msg(1);
 	}
+}
+
+char	*ft_strncpy(char *dest, char *src, unsigned int n)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (src[i] != '\0' && (i < n))
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }

@@ -8,43 +8,43 @@ void strtrim_matrice(t_parse info, int i);
 
 void init_matrice(t_matrice *matrice)
 {
-    matrice->height = 0;
-    matrice->width = 0;
+	matrice->height = 0;
+	matrice->width = 0;
 }
 
 void matrice_size(t_parse **map, t_matrice *matrice)
 {
-    t_parse *tmp;
-    int i;
+	t_parse *tmp;
+	int i;
 
-    tmp = *map;
-    while (tmp->next != NULL)
-    {
-        //printf("%s\n", tmp->content);
-        strtrim_matrice(*tmp, i);
-        i = 0;
-        if (tmp->next != NULL && tmp->content[i] != ' ' && tmp->content[i] != '\t' && tmp->content[i] != '1' && tmp->content[i] != '0')
-        {
-           // printf("> %s\n", tmp->content);
-            tmp = tmp->next;
-            i = 0;
-        }
-        if (tmp->next != NULL && (tmp->content[i] == ' ' || tmp->content[i] == '1' || tmp->content[i] == '0'))
-        {
-           // printf(">> %s\n", tmp->content);
-            while (tmp->content[i])
-                i++;
-            if (matrice->width < i - 1)
-                matrice->width = i - 1;
-            tmp = tmp->next;
-            matrice->height++;
-        }
-    }
+	tmp = *map;
+	while (tmp->next != NULL)
+	{
+		//printf("%s\n", tmp->content);
+		strtrim_matrice(*tmp, i);
+		i = 0;
+		if (tmp->next != NULL && tmp->content[i] != ' ' && tmp->content[i] != '\t' && tmp->content[i] != '1' && tmp->content[i] != '0')
+		{
+		   // printf("> %s\n", tmp->content);
+			tmp = tmp->next;
+			i = 0;
+		}
+		if (tmp->next != NULL && (tmp->content[i] == ' ' || tmp->content[i] == '1' || tmp->content[i] == '0'))
+		{
+		   // printf(">> %s\n", tmp->content);
+			while (tmp->content[i])
+				i++;
+			if (matrice->width < i - 1)
+				matrice->width = i - 1;
+			tmp = tmp->next;
+			matrice->height++;
+		}
+	}
 }
 
 void strtrim_matrice(t_parse info, int i)
 {
-    (void)i;
+	(void)i;
 	char sign[] = {'\n'};
 	t_parse cpy;
 
@@ -54,33 +54,33 @@ void strtrim_matrice(t_parse info, int i)
 
 char** create_matrice(t_parse **info, t_matrice *matrice)
 {
-    t_parse *tmp;
-    int i;
-    int j;
-    char **tab;
+	t_parse *tmp;
+	int i;
+	int j;
+	char **tab;
 
-    tab = ft_calloc(sizeof(char *), matrice->height);
-    tmp = *info;
-    j = 0;
-    while (tmp->next != NULL)
-    {
-        i = 0;
-        while (tmp->content[i])
-        {
-            if (tmp->content[i] != '1' && tmp->content[i] != '0' && tmp->content[i] != '\n' && tmp->content[i] != '\t' && tmp->content[i] == ' ')
-            {   
-                tmp = tmp->next;
-                break;
-            }
-            if (tmp->content[i] == ' ' || tmp->content[i] == '0' || tmp->content[i] == '1')
-            {
-                tab[j][i] = tmp->content[i];
-            }
+	tab = ft_calloc(sizeof(char *), matrice->height);
+	tmp = *info;
+	j = 0;
+	while (tmp->next != NULL)
+	{
+		i = 0;
+		while (tmp->content[i])
+		{
+			if (tmp->content[i] == '1' && tmp->content[i] != '0' && tmp->content[i] == '\n' && tmp->content[i] != '\t' && tmp->content[i] == ' ')
+			{
+				tmp = tmp->next;
+				break;
+			}
+			if (tmp->content[i] == ' ' || tmp->content[i] == '0' || tmp->content[i] == '1')
+			{
+				tab[j][i] = tmp->content[i];
+			}
 
-            i++;
-        }
-    }
-    return (tab);
+			i++;
+		}
+	}
+	return (tab);
 }
 //         // char** new;
 
@@ -121,17 +121,17 @@ char** create_matrice(t_parse **info, t_matrice *matrice)
 
 void  flood_fill(char **tab, t_f_fill size, t_f_fill begin)
 {
-    ft_fill(tab, size, begin, tab[begin.y][begin.x]);
+	ft_fill(tab, size, begin, tab[begin.y][begin.x]);
 }
 
 void ft_fill(char **tab, t_f_fill size, t_f_fill current, char to_fill)
 {
-    if(current.x < 0 || current.x >= size.x  || current.y < 0
-        || current.y >= size.y || tab[current.y][current.x] != to_fill)
-        return ;
-    tab[current.y][current.x] = 'F';
-    ft_fill(tab, size, (t_f_fill){current.x + 1, current.y}, to_fill); 
-    ft_fill(tab, size, (t_f_fill){current.x - 1, current.y}, to_fill); 
-    ft_fill(tab, size, (t_f_fill){current.x, current.y + 1}, to_fill); 
-    ft_fill(tab, size, (t_f_fill){current.x, current.y - 1}, to_fill); 
+	if(current.x < 0 || current.x >= size.x  || current.y < 0
+		|| current.y >= size.y || tab[current.y][current.x] != to_fill)
+		return ;
+	tab[current.y][current.x] = 'F';
+	ft_fill(tab, size, (t_f_fill){current.x + 1, current.y}, to_fill);
+	ft_fill(tab, size, (t_f_fill){current.x - 1, current.y}, to_fill);
+	ft_fill(tab, size, (t_f_fill){current.x, current.y + 1}, to_fill);
+	ft_fill(tab, size, (t_f_fill){current.x, current.y - 1}, to_fill);
 }

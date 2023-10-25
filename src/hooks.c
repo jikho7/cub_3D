@@ -8,52 +8,52 @@ int	key_hook(int keycode, t_vars *vars)
 	angle = M_PI / 12;
 	if (keycode == 13)
 	{
-		if (cancle(vars->you->posX + vars->you->dirX/5, vars->you->posY - vars->you->dirY/5, vars->win))
+		if (cancle(vars->you->pos.x + vars->you->dir.x/5, vars->you->pos.y - vars->you->dir.y/5, vars->win))
 			return (0);
-		vars->you->posX += vars->you->dirX/5;
-		vars->you->posY -= vars->you->dirY/5;
+		vars->you->pos.x += vars->you->dir.x/5;
+		vars->you->pos.y -= vars->you->dir.y/5;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if (keycode == 1)
 	{
-		if (cancle(vars->you->posX - vars->you->dirX/5, vars->you->posY + vars->you->dirY/5, vars->win))
+		if (cancle(vars->you->pos.x - vars->you->dir.x/5, vars->you->pos.y + vars->you->dir.y/5, vars->win))
 			return (0);
-		vars->you->posX -= vars->you->dirX/5;
-		vars->you->posY += vars->you->dirY/5;
+		vars->you->pos.x -= vars->you->dir.x/5;
+		vars->you->pos.y += vars->you->dir.y/5;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if (keycode == 0)
 	{
-		if (cancle(vars->you->posX - vars->you->dirY/5, vars->you->posY - vars->you->dirX/5, vars->win))
+		if (cancle(vars->you->pos.x - vars->you->dir.y/5, vars->you->pos.y - vars->you->dir.x/5, vars->win))
 			return (0);
-		vars->you->posX -= vars->you->dirY/5;
-		vars->you->posY -= vars->you->dirX/5;
+		vars->you->pos.x -= vars->you->dir.y/5;
+		vars->you->pos.y -= vars->you->dir.x/5;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if (keycode == 2)
 	{
-		if (cancle(vars->you->posX + vars->you->dirY/5, vars->you->posY + vars->you->dirX/5, vars->win))
+		if (cancle(vars->you->pos.x + vars->you->dir.y/5, vars->you->pos.y + vars->you->dir.x/5, vars->win))
 			return (0);
-		vars->you->posX += vars->you->dirY/5;
-		vars->you->posY += vars->you->dirX/5;
+		vars->you->pos.x += vars->you->dir.y/5;
+		vars->you->pos.y += vars->you->dir.x/5;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if (keycode == 123)
 	{
-		tdirx = vars->you->dirX*cos(angle) - vars->you->dirY*sin(angle);
-		vars->you->dirY = vars->you->dirY*cos(angle) + vars->you->dirX*sin(angle);
-		vars->you->dirX = tdirx;
-		vars->you->planeX = vars->you->dirY;
-		vars->you->planeY = vars->you->dirX;
+		tdirx = vars->you->dir.x*cos(angle) - vars->you->dir.y*sin(angle);
+		vars->you->dir.y = vars->you->dir.y*cos(angle) + vars->you->dir.x*sin(angle);
+		vars->you->dir.x = tdirx;
+	vars->you->plane.x = vars->you->dir.y;
+	vars->you->plane.y = vars->you->dir.x;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if(keycode == 124)
 	{
-		tdirx = vars->you->dirX*cos(-angle) - vars->you->dirY*sin(-angle);
-		vars->you->dirY = vars->you->dirY*cos(-angle) + vars->you->dirX*sin(-angle);
-		vars->you->dirX = tdirx;
-		vars->you->planeX = vars->you->dirY;
-		vars->you->planeY = vars->you->dirX;
+		tdirx = vars->you->dir.x*cos(-angle) - vars->you->dir.y*sin(-angle);
+		vars->you->dir.y = vars->you->dir.y*cos(-angle) + vars->you->dir.x*sin(-angle);
+		vars->you->dir.x = tdirx;
+	vars->you->plane.x = vars->you->dir.y;
+	vars->you->plane.y = vars->you->dir.x;
 		character(vars->win->size, vars->win, vars->you);
 	}
 	else if (keycode == 53)
@@ -89,6 +89,19 @@ int main(int argc, char **argv)
 	t_vars *vars;
 	t_data	*win;
 	t_player *you;
+	int	i;
+	int	j;
+	char map[12][12] =	{"11111111111",
+						"10100010001",
+						"10111010101",
+						"10001010001",
+						"10100010001",
+						"10110001011",
+						"10100010001",
+						"10101100101",
+						"10100000001",
+						"101000000N1",
+						"11111111111"};
 	
 	if (argc != 2)
 	{
@@ -107,15 +120,29 @@ int main(int argc, char **argv)
 	win->img = mlx_new_image(vars->mlx, win->size, win->size);
 	win->addr = mlx_get_data_addr(win->img, &(win->bpp), &(win->line_len), &(win->endian));
 
-	win->zoom = 1;
-	win->t.x = 0;
-	win->t.y = 0;
-	you->posX = win->size/2;
-	you->posY = win->size/2;
-	you->dirX = 0;
-	you->dirY = 20;
-	you->planeX = (you->dirX*cos(M_PI / 2) - you->dirY*sin(M_PI / 2));
-	you->planeY = (you->dirY*cos(M_PI / 2) + you->dirX*sin(M_PI / 2));
+	i = 0;
+	while (i < 11)
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'N' || map[i][j] == 'W'|| map[i][j] == 'S'|| map[i][j] == 'E')
+			{
+				you->pos.x = j * win->square + win->square/2;
+				you->pos.y = i * win->square + win->square/2;
+				map[i][j] -= 69;
+				you->dir.x = 40 * ((-map[i][j] * map[i][j] * map[i][j] + 27 * map[i][j] * map[i][j] - 227 * map[i][j])/585 + 1);
+				you->dir.y = -40 * ((- 73 * map[i][j] * map[i][j] * map[i][j] + 2101 * map[i][j] * map[i][j] - 14166 * map[i][j])/10530);
+				i = 10;
+				break;
+			}
+			
+			j++;
+		}
+		i++;
+	}
+	vars->you->plane.x = vars->you->dir.y * 0.8;
+	vars->you->plane.y = vars->you->dir.x * 0.8;
 	character(win->size, win, you);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
 	mlx_hook(vars->mlx_win, 4 ,0L, mouse_hook, win);

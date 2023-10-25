@@ -56,13 +56,10 @@ typedef struct s_complex {
 
 typedef struct s_player
 {
-	float posX;
-	float posY;
-	float dirX;
-	float dirY;
-	float planeX;
-	float planeY;
-
+	t_complex	pos;
+	t_complex	dir;
+	t_complex	plane;
+	int			speed;
 }		t_player;
 
 typedef struct s_data {
@@ -72,19 +69,13 @@ typedef struct s_data {
 	int			line_len;
 	int			endian;
 	int			size;
-	double		zoom;
-	t_complex	t;
 	int			square;
-	int			itter;
 }		t_data;
 
 typedef struct s_vars {
 	void		*mlx;
 	void		*mlx_win;
 	t_data		*win;
-
-	t_complex	c;
-	char		*frac;
 	t_player	*you;
 }		t_vars;
 

@@ -5,8 +5,8 @@ int chara(int i, int j, t_player *you)
 	float	x;
 	float	y;
 
-	x = i - you->posX;
-	y = j - you->posY;
+	x = i - you->pos.x;
+	y = j - you->pos.y;
 	if ((x*x + y*y) <= 25)
 		return (1);
 	return (0);
@@ -14,18 +14,18 @@ int chara(int i, int j, t_player *you)
 
 int wall(int i, int j, t_data *win)
 {
-	int map[11][11] = {	{1,1,1,1,1,1,1,1,1,1,1},
-						{1,0,1,0,0,0,1,0,0,0,1},
-						{1,0,1,1,1,0,1,0,1,0,1},
-						{1,0,0,0,1,0,1,0,0,0,1},
-						{1,0,1,0,0,0,1,0,0,0,1},
-						{1,0,1,1,0,0,0,1,0,1,1},
-						{1,0,1,0,0,0,1,0,0,0,1},
-						{1,0,1,0,1,1,0,0,1,0,1},
-						{1,0,1,0,0,0,0,0,0,0,1},
-						{1,0,1,0,0,0,0,0,0,0,1},
-						{1,1,1,1,1,1,1,1,1,1,1}};
-	if (map[min(j/win->square, 10)][min(i/win->square, 10)] == 1)
+	char map[12][12] =	{"11111111111",
+						"10100010001",
+						"10111010101",
+						"10001010001",
+						"10100010001",
+						"10110001011",
+						"10100010001",
+						"10101100101",
+						"10100000001",
+						"10100000001",
+						"11111111111"};
+	if (map[min(j/win->square, 10)][min(i/win->square, 10)] == '1')
 		return (1);
 	return (0);
 }
@@ -51,26 +51,26 @@ void draw_line(t_data *win, float Istart, float Jstart, float Iend, float Jend, 
 
 void direction(t_player *you, t_data *win)
 {
-	draw_line(win, you->posX, you->posY, you->posX + you->dirX, you->posY - you->dirY, trgb(1,225,0,0));
-	draw_line(win, you->posX + you->dirX - you->planeX, you->posY - you->dirY - you->planeY, you->posX + you->dirX + you->planeX, you->posY - you->dirY + you->planeY, trgb(1,225,0,0));
-	draw_line(win, you->posX, you->posY, you->posX + (you->dirX + you->planeX) * 5, you->posY + ( - you->dirY + you->planeY) * 5, trgb(1,225,0,0));
-	draw_line(win, you->posX, you->posY, you->posX + (you->dirX - you->planeX) * 5, you->posY + ( - you->dirY - you->planeY) * 5, trgb(1,225,0,0));
+	draw_line(win, you->pos.x, you->pos.y, you->pos.x + you->dir.x, you->pos.y - you->dir.y, trgb(1,225,0,0));
+	draw_line(win, you->pos.x + you->dir.x - you->plane.x, you->pos.y - you->dir.y - you->plane.y, you->pos.x + you->dir.x + you->plane.x, you->pos.y - you->dir.y + you->plane.y, trgb(1,225,0,0));
+	draw_line(win, you->pos.x, you->pos.y, you->pos.x + (you->dir.x + you->plane.x) * 5, you->pos.y + ( - you->dir.y + you->plane.y) * 5, trgb(1,225,0,0));
+	draw_line(win, you->pos.x, you->pos.y, you->pos.x + (you->dir.x - you->plane.x) * 5, you->pos.y + ( - you->dir.y - you->plane.y) * 5, trgb(1,225,0,0));
 }
 
 int cancle(float posX, float posY, t_data *win)
 {
-	int map[11][11] = {	{1,1,1,1,1,1,1,1,1,1,1},
-						{1,0,1,0,0,0,1,0,0,0,1},
-						{1,0,1,1,1,0,1,0,1,0,1},
-						{1,0,0,0,1,0,1,0,0,0,1},
-						{1,0,1,0,0,0,1,0,0,0,1},
-						{1,0,1,1,0,0,0,1,0,1,1},
-						{1,0,1,0,0,0,1,0,0,0,1},
-						{1,0,1,0,1,1,0,0,1,0,1},
-						{1,0,1,0,0,0,0,0,0,0,1},
-						{1,0,1,0,0,0,0,0,0,0,1},
-						{1,1,1,1,1,1,1,1,1,1,1}};
-	if (map[(int)posY/win->square][(int)posX/win->square] == 1)
+	char map[12][12] =	{"11111111111",
+					"10100010001",
+					"10111010101",
+					"10001010001",
+					"10100010001",
+					"10110001011",
+					"10100010001",
+					"10101100101",
+					"10100000001",
+					"10100000001",
+					"11111111111"};
+	if (map[(int)posY/win->square][(int)posX/win->square] == '1')
 		return (1);
 	return (0);
 
@@ -85,29 +85,30 @@ int sgn(float n)
 	return (0);
 }
 
-void draw_wall(float distance, int i, int side, t_data *win)
+void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir)
 {
 	int j;
 	int	hight;
 	int	percentile;
 	int	red;
+	int	SE;
 
 	hight = win->square;
-	percentile = max(0,(win->size * (distance - hight)) / distance);
-	printf("h %d\n", percentile);
+	percentile = win->size *(distance - win->square /2) / (2 * distance);
 	j = 0;
-	red = side * 200;
+	SE = (NW) * sgn(raydir.y) + (1 - NW) * sgn(raydir.x);
+	red = max(0, NW * 100 + SE * 30);
 	while (j <= win->size / 2)
 	{
 		if (j < percentile)
 		{
-			my_mlx_pixel_put(win, i, j, trgb(1,100,100,0));
-			my_mlx_pixel_put(win, i, win->size - j, trgb(1,0,100,100));
+			my_mlx_pixel_put(win, i, j, trgb(1,rand() % 255,0,0));
+			my_mlx_pixel_put(win, i, win->size - j, trgb(1,50,rand() % 20 + 20,0));
 		}
 		else
 		{
-			my_mlx_pixel_put(win, i, j, trgb(1,red,0,200));
-			my_mlx_pixel_put(win, i, win->size - j, trgb(1,red,0,200));
+			my_mlx_pixel_put(win, i, j, trgb(1,red,20,0));
+			my_mlx_pixel_put(win, i, win->size - j, trgb(1,red,20,0));
 		}
 		j++;
 	}
@@ -119,15 +120,15 @@ void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, 
 	float	camX;
 
 	camX = 2 * (double)i/win->size - 1;
-	rayDir->x = you->dirX + you->planeX * camX;
-	rayDir->y = -(you->dirY - you->planeY * camX);
+	rayDir->x = you->dir.x + you->plane.x * camX;
+	rayDir->y = -(you->dir.y - you->plane.y * camX);
 	if (rayDir->x >= 0.0001 || rayDir->x <= -0.0001 )
 	{
 		sqDelta->x = sqrt(win->square*win->square * (1 + (rayDir->y * rayDir->y) / (rayDir->x * rayDir->x)));
 		if (rayDir->x > 0)
-			delta = ceilf(you->posX / win->square) * win->square - you->posX;
+			delta = ceilf(you->pos.x / win->square) * win->square - you->pos.x;
 		else 
-			delta = you->posX - floorf(you->posX / win->square) * win->square;
+			delta = you->pos.x - floorf(you->pos.x / win->square) * win->square;
 		sideDist->x = delta * sqrt((1 + (rayDir->y * rayDir->y) / (rayDir->x * rayDir->x)));
 	}
 	else
@@ -139,9 +140,9 @@ void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, 
 	{
 		sqDelta->y = sqrt(win->square*win->square  * (1 + (rayDir->x * rayDir->x) / (rayDir->y * rayDir->y)));
 		if (rayDir->y > 0)
-			delta = ceilf(you->posY / win->square) * win->square - you->posY;
+			delta = ceilf(you->pos.y / win->square) * win->square - you->pos.y;
 		else 
-			delta = you->posY - floorf(you->posY / win->square) * win->square;
+			delta = you->pos.y - floorf(you->pos.y / win->square) * win->square;
 		sideDist->y = delta * sqrt((1 + (rayDir->x * rayDir->x) / (rayDir->y * rayDir->y)));
 	}
 	else
@@ -158,8 +159,8 @@ int	DDA(t_player *you, t_data *win, t_complex rayDir, t_complex sqDelta, t_compl
 	int		mapY;
 	int		step;
 
-	mapX = you->posX / win->square;
-	mapY = you->posY / win->square;
+	mapX = you->pos.x / win->square;
+	mapY = you->pos.y / win->square;
 	Adelta.x = 0;
 	Adelta.y = 0;
 	if (sideDist->x < sideDist->y)
@@ -203,16 +204,13 @@ float proj_dist(t_complex a, t_complex b)
 
 float unfisheye(t_player *you, t_complex rayDir, float sideDist)
 {
-	t_complex	dir;
 	t_complex	dist;
 	float		normRay;
 
 	normRay = sqrt(rayDir.x * rayDir.x + rayDir.y * rayDir.y);
-	dir.x = you->dirX;
-	dir.y = you->dirY;
 	dist.x = rayDir.x * sideDist / normRay;
-	dist.y = rayDir.y * sideDist / normRay;
-	return (proj_dist(dist, dir));
+	dist.y = - rayDir.y * sideDist / normRay;
+	return (fabsf(proj_dist(dist, you->dir)));
 }
 
 void raycasting(t_player *you, t_data *win)
@@ -233,17 +231,14 @@ void raycasting(t_player *you, t_data *win)
 		if (step == 0)
 		{
 			// CARTE VU DU DESSUS
-			//draw_line(win, you->posX, you->posY, you->posX + rayDir.x * sideDist.x / normRay, you->posY + rayDir.y * sideDist.x / normRay, trgb(1,255,100,0));
-			// 3D avec fisheye
-			//draw_wall(sideDist.x, i, 0, win);
-			// 3D sans fisheye
-			draw_wall(unfisheye(you, rayDir, sideDist.x), i, 0, win);
+			//draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.x / normRay, you->pos.y + rayDir.y * sideDist.x / normRay, trgb(1,255,100,0));
+			// 3D 
+			draw_wall(unfisheye(you, rayDir, sideDist.x), i, 0, win, rayDir);
 		}
 		else
 		{
-			//draw_line(win, you->posX, you->posY, you->posX + rayDir.x * sideDist.y / normRay, you->posY + rayDir.y * sideDist.y / normRay, trgb(1,255,100,0));
-			//draw_wall(sideDist.y, i, 1, win);
-			draw_wall(unfisheye(you, rayDir, sideDist.y), i, 1, win);
+			//draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.y / normRay, you->pos.y + rayDir.y * sideDist.y / normRay, trgb(1,255,100,0));
+			draw_wall(unfisheye(you, rayDir, sideDist.y), i, 1, win, rayDir);
 		}
 		i += 1;
 	}

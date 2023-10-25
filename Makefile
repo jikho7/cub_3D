@@ -29,10 +29,10 @@ $(LIBFT) :
 $(MLX) :
 	@$(MAKE) -C mlx_openGL
 
-$(NAME) : $(OBJ) $(LIBFT) $(MLX_L)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX_L) -o $(NAME)
-##$(NAME) : $(OBJ) $(LIBFT) $(MLX)
-##	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
+##$(NAME) : $(OBJ) $(LIBFT) $(MLX_L)
+##	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX_L) -o $(NAME)
+$(NAME) : $(OBJ) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
 
 circle : $(OBJT) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(OBJT) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o circle

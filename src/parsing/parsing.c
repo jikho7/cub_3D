@@ -8,28 +8,34 @@ int parsing(char *map)
 	t_matrice matrice;
 
 	init_struct_check(&check, map);
-	//printf("1\n");
 	init_matrice(&matrice);
+
 	check_map_extension(map);
-	//printf("2\n");
 	create_lst(&info, &check);
+	display_lst(&info, "check0");
 	matrice_size(&info, &matrice);
+
 	strtrim_lst(&info);
-	//display_lst(&info, "check0");
-	//printf("3\n");
+	check_tex_extension(&info, &check);
+//	printf("3\n");
 	read_lst(&info, &check);
 	check_excess_info(&info);
-	//display_lst(&info, "check00");
-	//printf("4\n");
-	check_tex_extension(&info, &check);
-	//display_lst(&info, "check1");
+	//display_lst(&info, "before tex extension check");
+//	printf("4\n");
+	//display_lst(&info, "before F C check"); // espaces presents
 	check_F_C(&info);
-	//display_lst(&info, "check2");
-	//printf("5\n");
+//	printf("5\n");
+//	display_lst(&info, "before reduce space1\n");
+	reduce_spaces_to_one(&info);
+	//display_lst(&info, "before spelling\n");
 	check_spelling(&info, &check);
+	display_lst(&info, "before check info after map\n");
 	check_if_info_after_map(&info, &check);
-	//create_matrice(&info, &matrice);
-	//display_lst(&info, "check3");
+//	create_matrice(&info, &matrice); // SEGFAULT
+//	display_lst(&info, "check3");
+	// free(&info);
+	// free(&check);
+	// free(&matrice);
 	return (0);
 }
 

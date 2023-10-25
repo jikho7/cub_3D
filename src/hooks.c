@@ -8,35 +8,35 @@ int	key_hook(int keycode, t_vars *vars)
 	angle = M_PI / 12;
 	if (keycode == 13)
 	{
-		if (cancle(vars->you->pos.x + vars->you->dir.x/5, vars->you->pos.y - vars->you->dir.y/5, vars->win))
+		if (cancle(vars->you->pos.x + vars->you->dir.x * vars->you->speed, vars->you->pos.y - vars->you->dir.y * vars->you->speed, vars->win))
 			return (0);
-		vars->you->pos.x += vars->you->dir.x/5;
-		vars->you->pos.y -= vars->you->dir.y/5;
-		character(vars->win->size, vars->win, vars->you);
+		vars->you->pos.x += vars->you->dir.x * vars->you->speed;
+		vars->you->pos.y -= vars->you->dir.y * vars->you->speed;
+		character(vars->win, vars->you);
 	}
 	else if (keycode == 1)
 	{
-		if (cancle(vars->you->pos.x - vars->you->dir.x/5, vars->you->pos.y + vars->you->dir.y/5, vars->win))
+		if (cancle(vars->you->pos.x - vars->you->dir.x * vars->you->speed, vars->you->pos.y + vars->you->dir.y * vars->you->speed, vars->win))
 			return (0);
-		vars->you->pos.x -= vars->you->dir.x/5;
-		vars->you->pos.y += vars->you->dir.y/5;
-		character(vars->win->size, vars->win, vars->you);
+		vars->you->pos.x -= vars->you->dir.x * vars->you->speed;
+		vars->you->pos.y += vars->you->dir.y * vars->you->speed;
+		character(vars->win, vars->you);
 	}
 	else if (keycode == 0)
 	{
-		if (cancle(vars->you->pos.x - vars->you->dir.y/5, vars->you->pos.y - vars->you->dir.x/5, vars->win))
+		if (cancle(vars->you->pos.x - vars->you->dir.y * vars->you->speed, vars->you->pos.y - vars->you->dir.x * vars->you->speed, vars->win))
 			return (0);
-		vars->you->pos.x -= vars->you->dir.y/5;
-		vars->you->pos.y -= vars->you->dir.x/5;
-		character(vars->win->size, vars->win, vars->you);
+		vars->you->pos.x -= vars->you->dir.y * vars->you->speed;
+		vars->you->pos.y -= vars->you->dir.x * vars->you->speed;
+		character(vars->win, vars->you);
 	}
 	else if (keycode == 2)
 	{
-		if (cancle(vars->you->pos.x + vars->you->dir.y/5, vars->you->pos.y + vars->you->dir.x/5, vars->win))
+		if (cancle(vars->you->pos.x + vars->you->dir.y * vars->you->speed, vars->you->pos.y + vars->you->dir.x * vars->you->speed, vars->win))
 			return (0);
-		vars->you->pos.x += vars->you->dir.y/5;
-		vars->you->pos.y += vars->you->dir.x/5;
-		character(vars->win->size, vars->win, vars->you);
+		vars->you->pos.x += vars->you->dir.y * vars->you->speed;
+		vars->you->pos.y += vars->you->dir.x * vars->you->speed;
+		character(vars->win, vars->you);
 	}
 	else if (keycode == 123)
 	{
@@ -45,7 +45,7 @@ int	key_hook(int keycode, t_vars *vars)
 		vars->you->dir.x = tdirx;
 	vars->you->plane.x = vars->you->dir.y;
 	vars->you->plane.y = vars->you->dir.x;
-		character(vars->win->size, vars->win, vars->you);
+		character(vars->win, vars->you);
 	}
 	else if(keycode == 124)
 	{
@@ -54,7 +54,7 @@ int	key_hook(int keycode, t_vars *vars)
 		vars->you->dir.x = tdirx;
 	vars->you->plane.x = vars->you->dir.y;
 	vars->you->plane.y = vars->you->dir.x;
-		character(vars->win->size, vars->win, vars->you);
+		character(vars->win, vars->you);
 	}
 	else if (keycode == 53)
 		mlx_destroy_window(vars->mlx, vars->mlx_win);
@@ -131,8 +131,8 @@ int main(int argc, char **argv)
 				you->pos.x = j * win->square + win->square/2;
 				you->pos.y = i * win->square + win->square/2;
 				map[i][j] -= 69;
-				you->dir.x = 40 * ((-map[i][j] * map[i][j] * map[i][j] + 27 * map[i][j] * map[i][j] - 227 * map[i][j])/585 + 1);
-				you->dir.y = -40 * ((- 73 * map[i][j] * map[i][j] * map[i][j] + 2101 * map[i][j] * map[i][j] - 14166 * map[i][j])/10530);
+				you->dir.x = ((-map[i][j] * map[i][j] * map[i][j] + 27 * map[i][j] * map[i][j] - 227 * map[i][j])/585 + 1);
+				you->dir.y = -((- 73 * map[i][j] * map[i][j] * map[i][j] + 2101 * map[i][j] * map[i][j] - 14166 * map[i][j])/10530);
 				i = 10;
 				break;
 			}
@@ -141,9 +141,10 @@ int main(int argc, char **argv)
 		}
 		i++;
 	}
+	you->speed = win->square / 10;
 	vars->you->plane.x = vars->you->dir.y * 0.8;
 	vars->you->plane.y = vars->you->dir.x * 0.8;
-	character(win->size, win, you);
+	character(win, you);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
 	mlx_hook(vars->mlx_win, 4 ,0L, mouse_hook, win);
 	mlx_loop_hook(vars->mlx, render_new_frame, vars);

@@ -99,7 +99,7 @@ int		trgb(int t, int red, int green, int blue);
 int		grad(int i);
 int		min(int a, int b);
 int		max(int a, int b);
-void	character(double size, t_data *win, t_player *you);
+void	character(t_data *win, t_player *you);
 int cancle(float posX, float posY, t_data *win);
 
 /*----------------PARSING-----------------*/

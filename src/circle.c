@@ -93,13 +93,18 @@ void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir)
 	int	red;
 	int	SE;
 
+	//printf("D1\n");
 	hight = win->square;
 	percentile = win->size *(distance - win->square /2) / (2 * distance);
 	j = 0;
 	SE = (NW) * sgn(raydir.y) + (1 - NW) * sgn(raydir.x);
+	//printf("D2\n");
 	red = max(0, NW * 100 + SE * 30);
+	//printf("D3\n");
 	while (j <= win->size / 2)
 	{
+		if (j <= 1)
+			printf("D4 %d %d\n", i, j);
 		if (j < percentile)
 		{
 			my_mlx_pixel_put(win, i, j, trgb(1,rand() % 255,0,0));
@@ -110,8 +115,10 @@ void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir)
 			my_mlx_pixel_put(win, i, j, trgb(1,red,20,0));
 			my_mlx_pixel_put(win, i, win->size - j, trgb(1,red,20,0));
 		}
+		//printf("D5 %d %d\n", i, j);
 		j++;
 	}
+	printf("D6\n");
 }
 
 void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, t_data *win, t_player *you)
@@ -230,29 +237,31 @@ void raycasting(t_player *you, t_data *win)
 		normRay = sqrt(rayDir.x * rayDir.x + rayDir.y * rayDir.y);
 		if (step == 0)
 		{
-			// CARTE VU DU DESSUS
-			//draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.x / normRay, you->pos.y + rayDir.y * sideDist.x / normRay, trgb(1,255,100,0));
+			// BIRD VIEW
+			if (i % 2)
+				draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.x / normRay, you->pos.y + rayDir.y * sideDist.x / normRay, trgb(1,255,100,0));
 			// 3D 
-			draw_wall(unfisheye(you, rayDir, sideDist.x), i, 0, win, rayDir);
+			//draw_wall(unfisheye(you, rayDir, sideDist.x), i, 0, win, rayDir);
 		}
 		else
 		{
-			//draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.y / normRay, you->pos.y + rayDir.y * sideDist.y / normRay, trgb(1,255,100,0));
-			draw_wall(unfisheye(you, rayDir, sideDist.y), i, 1, win, rayDir);
+			if (i % 2)
+				draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.y / normRay, you->pos.y + rayDir.y * sideDist.y / normRay, trgb(1,255,100,0));
+			//draw_wall(unfisheye(you, rayDir, sideDist.y), i, 1, win, rayDir);
 		}
 		i += 1;
 	}
 }
 
-void	character(double size, t_data *win, t_player *you)
+void	character(t_data *win, t_player *you)
 {
 	int i = 0;
-	int j;
+	int j = 0;
 
-	while (i < size)
+	while (i < win->size)
 	{
 		j = 0;
-		while (j < size)
+		while (j < win->size)
 		{
 			if (chara(i, j, you))
 				my_mlx_pixel_put(win, i, j, trgb(1,0,255,0));

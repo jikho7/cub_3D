@@ -1,10 +1,5 @@
 # include <cub3d.h>
 
-void reduce_spaces_to_one(t_parse ** lst);
-int size_len(char *str);
-void strtrim_F_C(char *str);
-char	*ft_strncpy(char *dest, char *src, unsigned int n);
-
 void	check_excess_info(t_parse **info)
 {
 	t_parse *tmp;
@@ -91,7 +86,7 @@ void strtrim_F_C(char *str)
 	while (split[i])
 	{
 		split[i] = ft_strtrim(split[i], sign);
-		printf("split[%d]: %s\n", i, split[i]);
+	//	printf("split[%d]: %s\n", i, split[i]);
 		if (ft_is_str_digit(split[i]) != 0)
 		{
 			error_msg(4);
@@ -129,7 +124,7 @@ void check_tex_extension(t_parse **info, t_check *check)
 		size = ft_strlen(tmp->content);
 		cpy = (tmp->content + (size - 5));
 		//printf("tex exten: %s\n", tmp->content);
-		if ((strncmp(tmp->content, "EA", 2) == 0 || strncmp(tmp->content, "NO", 2) == 0 ||strncmp(tmp->content, "SO", 2) == 0 || strncmp(tmp->content, "WE", 2) == 0) && (strncmp(cpy, ".png", 4) != 0))
+		if ((strncmp(tmp->content, "EA", 2) == 0 || strncmp(tmp->content, "NO", 2) == 0 ||strncmp(tmp->content, "SO", 2) == 0 || strncmp(tmp->content, "WE", 2) == 0) && (strncmp(cpy, ".xpm", 4) != 0))
 		{
 			error_msg(3);
 		}

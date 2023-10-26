@@ -1,15 +1,15 @@
-EA ./textures/maison1.png
-NO   ./textures/Wall_North.png
-SO ./textures/Wall_South.png
-WE ./textures/Wall_West.png
+  EA ./textures/maison1.xpm
+  NO   ./textures/Wall_North.xpm
+  SO ./textures/Wall_South.xpm
+WE ./textures/Wall_West.xpm
 
-F 255  ,  123,156
+F 255   ,  123,156
 
 C 1,220,  7
 
-11111111111111111111
-10000000000000000001
-10000000000000000001
+       11111111111111111111
+    10000000000000001
+11110000000000000001
 10000000000000000001
 10000000000000000001
 100000000010000000011111
@@ -17,5 +17,8 @@ C 1,220,  7
 100000000000000S0001
 10000000000000000001
 11111111111111111111
+1
+1
+
 
 

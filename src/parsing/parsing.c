@@ -1,42 +1,58 @@
 # include <cub3d.h>
 
-
+void cpy_lst(t_parse **dest_lst, t_parse **src_lst);
+// remplacer le \n par \0?
 int parsing(char *map)
 {
 	t_parse *info = NULL;
 	t_check check;
 	t_matrice matrice;
+	t_parse *origin = NULL;
 
 	init_struct_check(&check, map);
 	init_matrice(&matrice);
-
 	check_map_extension(map);
+
 	create_lst(&info, &check);
-	display_lst(&info, "check0");
-	matrice_size(&info, &matrice);
+	cpy_lst(&origin, &info);
+	get_width(&info, &matrice);
+
 
 	strtrim_lst(&info);
+	get_height(&info, &matrice);
+	printf("width: %d, height: %d\n", matrice.width, matrice.height);
+//	display_lst(&origin, "origin");
+//	display_lst(&info, "info");
 	check_tex_extension(&info, &check);
-//	printf("3\n");
+
 	read_lst(&info, &check);
 	check_excess_info(&info);
-	//display_lst(&info, "before tex extension check");
-//	printf("4\n");
-	//display_lst(&info, "before F C check"); // espaces presents
 	check_F_C(&info);
-//	printf("5\n");
-//	display_lst(&info, "before reduce space1\n");
 	reduce_spaces_to_one(&info);
 	//display_lst(&info, "before spelling\n");
 	check_spelling(&info, &check);
-	display_lst(&info, "before check info after map\n");
+	//display_lst(&info, "before check info after map\n");
 	check_if_info_after_map(&info, &check);
-//	create_matrice(&info, &matrice); // SEGFAULT
-//	display_lst(&info, "check3");
+	create_matrice(&origin, &matrice); // SEGFAULT
 	// free(&info);
 	// free(&check);
 	// free(&matrice);
 	return (0);
+}
+
+void cpy_lst(t_parse **dest_lst, t_parse **src_lst)
+{
+	t_parse *s_tmp;
+	t_parse *tmp = NULL;
+
+	s_tmp = *src_lst;
+	while (s_tmp->next != NULL)
+	{
+		tmp = lstnew(s_tmp->content);
+		add_back(dest_lst, tmp);
+		s_tmp = s_tmp->next;
+	}
+
 }
 
 void strtrim_lst(t_parse **info)

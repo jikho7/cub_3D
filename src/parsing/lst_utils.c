@@ -19,6 +19,21 @@ int create_lst(t_parse **info, t_check *check)
 	return (0);
 }
 
+int	lstsize(t_parse *lst)
+{
+	int	nbr_element;
+
+	nbr_element = 0;
+	while (!lst)
+		return (0);
+	while (lst)
+	{
+		nbr_element++;
+		lst = lst->next;
+	}
+	return (nbr_element);
+}
+
 t_parse	*lstnew(char *str)
 {
 	t_parse	*new_element;
@@ -80,4 +95,29 @@ void	display_node(t_parse *lst)
 			lst->content,
 			lst->next);
 	}
+}
+
+void	display_lst_2(t_parse *ptr_to_head, char *name)
+{
+	t_parse	*current_node;
+	int		count;
+
+	current_node = ptr_to_head;
+	count = 0;
+	printf("\n%s :\n", name);
+	if (ptr_to_head != NULL)
+	{
+		while (current_node->next != NULL)
+		{
+			printf("Index = %d : ", count);
+			display_node(current_node);
+			current_node = current_node->next;
+			count++;
+		}
+		printf("Index = %d : ", count);
+		display_node(current_node);
+	}
+	else
+		printf("The stack is empty.\n");
+	printf("\n");
 }

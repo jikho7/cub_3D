@@ -19,14 +19,13 @@ void	check_excess_info(t_parse **info)
 			tmp = tmp->next;
 		else if (ft_strncmp(tmp->content, "C ", 2) == 0)
 			tmp = tmp->next;
-		else if (*tmp->content == '\n' || *tmp->content == '\0')
+		else if (tmp->content[0] == '\n' || tmp->content[1] == '\0')
 			tmp = tmp->next;
 		else if (ft_strncmp(tmp->content, "1", 1) == 0 || ft_strncmp(tmp->content, "0", 1) == 0)
 			tmp = tmp->next;
-		else if (*tmp->content == EOF)
-			tmp = tmp->next;
 		else
 		{
+			//printf("tmp->content execive: %s\n", tmp->content);
 			error_msg(5);
 		}
 	}
@@ -78,20 +77,31 @@ void strtrim_F_C(char *str)
 	int i = 0;
 	char sign[] = {'F', 'C', ' ', '\n'};
 	char **split;
+	int nb;
 
 	i = 0;
 	split = ft_split(str, ',');
 
 	i = 0;
+	if (split[1] == 0)
+	{
+		error_msg(4);
+	}
 	while (split[i])
 	{
 		split[i] = ft_strtrim(split[i], sign);
 	//	printf("split[%d]: %s\n", i, split[i]);
-		if (ft_is_str_digit(split[i]) != 0)
+		nb = ft_atoi(split[i]);
+	//	printf(">>>nb: %d\n", nb);
+		if (nb < 0 || nb > 255)
 		{
 			error_msg(4);
 		}
 		i++;
+	}
+	if (i != 3)
+	{
+		error_msg(4);
 	}
 }
 
@@ -124,9 +134,10 @@ void check_tex_extension(t_parse **info, t_check *check)
 		size = ft_strlen(tmp->content);
 		cpy = (tmp->content + (size - 5));
 		//printf("tex exten: %s\n", tmp->content);
-		if ((strncmp(tmp->content, "EA", 2) == 0 || strncmp(tmp->content, "NO", 2) == 0 ||strncmp(tmp->content, "SO", 2) == 0 || strncmp(tmp->content, "WE", 2) == 0) && (strncmp(cpy, ".xpm", 4) != 0))
+		if ((strncmp(tmp->content, "EA", 2) == 0 || strncmp(tmp->content, "NO", 2) == 0 ||strncmp(tmp->content, "SO", 2) == 0 || strncmp(tmp->content, "WE", 2) == 0))
 		{
-			error_msg(3);
+			if (strncmp(cpy, ".xpm", 4) != 0 && (strncmp(cpy, ".png", 4) != 0))
+				error_msg(3);
 		}
 		tmp = tmp->next;
 	}
@@ -138,9 +149,13 @@ void check_map_extension(char *map_name)
 	const char *cpy;
 
 	size = ft_strlen(map_name);
+	//printf("map name: %c\n", map_name[size - 5]);
 	cpy = (map_name + (size - 4));
+//	printf("cpy: %s\n", cpy);
 	if (ft_strncmp(cpy, ".cub", 4) != 0)
 	 	error_msg(2);
+	if (map_name[size - 5] == '/' || map_name[size - 5] == '.')
+		error_msg(2);
 }
 
 

@@ -11,6 +11,7 @@ int create_lst(t_parse **info, t_check *check)
 	while(1)
 	{
 		new = lstnew(get_next_line(fd));
+	//	printf("new->content[0]: %c\n", new->content[0]);
 		add_back(info, new);
 		if (new->content == NULL)
 			break;

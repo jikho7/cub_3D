@@ -33,8 +33,18 @@ typedef struct s_check
 
 typedef struct s_matrice
 {
+	char	**map_with_spaces;
+	char	**map;
 	int		height;
 	int		width;
+	int		N;
+	int		S;
+	int		E;
+	int		W;
+	int		wrong_symbol;
+	int		player_sympbol;
+	int		pos_x_player;
+	int		pos_y_player;
 }t_matrice;
 
 typedef struct  s_f_fill
@@ -115,19 +125,20 @@ int		ft_is_str_digit(char *str);
 void	check_if_info_after_map(t_parse **info, t_check *check);
 void	check_excess_info(t_parse **info);
 void	strtrim_lst(t_parse **info);
-char** create_matrice(t_parse **origin, t_matrice *matrice);
+void	create_matrice(t_parse **origin, t_matrice *matrice);
 void	get_height(t_parse **map, t_matrice *matrice);
 void	reduce_spaces_F_C(char *str);
 void	display_lst_2(t_parse *ptr_to_head, char *name);
 void	is_map_valid(t_parse **info);
-void	ft_fill(char **tab, t_f_fill size, t_f_fill current, char to_fill);
-void	flood_fill(char **tab, t_f_fill size, t_f_fill begin);
+void	flood_fill(t_matrice *matrice);
 void	strtrim_matrice(t_parse info, int i);
 void	reduce_spaces_to_one(t_parse ** lst);
 int		size_len(char *str);
+void	check_map(t_matrice *matrice);
 void	strtrim_F_C(char *str);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 void get_width(t_parse **map, t_matrice *matrice);
+void check_walls(t_matrice *matrice);
 /*----------------LISTS-----------------*/
 void	add_back(t_parse **head, t_parse *node_to_add);
 int		lstsize(t_parse *lst);

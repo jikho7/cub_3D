@@ -1,7 +1,9 @@
 # include <cub3d.h>
 
 void cpy_lst(t_parse **dest_lst, t_parse **src_lst);
-// remplacer le \n par \0?
+void check_spaces_NSEW(t_parse **info);
+void remove_empty_block(t_parse **info);
+
 int parsing(char *map)
 {
 	t_parse *info = NULL;
@@ -14,43 +16,101 @@ int parsing(char *map)
 	check_map_extension(map);
 
 	create_lst(&info, &check);
+	//display_lst(&info, "info");
+	remove_empty_block(&info);
+	//display_lst(&info, "after removed empty blocks");
 	cpy_lst(&origin, &info);
 	get_width(&info, &matrice);
 
-
 	strtrim_lst(&info);
+	check_spaces_NSEW(&info);
 	get_height(&info, &matrice);
 	printf("width: %d, height: %d\n", matrice.width, matrice.height);
 //	display_lst(&origin, "origin");
 //	display_lst(&info, "info");
+	// char * line_debug = info->content;
+	// (void) line_debug;
 	check_tex_extension(&info, &check);
-
 	read_lst(&info, &check);
+//	display_lst(&info, "before spelling\n");
 	check_excess_info(&info);
 	check_F_C(&info);
 	reduce_spaces_to_one(&info);
-	//display_lst(&info, "before spelling\n");
 	check_spelling(&info, &check);
-	//display_lst(&info, "before check info after map\n");
+	//display_lst(&origin, "ORIGIN\n");
 	check_if_info_after_map(&info, &check);
-	create_matrice(&origin, &matrice); // SEGFAULT
+	create_matrice(&origin, &matrice);
+	//printf("pX: %d, pY: %d\n", matrice.pos_x_player, matrice.pos_y_player);
+	check_map(&matrice);
+	flood_fill(&matrice);
+	//check_walls(&matrice);
 	// free(&info);
 	// free(&check);
 	// free(&matrice);
 	return (0);
 }
 
+void remove_empty_block(t_parse **info)
+{
+	t_parse *tmp;
+
+	tmp = *info;
+	if (tmp)
+	{
+		while (tmp->content[0] == '\n')
+		{
+			tmp = tmp->next;
+		}
+	}
+	*info = tmp;
+}
+
+void check_spaces_NSEW(t_parse **info)
+{
+	int i;
+	t_parse *tmp;
+
+	tmp = *info;
+	while (tmp->next != NULL)
+	{
+		if (ft_strncmp(tmp->content, "EA", 2) == 0 || ft_strncmp(tmp->content, "NO", 2) == 0 ||ft_strncmp(tmp->content, "SO", 2) == 0 ||ft_strncmp(tmp->content, "WE", 2) == 0)
+		{
+			i = 0;
+			while (tmp->content[i] != '.')
+				i++;
+			while (tmp->content[i])
+			{
+				if (tmp->content[i] == ' ')
+				{
+					//printf("spaces in NSEW\n");
+					error_msg(1);
+				}
+				i++;
+			}
+
+		}
+		tmp = tmp->next;
+	}
+}
 void cpy_lst(t_parse **dest_lst, t_parse **src_lst)
 {
 	t_parse *s_tmp;
 	t_parse *tmp = NULL;
 
 	s_tmp = *src_lst;
-	while (s_tmp->next != NULL)
+	if (s_tmp)
 	{
-		tmp = lstnew(s_tmp->content);
-		add_back(dest_lst, tmp);
-		s_tmp = s_tmp->next;
+		while (s_tmp->next != NULL)
+		{
+			tmp = lstnew(s_tmp->content);
+			add_back(dest_lst, tmp);
+			s_tmp = s_tmp->next;
+		}
+	}
+	else
+	{
+		*src_lst = NULL;
+		error_msg(10);
 	}
 
 }
@@ -93,6 +153,10 @@ void read_lst(t_parse **lst, t_check *check_lst)
 	{
 		error_msg(0);
 	}
+	if (check_lst->NO == 0 || check_lst->EA == 0 || check_lst->SO == 0 || check_lst->WE == 0 || check_lst->F == 0 || check_lst->C == 0)
+	{
+		error_msg(12);
+	}
 }
 
 void init_struct_check(t_check *check, char *map)
@@ -124,5 +188,19 @@ void error_msg(int option)
 		printf("Error: Excessive information\n");
 	if (option == 6)
 		printf("Error: Info after map\n");
+	if (option == 7)
+		printf("Error: More than one player\n");
+	if (option == 8)
+		printf("Error: Wrong map symbol\n");
+	if (option == 9)
+		printf("Error: A wall is missing\n");
+	if (option == 10)
+		printf("Error: Empty file\n");
+	if (option == 11)
+		printf("Error: No map\n");
+	if (option == 12)
+		printf("Error: Missing information\n");
+	if (option == 13)
+		printf("Error: Missing Player\n");
 	exit(0) ;
 }

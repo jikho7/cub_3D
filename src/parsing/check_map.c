@@ -40,7 +40,7 @@ void check_map(t_matrice *matrice)
 				matrice->W++;
 			else if (matrice->map[j][i] != '1' && matrice->map[j][i] != '0' && matrice->map[j][i] != '\n')
 			{
-			//	printf("wrong symbol: %c\n", matrice->map[j][i]);
+				printf("wrong symbol: %c\n", matrice->map[j][i]);
 				matrice->wrong_symbol++;
 			}
 			i++;

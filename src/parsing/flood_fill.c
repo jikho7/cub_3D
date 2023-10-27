@@ -13,7 +13,7 @@ void flood_fill(t_matrice *matrice)
 
 	i = 0;
 	j = 0;
-	printf("flloo\n");
+//	printf("flloo\n");
 	while (matrice->map_with_spaces[j])
 	{
 		i = 0;

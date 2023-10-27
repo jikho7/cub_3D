@@ -1,5 +1,5 @@
 # include <cub3d.h>
-
+// pb avec Invalid.0.cub
 void cpy_lst(t_parse **dest_lst, t_parse **src_lst);
 void check_spaces_NSEW(t_parse **info);
 void remove_empty_block(t_parse **info);
@@ -25,7 +25,7 @@ int parsing(char *map)
 	strtrim_lst(&info);
 	check_spaces_NSEW(&info);
 	get_height(&info, &matrice);
-	printf("width: %d, height: %d\n", matrice.width, matrice.height);
+//	printf("width: %d, height: %d\n", matrice.width, matrice.height);
 //	display_lst(&origin, "origin");
 //	display_lst(&info, "info");
 	// char * line_debug = info->content;
@@ -55,6 +55,8 @@ void remove_empty_block(t_parse **info)
 	t_parse *tmp;
 
 	tmp = *info;
+	if (tmp->next == NULL)
+		error_msg(10);
 	if (tmp)
 	{
 		while (tmp->content[0] == '\n')
@@ -92,6 +94,7 @@ void check_spaces_NSEW(t_parse **info)
 		tmp = tmp->next;
 	}
 }
+
 void cpy_lst(t_parse **dest_lst, t_parse **src_lst)
 {
 	t_parse *s_tmp;

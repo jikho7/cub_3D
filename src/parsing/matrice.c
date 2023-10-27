@@ -110,14 +110,14 @@ void create_matrice(t_parse **origin, t_matrice *matrice)
 			}
 			i++;
 		}
-		if (tmp->content[0] == '\n' && tmp->content[i] == '\n')
+		if (tmp->content[0] == '\n') // && tmp->content[i] == '\n')
 		{
 			i = 0;
 			tmp = tmp->next;
 		}
 		else if (tmp->content[i] == '\0')
 		{
-			//	printf("break\n");
+			printf("break\n");
 			break;
 		}
 	}

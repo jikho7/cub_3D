@@ -163,7 +163,7 @@ void fill_matrice(t_matrice *matrice, t_parse *tmp)
 		if (tmp->next != NULL)
 			tmp = tmp->next;
 	}
-
+	//matrice->width = i;
 	j = 0;
 	i = matrice->height;
 	while (i > 0)

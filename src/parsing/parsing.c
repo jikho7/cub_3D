@@ -43,6 +43,8 @@ int parsing(char *map)
 	//printf("pX: %d, pY: %d\n", matrice.pos_x_player, matrice.pos_y_player);
 	check_map(&matrice);
 	flood_fill(&matrice);
+
+	printf("width: %d \n", matrice.width);
 	//check_walls(&matrice);
 	// free(&info);
 	// free(&check);

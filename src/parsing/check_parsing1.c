@@ -52,75 +52,6 @@ void check_if_info_after_map(t_parse **info, t_check *check)
 	}
 }
 
-void check_F_C(t_parse **info)
-{
-	t_parse *tmp;
-	int size;
-	char *cpy;
-
-	tmp = *info;
-	size = 0;
-	while(tmp->next != NULL)
-	{
-		if (strncmp(tmp->content, "F", 1) == 0 || strncmp(tmp->content, "C", 1) == 0)
-		{
-			cpy = ft_strdup(tmp->content);
-			strtrim_F_C(cpy);
-			free(cpy);
-		}
-		tmp = tmp->next;
-	}
-}
-
-void strtrim_F_C(char *str)
-{
-	int i = 0;
-	char sign[] = {'F', 'C', ' ', '\n'};
-	char **split;
-	int nb;
-
-	i = 0;
-	split = ft_split(str, ',');
-
-	i = 0;
-	if (split[1] == 0)
-	{
-		error_msg(4);
-	}
-	while (split[i])
-	{
-		split[i] = ft_strtrim(split[i], sign);
-	//	printf("split[%d]: %s\n", i, split[i]);
-		nb = ft_atoi(split[i]);
-	//	printf(">>>nb: %d\n", nb);
-		if (nb < 0 || nb > 255)
-		{
-			error_msg(4);
-		}
-		i++;
-	}
-	if (i != 3)
-	{
-		error_msg(4);
-	}
-}
-
-int ft_is_str_digit(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-			{
-				return (1);
-			}
-			i++;
-	}
-	return (0);
-}
-
 void check_tex_extension(t_parse **info, t_check *check)
 {
 	(void)check;
@@ -158,61 +89,6 @@ void check_map_extension(char *map_name)
 		error_msg(2);
 }
 
-
-void reduce_spaces_to_one(t_parse ** lst)
-{
-	t_parse *tmp;
-	int i;
-	int j;
-	char *res;
-	int size;
-
-	j = 0;
-	tmp = *lst;
-	while (tmp->next != NULL)
-	{
-		size = size_len(tmp->content);
-		res = ft_calloc(size, sizeof(char));
-		i = 0;
-		j = 0;
-		while (tmp->content[i])
-		{
-			if (tmp->content[i] == ' ')
-				i++;
-			else if (tmp->content[i])
-			{
-				res[j] = tmp->content[i];
-				j++;
-				i++;
-			}
-		}
-		free(tmp->content);
-		tmp->content = NULL;
-		tmp->content = res;
-		tmp = tmp->next;
-	}
-}
-
-int size_len(char *str)
-{
-	int i;
-	int j;
-
-	j = 0;
-	i = 0;
-	while (str[i])
-	{
-		while (str[i] && str[i] == ' ')
-			i++;
-		while (str[i] && str[i] != ' ')
-		{
-			i++;
-			j++;
-		}
-	}
-	return (j);
-}
-
 void check_spelling(t_parse **lst, t_check *check_lst)
 {
 	t_parse *tmp;
@@ -233,22 +109,4 @@ void check_spelling(t_parse **lst, t_check *check_lst)
 	{
 		error_msg(1);
 	}
-}
-
-char	*ft_strncpy(char *dest, char *src, unsigned int n)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (src[i] != '\0' && (i < n))
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return (dest);
 }

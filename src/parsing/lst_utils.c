@@ -1,25 +1,5 @@
 # include <cub3d.h>
 
-int create_lst(t_parse **info, t_check *check)
-{
-	int fd;
-	t_parse *new = NULL;
-
-	fd = open(check->map, O_RDONLY);
-	if(fd == -1)
-		return (1);
-	while(1)
-	{
-		new = lstnew(get_next_line(fd));
-	//	printf("new->content[0]: %c\n", new->content[0]);
-		add_back(info, new);
-		if (new->content == NULL)
-			break;
-	}
-	//display_lst(info, "map");
-	return (0);
-}
-
 int	lstsize(t_parse *lst)
 {
 	int	nbr_element;
@@ -96,29 +76,4 @@ void	display_node(t_parse *lst)
 			lst->content,
 			lst->next);
 	}
-}
-
-void	display_lst_2(t_parse *ptr_to_head, char *name)
-{
-	t_parse	*current_node;
-	int		count;
-
-	current_node = ptr_to_head;
-	count = 0;
-	printf("\n%s :\n", name);
-	if (ptr_to_head != NULL)
-	{
-		while (current_node->next != NULL)
-		{
-			printf("Index = %d : ", count);
-			display_node(current_node);
-			current_node = current_node->next;
-			count++;
-		}
-		printf("Index = %d : ", count);
-		display_node(current_node);
-	}
-	else
-		printf("The stack is empty.\n");
-	printf("\n");
 }

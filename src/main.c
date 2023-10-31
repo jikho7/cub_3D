@@ -3,12 +3,12 @@
 int main(int ac, char **av)
 {
 	(void)ac;
-	t_vars *vars;
-	t_data	*win;
-	t_player *you;
-	t_matrice *map;
-	int	i;
-	int	j;
+	// t_vars *vars;
+	// t_data	*win;
+	// t_player *you;
+	 t_matrice *map;
+	// int	i;
+	// int	j;
 
 	map = parsing(av[1]);
 	printf(">>>>>DONE>>>\n");

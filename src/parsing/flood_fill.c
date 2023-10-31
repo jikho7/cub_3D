@@ -1,10 +1,10 @@
 # include <cub3d.h>
 
-int check_up(t_matrice *matrice, int pos_y, int pos_x);
-int check_directions(t_matrice *matrice, int pos_y, int pos_x);
-int check_left(t_matrice *matrice, int pos_y, int pos_x);
-int check_right(t_matrice *matrice, int pos_y, int pos_x);
-int check_down(t_matrice *matrice, int pos_y, int pos_x);
+static int check_up(t_matrice *matrice, int pos_y, int pos_x);
+static int check_directions(t_matrice *matrice, int pos_y, int pos_x);
+static int check_left(t_matrice *matrice, int pos_y, int pos_x);
+static int check_right(t_matrice *matrice, int pos_y, int pos_x);
+static int check_down(t_matrice *matrice, int pos_y, int pos_x);
 
 void flood_fill(t_matrice *matrice)
 {
@@ -27,7 +27,7 @@ void flood_fill(t_matrice *matrice)
 	}
 }
 
-int check_directions(t_matrice *matrice, int pos_y, int pos_x)
+static int check_directions(t_matrice *matrice, int pos_y, int pos_x)
 {
 	//printf("pos_y: %d, pos_x: %d\n", pos_y, pos_x);
 	if (check_left(matrice, pos_y, pos_x) == 1)
@@ -53,7 +53,7 @@ int check_directions(t_matrice *matrice, int pos_y, int pos_x)
 	return (0);
 }
 
-int check_left(t_matrice *matrice, int pos_y, int pos_x)
+static int check_left(t_matrice *matrice, int pos_y, int pos_x)
 {
 	while(pos_x >= 0)
 	{
@@ -70,7 +70,7 @@ int check_left(t_matrice *matrice, int pos_y, int pos_x)
 	return (1);
 }
 
-int check_right(t_matrice *matrice, int pos_y, int pos_x)
+static int check_right(t_matrice *matrice, int pos_y, int pos_x)
 {
 	while(pos_x < matrice->width)
 	{
@@ -89,7 +89,7 @@ int check_right(t_matrice *matrice, int pos_y, int pos_x)
 	return (1);
 }
 
-int check_up(t_matrice *matrice, int pos_y, int pos_x)
+static int check_up(t_matrice *matrice, int pos_y, int pos_x)
 {
 	while(pos_y >= 0)
 	{
@@ -106,7 +106,7 @@ int check_up(t_matrice *matrice, int pos_y, int pos_x)
 	return (1);
 }
 
-int check_down(t_matrice *matrice, int pos_y, int pos_x)
+static int check_down(t_matrice *matrice, int pos_y, int pos_x)
 {
 	while(pos_y < matrice->height)
 	{
@@ -120,6 +120,5 @@ int check_down(t_matrice *matrice, int pos_y, int pos_x)
 			return (1);
 		pos_y++;
 	}
-
 	return (1);
 }

@@ -237,9 +237,12 @@ void	character(t_data *win, t_player *you)
 {
 	int i;
 	int j;
+	int	shiftx;
+	int	shifty;
 
 	i = 0;
-	//printf("C %d %d\n", win->width,win->height);
+	shiftx = max(0,you->pos.x - win->width/2);
+	shifty = min(max(0, win->map->height * win->square - win->height), max(0, you->pos.y - win->height/2));
 	if (win->minimap == 1)
 	{
 		while (i < min(win->width, win->map->width * win->square))
@@ -247,19 +250,19 @@ void	character(t_data *win, t_player *you)
 			j = 0;
 			while (j < min(win->width, win->map->height * win->square))
 			{
-				if (chara(i, j, you))
+				if (chara(i + shiftx,j + shifty, you))
 					my_mlx_pixel_put(win, i, j, trgb(1,0,255,0));
-				else if (wall(i,j,win))
+				else if (wall(i + shiftx, j + shifty, win))
 					my_mlx_pixel_put(win, i, j, trgb(1,0,0,255));
 				else
 					my_mlx_pixel_put(win, i, j, trgb(1,0,0,0));
-				// if (i%win->square == 0 || j%win->square == 0)
-				// 	my_mlx_pixel_put(win, i, j, trgb(1,100,100,100));
+				if ((i + shiftx)%win->square == 0 || (j + shifty)%win->square == 0)
+					my_mlx_pixel_put(win, i, j, trgb(1,100,100,100));
 				j++;
 			}
 			i++;
 		}
-		direction(you, win);
+		//direction(you, win);
 		while (i < win->width)
 		{
 			while(j < win->height)

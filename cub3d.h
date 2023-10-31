@@ -45,6 +45,7 @@ typedef struct s_matrice
 	int		player_sympbol;
 	int		pos_x_player;
 	int		pos_y_player;
+	char	orientation;
 }t_matrice;
 
 typedef struct  s_f_fill
@@ -135,18 +136,13 @@ void	check_excess_info(t_parse **info);
 void	strtrim_lst(t_parse **info);
 void	create_matrice(t_parse **origin, t_matrice *matrice);
 void	get_height(t_parse **map, t_matrice *matrice);
-void	reduce_spaces_F_C(char *str);
-void	display_lst_2(t_parse *ptr_to_head, char *name);
-void	is_map_valid(t_parse **info);
 void	flood_fill(t_matrice *matrice);
 void	strtrim_matrice(t_parse info, int i);
 void	reduce_spaces_to_one(t_parse ** lst);
 int		size_len(char *str);
 void	check_map(t_matrice *matrice);
 void	strtrim_F_C(char *str);
-char	*ft_strncpy(char *dest, char *src, unsigned int n);
-void get_width(t_parse **map, t_matrice *matrice);
-void check_walls(t_matrice *matrice);
+void	get_width(t_parse **map, t_matrice *matrice);
 /*----------------LISTS-----------------*/
 void	add_back(t_parse **head, t_parse *node_to_add);
 int		lstsize(t_parse *lst);
@@ -154,7 +150,10 @@ int		create_lst(t_parse **info, t_check *check);
 t_parse	*lstnew(char *str);
 void	display_node(t_parse *lst);
 void	display_lst(t_parse **ptr_to_head, char *name);
-
+void	cpy_lst(t_parse **dest_lst, t_parse **src_lst);
+void	check_spaces_NSEW(t_parse **info);
+void	remove_empty_block(t_parse **info);
+void	get_width2(t_matrice *matrice);
 /*----------------ERRORS-----------------*/
 void	error_msg(int option);
 #endif

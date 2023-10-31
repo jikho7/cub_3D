@@ -1,97 +1,8 @@
 #include <cub3d.h>
 
-void fill_matrice(t_matrice *matrice, t_parse *tmp);
-void calloc_maps(t_matrice *matrice);
-
-void init_matrice(t_matrice *matrice)
-{
-	matrice->height = 0;
-	matrice->width = 0;
-	matrice->map = NULL;
-	matrice->map_with_spaces = NULL;
-	matrice->N = 0;
-	matrice->S = 0;
-	matrice->E = 0;
-	matrice->W = 0;
-	matrice->wrong_symbol = 0;
-	matrice->player_sympbol = 0;
-	matrice->pos_y_player = 0;
-	matrice->pos_x_player = 0;
-}
-
-void get_width(t_parse **map, t_matrice *matrice)
-{
-	t_parse *tmp;
-	int i;
-
-	tmp = *map;
-	while (tmp->next != NULL)
-	{
-		i = 0;
-		while (tmp->content[i])
-		{
-			i++;
-		}
-		if (matrice->width < i)
-		{
-			matrice->width = i;
-			printf("line = %sEOL\n", tmp->content);
-			printf("width = %d\n", i);
-		}
-		tmp = tmp->next;
-	}
-}
-
-void get_height(t_parse **map, t_matrice *matrice)
-{
-	t_parse *tmp;
-	int i;
-
-	tmp = *map;
-	while (tmp->next != NULL)
-	{
-		// printf("%s\n", tmp->content);
-		strtrim_matrice(*tmp, i);
-		i = 0;
-		// while (tmp->content[i] != '\0' && ft_strchr("01 NSWE", tmp->content[i]) != NULL)
-		// {
-		// 	++i;
-		// }
-		// if (tmp->content[i] != '\n' || tmp->content[i] != '\0')
-		// {
-		// 	// is not a line map
-		// }
-		// else if (tmp->content[i] == '\0')
-		// 	matrice->height++;
-
-		if (tmp->next != NULL && tmp->content[i] != '\t' && tmp->content[i] != '1' && tmp->content[i] != '0')
-		{
-			// printf("> %s\n", tmp->content);
-			i = 0;
-			tmp = tmp->next;
-		}
-		else if (tmp->next != NULL && (tmp->content[i] == '1' || tmp->content[i] == '0'))
-		{
-		//	printf(">> %s\n", tmp->content);
-			matrice->height++;
-			tmp = tmp->next;
-		}
-		else if (tmp->next != NULL && tmp->content[i] == '\n')
-		tmp = tmp->next;
-	}
-	if (matrice->height == 0)
-		error_msg(11);
-}
-
-void strtrim_matrice(t_parse info, int i)
-{
-	(void)i;
-	char sign[] = {' '};
-	t_parse cpy;
-
-	cpy = info;
-	cpy.content = ft_strtrim(cpy.content, sign);
-}
+static void fill_matrice(t_matrice *matrice, t_parse *tmp);
+static void calloc_maps(t_matrice *matrice);
+static void get_orientation(char c, t_matrice *matrice);
 
 void create_matrice(t_parse **origin, t_matrice *matrice)
 {
@@ -128,7 +39,7 @@ void create_matrice(t_parse **origin, t_matrice *matrice)
 	fill_matrice(matrice, tmp);
 }
 
-void fill_matrice(t_matrice *matrice, t_parse *tmp)
+static void fill_matrice(t_matrice *matrice, t_parse *tmp)
 {
 	int i;
 	int j;
@@ -141,7 +52,6 @@ void fill_matrice(t_matrice *matrice, t_parse *tmp)
 		i = 0;
 		while (tmp->content[i])
 		{
-			//printf("tmp->content[%d]: %c\n", i, tmp->content[i]);
 			if (tmp->content[i] == ' ')
 			{
 				matrice->map_with_spaces[j][i] = ' ';
@@ -149,7 +59,7 @@ void fill_matrice(t_matrice *matrice, t_parse *tmp)
 			}
 			else if (tmp->content[i] == 'N' || tmp->content[i] == 'S' || tmp->content[i] == 'E' || tmp->content[i] == 'W')
 			{
-				// printf("check poS: i: %d, j: %d\n", i, j);
+				get_orientation(tmp->content[i], matrice);
 				matrice->pos_x_player = i + 1;
 				matrice->pos_y_player = j + 1;
 				matrice->map[j][i] = tmp->content[i];
@@ -163,29 +73,24 @@ void fill_matrice(t_matrice *matrice, t_parse *tmp)
 			i++;
 		}
 		j++;
-	//	printf("height: %d\n", matrice->height);
 		if (tmp->next != NULL)
 			tmp = tmp->next;
 	}
-	// j = 0;
-	// i = matrice->height;
-	// while (i > 0)
-	// {
-	// 	printf("map[%d]: %s\n2", j, matrice->map[j]);
-	// 	j++;
-	// 	i--;
-	// }
-	// j = 0;
-	// i = matrice->height;
-	// while (i > 0)
-	// {
-	// 	printf("map_spaces[%d]: %s\n", j, matrice->map_with_spaces[j]);
-	// 	j++;
-	// 	i--;
-	// }
 }
 
-void calloc_maps(t_matrice *matrice)
+static void get_orientation(char c, t_matrice *matrice)
+{
+	if (c == 'N')
+		matrice->orientation = 'N';
+	if (c == 'S')
+		matrice->orientation = 'S';
+	if (c == 'W')
+		matrice->orientation = 'W';
+	if (c == 'E')
+		matrice->orientation = 'E';
+}
+
+static void calloc_maps(t_matrice *matrice)
 {
 	int i;
 

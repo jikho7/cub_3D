@@ -5,33 +5,19 @@ void check_map(t_matrice *matrice)
 	int i = 0;
 	int j = 0;
 
-	// while (matrice->map[j])
-	// {
-	// 	i = 0;
-	// 	while (matrice->map_with_spaces[j][i])
-	// 	{
-	// 		printf("map[%d][%d]: %c\n", j, i, matrice->map_with_spaces[j][i]);
-	// 		i++;
-	// 	}
-	// 	j++;
-	// }
-
 	while (matrice->map[j])
 	{
 		i = 0;
 		while (matrice->map[j][i])
 		{
-			//printf("char[%d][%d]: %c\n", j, i, matrice->map[j][i]);
 			if (matrice->map[j][i] == 'N' || matrice->map[j][i] == 'E' || matrice->map[j][i] == 'S' || matrice->map[j][i] == 'W')
 			{
-			//	printf("player symbol++");
 				matrice->player_sympbol++;
 			}
 			if (matrice->map[j][i] == 'N')
 				matrice->N++;
 			else if (matrice->map[j][i] == 'S')
 			{
-			//	printf("matrice S..\n");
 				matrice->S++;
 			}
 			else if (matrice->map[j][i] == 'E')

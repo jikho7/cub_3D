@@ -66,11 +66,21 @@ void draw_line(t_data *win, float Istart, float Jstart, float Iend, float Jend, 
 
 void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-	char *dst;
-	
-    if (data == NULL || data->addr == NULL || x < 0 || x >= data->width || y < 0 || y >= data->height)
+    if (data == NULL) 
+	{
+        printf("Invalid data\n");
         return;
-	dst = data->addr + (y * data->line_len + x * (data->bpp / 8));
+    }
+	if (data->addr == NULL) 
+	{
+        printf("data->addr is NULL\n");
+        return;
+	}
+    if (x < 0 || x >= data->width || y < 0 || y >= data->height) {
+        printf("Out-of-bounds access: (%d, %d) > (%d, %d)\n", x, y, data->width, data->height);
+        return;
+    }
+    char *dst = data->addr + (y * data->line_len + x * (data->bpp / 8));
     *(unsigned int *)dst = color;
 }
 

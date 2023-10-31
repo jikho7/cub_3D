@@ -29,10 +29,9 @@ int	max(int a, int b)
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
-	//printf("E1\n");
 	dst = data->addr + (y * data->line_len + x * (data->bpp / 8));
-	//if (y == 0 || y == data->size)
-		//printf("E2 %p\n", dst);
+	// if (y == 0 || y == data->height)
+	// 	printf("E2 (%d, %d) %p\n", x, y,  dst);
 	*(unsigned int *)dst = color;
 	//printf("E3\n");
 }

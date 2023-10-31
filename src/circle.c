@@ -14,18 +14,7 @@ int chara(int i, int j, t_player *you)
 
 int wall(int i, int j, t_data *win)
 {
-	char map[12][12] =	{"11111111111",
-						"10100010001",
-						"10111010101",
-						"10001010001",
-						"10100010001",
-						"10110001011",
-						"10100010001",
-						"10101100101",
-						"10100000001",
-						"10100000001",
-						"11111111111"};
-	if (map[min(j/win->square, 10)][min(i/win->square, 10)] == '1')
+	if (win->map->map[j/win->square][i/win->square] == '1')
 		return (1);
 	return (0);
 }
@@ -43,7 +32,7 @@ void draw_line(t_data *win, float Istart, float Jstart, float Iend, float Jend, 
 	{
 		i = t * Istart + (1 - t) * Iend;
 		j = t * Jstart + (1 - t) * Jend;
-		if ((i < win->size && i > 0) && (j < win->size && j > 0))
+		if ((i < win->width && i > 0) && (j < win->height && j > 0))
 			my_mlx_pixel_put(win, (int)i, (int)j, color);
 		t = t + (1/len);
 	}
@@ -59,18 +48,7 @@ void direction(t_player *you, t_data *win)
 
 int cancle(float posX, float posY, t_data *win)
 {
-	char map[12][12] =	{"11111111111",
-					"10100010001",
-					"10111010101",
-					"10001010001",
-					"10100010001",
-					"10110001011",
-					"10100010001",
-					"10101100101",
-					"10100000001",
-					"10100000001",
-					"11111111111"};
-	if (map[(int)posY/win->square][(int)posX/win->square] == '1')
+	if (win->map->map[(int)posY/win->square][(int)posX/win->square] == '1')
 		return (1);
 	return (0);
 
@@ -85,7 +63,7 @@ int sgn(float n)
 	return (0);
 }
 
-void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir)
+void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, int texture)
 {
 	int j;
 	int	hight;
@@ -93,32 +71,27 @@ void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir)
 	int	red;
 	int	SE;
 
-	//printf("D1\n");
 	hight = win->square;
-	percentile = win->size *(distance - win->square /2) / (2 * distance);
+	percentile = win->height *(distance - win->square /2) / (2 * distance);
 	j = 0;
 	SE = (NW) * sgn(raydir.y) + (1 - NW) * sgn(raydir.x);
-	//printf("D2\n");
 	red = max(0, NW * 100 + SE * 30);
-	//printf("D3\n");
-	while (j <= win->size / 2)
+	while (j <= win->height / 2)
 	{
-		if (j <= 1)
-			printf("D4 %d %d\n", i, j);
 		if (j < percentile)
 		{
 			my_mlx_pixel_put(win, i, j, trgb(1,rand() % 255,0,0));
-			my_mlx_pixel_put(win, i, win->size - j, trgb(1,50,rand() % 20 + 20,0));
+			my_mlx_pixel_put(win, i, win->height - j, trgb(1,50,rand() % 20 + 20,0));
 		}
 		else
 		{
-			my_mlx_pixel_put(win, i, j, trgb(1,red,20,0));
-			my_mlx_pixel_put(win, i, win->size - j, trgb(1,red,20,0));
+			my_mlx_pixel_put(win, i, j, trgb(1,0,0,255));
+			my_mlx_pixel_put(win, i, win->height - j, trgb(1,0,0,255));
+			// my_mlx_pixel_put(win, i, j, trgb(1,red,20,0));
+			// my_mlx_pixel_put(win, i, win->height - j, trgb(1,red,20,0));
 		}
-		//printf("D5 %d %d\n", i, j);
 		j++;
 	}
-	printf("D6\n");
 }
 
 void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, t_data *win, t_player *you)
@@ -126,7 +99,7 @@ void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, 
 	float	delta;
 	float	camX;
 
-	camX = 2 * (double)i/win->size - 1;
+	camX = 2 * (double)i/win->width - 1;
 	rayDir->x = you->dir.x + you->plane.x * camX;
 	rayDir->y = -(you->dir.y - you->plane.y * camX);
 	if (rayDir->x >= 0.0001 || rayDir->x <= -0.0001 )
@@ -230,24 +203,30 @@ void raycasting(t_player *you, t_data *win)
 	int i;
 
 	i = 0;
-	while (i <= win->size)
+	while (i <= win->width)
 	{
 		set_ray(i, &rayDir, &sqDelta, &sideDist, win, you);
 		step = DDA(you, win, rayDir, sqDelta, &sideDist);
 		normRay = sqrt(rayDir.x * rayDir.x + rayDir.y * rayDir.y);
 		if (step == 0)
 		{
-			// BIRD VIEW
-			if (i % 2)
-				draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.x / normRay, you->pos.y + rayDir.y * sideDist.x / normRay, trgb(1,255,100,0));
-			// 3D 
-			//draw_wall(unfisheye(you, rayDir, sideDist.x), i, 0, win, rayDir);
+			if (win->minimap == 1)
+			{
+				if (i % 2)
+					draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.x / normRay, you->pos.y + rayDir.y * sideDist.x / normRay, trgb(1,255,100,0));
+			}
+			else
+				draw_wall(unfisheye(you, rayDir, sideDist.x), i, 0, win, rayDir, max((int)(you->pos.x + rayDir.x * sideDist.x / normRay)%win->square, (int)(you->pos.y + rayDir.y * sideDist.x / normRay)%win->square));
 		}
 		else
 		{
-			if (i % 2)
-				draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.y / normRay, you->pos.y + rayDir.y * sideDist.y / normRay, trgb(1,255,100,0));
-			//draw_wall(unfisheye(you, rayDir, sideDist.y), i, 1, win, rayDir);
+			if (win->minimap == 1)
+			{
+				if (i % 2)
+					draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.y / normRay, you->pos.y + rayDir.y * sideDist.y / normRay, trgb(1,255,100,0));
+			}
+			else
+				draw_wall(unfisheye(you, rayDir, sideDist.y), i, 1, win, rayDir, max((int)(you->pos.x + rayDir.x * sideDist.y / normRay)%win->square,(int)(you->pos.y + rayDir.y * sideDist.y / normRay)%win->square));
 		}
 		i += 1;
 	}
@@ -255,26 +234,44 @@ void raycasting(t_player *you, t_data *win)
 
 void	character(t_data *win, t_player *you)
 {
-	int i = 0;
-	int j = 0;
+	int i;
+	int j;
 
-	while (i < win->size)
+	i = 0;
+	//printf("C %d %d\n", win->width,win->height);
+	if (win->minimap == 1)
 	{
-		j = 0;
-		while (j < win->size)
+		while (i < min(win->width, win->map->width * win->square))
 		{
-			if (chara(i, j, you))
-				my_mlx_pixel_put(win, i, j, trgb(1,0,255,0));
-			else if (wall(i,j,win))
-				my_mlx_pixel_put(win, i, j, trgb(1,0,0,255));
-			else
-				my_mlx_pixel_put(win, i, j, trgb(1,0,0,0));
-			if (i%win->square == 0 || j%win->square == 0)
-				my_mlx_pixel_put(win, i, j, trgb(1,100,100,100));
-			j++;
+			j = 0;
+			while (j < min(win->width, win->map->height * win->square))
+			{
+				if (chara(i, j, you))
+					my_mlx_pixel_put(win, i, j, trgb(1,0,255,0));
+				else if (wall(i,j,win))
+					my_mlx_pixel_put(win, i, j, trgb(1,0,0,255));
+				else
+					my_mlx_pixel_put(win, i, j, trgb(1,0,0,0));
+				// if (i%win->square == 0 || j%win->square == 0)
+				// 	my_mlx_pixel_put(win, i, j, trgb(1,100,100,100));
+				j++;
+			}
+			i++;
 		}
-		i++;
+		direction(you, win);
+		while (i < win->width)
+		{
+			while(j < win->height)
+			{
+				my_mlx_pixel_put(win, i, j, 0);
+				j++;
+			}
+			i++;
+		}
 	}
-	direction(you, win);
+	if (you->pos.x == (int)you->pos.x)
+		you->pos.x += 0.0001;
+	if (you->pos.y == (int)you->pos.y)
+		you->pos.y += 0.0001;
 	raycasting(you, win);
 }

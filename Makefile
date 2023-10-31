@@ -4,7 +4,7 @@ CFLAGS		= -Wall -Werror -Wextra -g
 SRC_PATH	= ./src
 PARSE_PATH	= ./src/parsing
 
-SRC			=	main.c
+SRC			=	main.c circle.c draw.c hooks.c
 PARSE		=	get_next_line.c get_next_line_utils.c parsing.c check_parsing.c lst_utils.c matrice.c flood_fill.c check_map.c save.c
 SRCS		= $(addprefix $(SRC_PATH)/,$(SRC)) $(addprefix $(PARSE_PATH)/,$(PARSE)) $(addprefix $(CIRCLE_PATH)/,$(CIRCLE))
 OBJ			= ${SRCS:.c=.o}

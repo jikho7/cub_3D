@@ -32,7 +32,6 @@ void create_matrice(t_parse **origin, t_matrice *matrice)
 		}
 		else if (tmp->content[i] == '\0')
 		{
-			printf("break\n");
 			break;
 		}
 	}

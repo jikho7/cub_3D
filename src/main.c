@@ -3,13 +3,13 @@
 int main(int ac, char **av)
 {
 	(void)ac;
-	// t_vars *vars;
-	// t_data	*win;
-	// t_player *you;
+	t_vars *vars;
+	t_data	*win;
+	t_player *you;
 	 t_matrice *map;
-	// int	i;
-	// int	j;
-
+	int	i;
+	int	j;
+	printf("Parsing...\n");
 	map = parsing(av[1]);
 	printf(">>>>>DONE>>>\n");
 	vars = malloc(sizeof(t_vars));
@@ -51,6 +51,7 @@ int main(int ac, char **av)
 	vars->you->plane.x = vars->you->dir.y * 0.8;
 	vars->you->plane.y = vars->you->dir.x * 0.8;
 	win->minimap = 1;
+	printf("Drawing map...\n");
 	character(win, you);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
 	mlx_hook(vars->mlx_win, 4 ,0L, mouse_hook, win);

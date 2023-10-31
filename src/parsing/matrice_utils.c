@@ -16,8 +16,6 @@ void get_width(t_parse **map, t_matrice *matrice)
 		if (matrice->width < i)
 		{
 			matrice->width = i;
-			printf("line = %sEOL\n", tmp->content);
-			printf("width = %d\n", i);
 		}
 		tmp = tmp->next;
 	}

@@ -3,16 +3,18 @@ CC			= gcc #-g3 -fsanitize=address
 CFLAGS		= -Wall -Werror -Wextra -g
 SRC_PATH	= ./src
 PARSE_PATH	= ./src/parsing
+DRAW_PATH	= ./src/drawing
 
-SRC			=	main.c circle.c draw.c hooks.c
+SRC			=	main.c 
+DRAW		=	minimap.c draw.c hooks.c raycasting.c math.c
 PARSE		=	get_next_line.c get_next_line_utils.c parsing.c parsing_utils.c init_parsing.c check_parsing1.c check_parsing2.c lst_utils.c lst_utils2.c matrice.c matrice_utils.c flood_fill.c check_map.c errors_parsing.c
-SRCS		= $(addprefix $(SRC_PATH)/,$(SRC)) $(addprefix $(PARSE_PATH)/,$(PARSE)) $(addprefix $(CIRCLE_PATH)/,$(CIRCLE))
+SRCS		= $(addprefix $(SRC_PATH)/,$(SRC)) $(addprefix $(PARSE_PATH)/,$(PARSE)) $(addprefix $(DRAW_PATH)/,$(DRAW))
 OBJ			= ${SRCS:.c=.o}
 LIBFT		= libft/libft.a
 MLX			= mlx_openGL/libmlx.a
 MLX_L		= mlx_linux/libmlx.a
 
-SRCT 	= circle.c draw.c hooks.c
+SRCT 	= test.c
 SRCTS 	= $(addprefix $(SRC_PATH)/,$(SRCT))
 OBJT	= ${SRCTS:.c=.o}
 
@@ -35,7 +37,7 @@ $(NAME) : $(OBJ) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
 
 circle : $(OBJT) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(OBJT) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o circle
+	$(CC) $(CFLAGS) $(OBJT) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o test
 
 clean :
 	rm -f $(OBJ) $(OBJT) $(OBJR)

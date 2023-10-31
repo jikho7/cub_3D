@@ -94,13 +94,6 @@ typedef struct s_vars {
 	t_matrice	*map;
 }		t_vars;
 
-typedef struct s_map
-{
-	int mapX;
-	int mapY;
-	int mapS;
-}		t_map;
-
 int		init_mlx(t_data *data);
 
 char	*get_next_line(int fd);
@@ -120,6 +113,15 @@ int mouse_hook(int mousecode, int i, int j, t_data *win);
 int	key_hook(int keycode, t_vars *vars);
 int render_new_frame(t_vars *vars);
 int destroy(t_vars *vars);
+void raycasting(t_player *you, t_data *win);
+int wall(int i, int j, t_data *win);
+void draw_line(t_data *win, float Istart, float Jstart, float Iend, float Jend, int color);
+void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, int texture);
+
+/*----------------MATH-----------------*/
+int sgn(float n);
+int	min(int a, int b);
+int	max(int a, int b);
 
 /*----------------PARSING-----------------*/
 t_matrice	*parsing(char *map);

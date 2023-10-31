@@ -85,8 +85,8 @@ void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, int
 		}
 		else
 		{
-			my_mlx_pixel_put(win, i, j, trgb(1,0,0,255));
-			my_mlx_pixel_put(win, i, win->height - j, trgb(1,0,0,255));
+			my_mlx_pixel_put(win, i, j, trgb(1,texture * 5, 0,0));
+			my_mlx_pixel_put(win, i, win->height - j, trgb(1,texture * 5,0,0));
 			// my_mlx_pixel_put(win, i, j, trgb(1,red,20,0));
 			// my_mlx_pixel_put(win, i, win->height - j, trgb(1,red,20,0));
 		}

@@ -78,7 +78,10 @@ typedef struct s_data {
 	int			bpp;
 	int			line_len;
 	int			endian;
-	int			size;
+	int			height;
+	int			width;
+	t_matrice	*map;
+	int			minimap;
 	int			square;
 }		t_data;
 
@@ -87,6 +90,7 @@ typedef struct s_vars {
 	void		*mlx_win;
 	t_data		*win;
 	t_player	*you;
+	t_matrice	*map;
 }		t_vars;
 
 typedef struct s_map
@@ -111,9 +115,13 @@ int		min(int a, int b);
 int		max(int a, int b);
 void	character(t_data *win, t_player *you);
 int cancle(float posX, float posY, t_data *win);
+int mouse_hook(int mousecode, int i, int j, t_data *win);
+int	key_hook(int keycode, t_vars *vars);
+int render_new_frame(t_vars *vars);
+int destroy(t_vars *vars);
 
 /*----------------PARSING-----------------*/
-int		parsing(char *map);
+t_matrice	*parsing(char *map);
 void	read_lst(t_parse **lst, t_check *check_lst);
 void	init_struct_check(t_check *check, char *map);
 void	init_matrice(t_matrice *matrice);

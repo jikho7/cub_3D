@@ -58,10 +58,23 @@ int	key_hook(int keycode, t_vars *vars)
 	}
 	else if (keycode == 53)
 		mlx_destroy_window(vars->mlx, vars->mlx_win);
+	else if (keycode == 46)
+	{
+		vars->win->minimap *= -1;
+		character(vars->win, vars->you);
+	}
+	else if (keycode == 257)
+	{
+		if (vars->you->speed == vars->win->square / 10)
+			vars->you->speed = vars->win->square / 5;
+		else
+			vars->you->speed = vars->win->square / 10;
+	}
 	else
 		printf("%d\n", keycode);
 	return(0);
 }
+
 
 int mouse_hook(int mousecode, int i, int j, t_data *win)
 {
@@ -83,7 +96,7 @@ int destroy(t_vars *vars)
 	free(vars);
 	exit(0);
 }
-
+/*
 int main(int argc, char **argv)
 {
 	t_vars *vars;
@@ -119,6 +132,7 @@ int main(int argc, char **argv)
 	vars->win = win;
 	win->img = mlx_new_image(vars->mlx, win->size, win->size);
 	win->addr = mlx_get_data_addr(win->img, &(win->bpp), &(win->line_len), &(win->endian));
+	win->minimap = -1;
 
 	i = 0;
 	while (i < 11)
@@ -151,4 +165,4 @@ int main(int argc, char **argv)
 	mlx_hook(vars->mlx_win, 17 ,0L, destroy, vars);
 	mlx_hook(vars->mlx_win, 2, 0L, key_hook, vars);
 	mlx_loop(vars->mlx);
-}
+}*/

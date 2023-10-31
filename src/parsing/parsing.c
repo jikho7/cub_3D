@@ -4,15 +4,16 @@ void cpy_lst(t_parse **dest_lst, t_parse **src_lst);
 void check_spaces_NSEW(t_parse **info);
 void remove_empty_block(t_parse **info);
 
-int parsing(char *map)
+t_matrice *parsing(char *map)
 {
 	t_parse *info = NULL;
 	t_check check;
-	t_matrice matrice;
+	t_matrice *matrice;
 	t_parse *origin = NULL;
 
 	init_struct_check(&check, map);
-	init_matrice(&matrice);
+	matrice = malloc(sizeof(t_matrice));
+	init_matrice(matrice);
 	check_map_extension(map);
 
 	create_lst(&info, &check);
@@ -20,11 +21,11 @@ int parsing(char *map)
 	remove_empty_block(&info);
 	//display_lst(&info, "after removed empty blocks");
 	cpy_lst(&origin, &info);
-	get_width(&info, &matrice);
+	get_width(&info, matrice);
 
 	strtrim_lst(&info);
 	check_spaces_NSEW(&info);
-	get_height(&info, &matrice);
+	get_height(&info, matrice);
 //	printf("width: %d, height: %d\n", matrice.width, matrice.height);
 //	display_lst(&origin, "origin");
 //	display_lst(&info, "info");
@@ -39,7 +40,7 @@ int parsing(char *map)
 	check_spelling(&info, &check);
 	//display_lst(&origin, "ORIGIN\n");
 	check_if_info_after_map(&info, &check);
-	create_matrice(&origin, &matrice);
+	create_matrice(&origin, matrice);
 	//printf("pX: %d, pY: %d\n", matrice.pos_x_player, matrice.pos_y_player);
 	check_map(&matrice);
 	flood_fill(&matrice);
@@ -48,8 +49,8 @@ int parsing(char *map)
 	//check_walls(&matrice);
 	// free(&info);
 	// free(&check);
-	// free(&matrice);
-	return (0);
+	// free(matrice);
+	return (matrice);
 }
 
 void remove_empty_block(t_parse **info)

@@ -167,23 +167,22 @@ void fill_matrice(t_matrice *matrice, t_parse *tmp)
 		if (tmp->next != NULL)
 			tmp = tmp->next;
 	}
-	//matrice->width = i;
-	j = 0;
-	i = matrice->height;
-	while (i > 0)
-	{
-		printf("map[%d]: %s\n2", j, matrice->map[j]);
-		j++;
-		i--;
-	}
-	j = 0;
-	i = matrice->height;
-	while (i > 0)
-	{
-		printf("map_spaces[%d]: %s\n", j, matrice->map_with_spaces[j]);
-		j++;
-		i--;
-	}
+	// j = 0;
+	// i = matrice->height;
+	// while (i > 0)
+	// {
+	// 	printf("map[%d]: %s\n2", j, matrice->map[j]);
+	// 	j++;
+	// 	i--;
+	// }
+	// j = 0;
+	// i = matrice->height;
+	// while (i > 0)
+	// {
+	// 	printf("map_spaces[%d]: %s\n", j, matrice->map_with_spaces[j]);
+	// 	j++;
+	// 	i--;
+	// }
 }
 
 void calloc_maps(t_matrice *matrice)

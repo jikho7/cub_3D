@@ -3,6 +3,7 @@
 void cpy_lst(t_parse **dest_lst, t_parse **src_lst);
 void check_spaces_NSEW(t_parse **info);
 void remove_empty_block(t_parse **info);
+void get_width2(t_matrice *matrice);
 
 t_matrice *parsing(char *map)
 {
@@ -42,15 +43,39 @@ t_matrice *parsing(char *map)
 	check_if_info_after_map(&info, &check);
 	create_matrice(&origin, matrice);
 	//printf("pX: %d, pY: %d\n", matrice.pos_x_player, matrice.pos_y_player);
-	check_map(&matrice);
-	flood_fill(&matrice);
+	check_map(matrice);
+	flood_fill(matrice);
 
-	printf("width: %d \n", matrice.width);
+	get_width2(matrice);
+	//printf("width: %d \n", matrice->width);
 	//check_walls(&matrice);
 	// free(&info);
 	// free(&check);
 	// free(matrice);
 	return (matrice);
+}
+
+void get_width2(t_matrice *matrice)
+{
+	int i;
+	int j;
+	int max;
+
+	j = 0;
+	i = 0;
+	max = 0;
+	while (matrice->map[j][i])
+	{
+		i = 0;
+		while (matrice->map[j][i])
+		{
+			i++;
+		}
+		if (i > max)
+			max = i;
+		j++;
+	}
+	matrice->width = max - 1;
 }
 
 void remove_empty_block(t_parse **info)

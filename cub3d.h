@@ -143,6 +143,10 @@ int		size_len(char *str);
 void	check_map(t_matrice *matrice);
 void	strtrim_F_C(char *str);
 void	get_width(t_parse **map, t_matrice *matrice);
+void	check_spaces_NSEW(t_parse **info);
+void	remove_empty_block(t_parse **info);
+void	get_width2(t_matrice *matrice);
+
 /*----------------LISTS-----------------*/
 void	add_back(t_parse **head, t_parse *node_to_add);
 int		lstsize(t_parse *lst);
@@ -151,9 +155,7 @@ t_parse	*lstnew(char *str);
 void	display_node(t_parse *lst);
 void	display_lst(t_parse **ptr_to_head, char *name);
 void	cpy_lst(t_parse **dest_lst, t_parse **src_lst);
-void	check_spaces_NSEW(t_parse **info);
-void	remove_empty_block(t_parse **info);
-void	get_width2(t_matrice *matrice);
+
 /*----------------ERRORS-----------------*/
 void	error_msg(int option);
 #endif

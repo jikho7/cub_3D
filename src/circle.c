@@ -70,6 +70,7 @@ void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, int
 	int	percentile;
 	int	red;
 	int	SE;
+	(void)texture;
 
 	hight = win->square;
 	percentile = win->height *(distance - win->square /2) / (2 * distance);
@@ -107,7 +108,7 @@ void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, 
 		sqDelta->x = sqrt(win->square*win->square * (1 + (rayDir->y * rayDir->y) / (rayDir->x * rayDir->x)));
 		if (rayDir->x > 0)
 			delta = ceilf(you->pos.x / win->square) * win->square - you->pos.x;
-		else 
+		else
 			delta = you->pos.x - floorf(you->pos.x / win->square) * win->square;
 		sideDist->x = delta * sqrt((1 + (rayDir->y * rayDir->y) / (rayDir->x * rayDir->x)));
 	}
@@ -121,7 +122,7 @@ void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, 
 		sqDelta->y = sqrt(win->square*win->square  * (1 + (rayDir->x * rayDir->x) / (rayDir->y * rayDir->y)));
 		if (rayDir->y > 0)
 			delta = ceilf(you->pos.y / win->square) * win->square - you->pos.y;
-		else 
+		else
 			delta = you->pos.y - floorf(you->pos.y / win->square) * win->square;
 		sideDist->y = delta * sqrt((1 + (rayDir->x * rayDir->x) / (rayDir->y * rayDir->y)));
 	}

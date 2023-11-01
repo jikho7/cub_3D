@@ -19,15 +19,15 @@ int wall(int i, int j, t_data *win)
 	return (0);
 }
 
-void direction(t_player *you, t_data *win)
+void direction(t_player *you, t_data *win, int shiftx, int shifty)
 {
-	draw_line(win, you->pos.x, you->pos.y, you->pos.x + you->dir.x, you->pos.y - you->dir.y, trgb(1,225,0,0));
-	draw_line(win, you->pos.x + you->dir.x - you->plane.x, you->pos.y - you->dir.y - you->plane.y, you->pos.x + you->dir.x + you->plane.x, you->pos.y - you->dir.y + you->plane.y, trgb(1,225,0,0));
-	draw_line(win, you->pos.x, you->pos.y, you->pos.x + (you->dir.x + you->plane.x) * 5, you->pos.y + ( - you->dir.y + you->plane.y) * 5, trgb(1,225,0,0));
-	draw_line(win, you->pos.x, you->pos.y, you->pos.x + (you->dir.x - you->plane.x) * 5, you->pos.y + ( - you->dir.y - you->plane.y) * 5, trgb(1,225,0,0));
+	draw_line(win, you->pos.x - shiftx, you->pos.y - shifty, you->pos.x - shiftx + you->dir.x * 10, you->pos.y - you->dir.y * 10 -	 shifty, trgb(1,225,0,0));
+	// draw_line(win, you->pos.x + you->dir.x - you->plane.x, you->pos.y - you->dir.y - you->plane.y, you->pos.x + you->dir.x + you->plane.x, you->pos.y - you->dir.y + you->plane.y, trgb(1,225,0,0));
+	// draw_line(win, you->pos.x, you->pos.y, you->pos.x + (you->dir.x + you->plane.x) * 5, you->pos.y + ( - you->dir.y + you->plane.y) * 5, trgb(1,225,0,0));
+	// draw_line(win, you->pos.x, you->pos.y, you->pos.x + (you->dir.x - you->plane.x) * 5, you->pos.y + ( - you->dir.y - you->plane.y) * 5, trgb(1,225,0,0));
 }
 
-int cancle(float posX, float posY, t_data *win)
+int cancle(float posX, float posY, t_data *win) 
 {
 	if (win->map->map[(int)posY/win->square][(int)posX/win->square] == '1')
 		return (1);
@@ -62,9 +62,14 @@ void	character(t_data *win, t_player *you)
 					my_mlx_pixel_put(win, i, j, trgb(1,100,100,100));
 				j++;
 			}
+			while(j < win->height)
+			{
+				my_mlx_pixel_put(win, i, j, 0);
+				j++;
+			}
 			i++;
 		}
-		//direction(you, win);
+		direction(you, win, shiftx, shifty);
 		while (i < win->width)
 		{
 			j = 0;

@@ -14,13 +14,13 @@ void create_struct_sprites(t_data *win, t_vars *vars)
 	while (i < 4)
 	{
 		if (i == 0)
-			win->tex[i].path = "./xpm/Wall_North.xpm";
+			win->tex[i].path = "./xpm/Purple_Nebula_01-512x512.xpm";
 		else if (i == 1)
-			win->tex[i].path = "./xpm/Wall_South.xpm";
+			win->tex[i].path = "./xpm/Purple_Nebula_04-512x512.xpm";
 		else if (i == 2)
-			win->tex[i].path = "./xpm/Wall_West.xpm";
+			win->tex[i].path = "./xpm/Purple_Nebula_05-512x512.xpm";
 		else if (i == 3)
-			win->tex[i].path = "./xpm/Wall_East.xpm";
+			win->tex[i].path = "./xpm/Purple_Nebula_07-512x512.xpm";
 		i++;
 	}
 	i = 0;

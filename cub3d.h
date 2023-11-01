@@ -98,7 +98,8 @@ typedef struct s_data {
 	t_matrice	*map;
 	int			minimap;
 	int			square;
-	struct s_texture	*tex;
+	t_texture	*tex;
+	int			forward;
 }		t_data;
 
 typedef struct s_vars {
@@ -131,12 +132,13 @@ int destroy(t_vars *vars);
 void raycasting(t_player *you, t_data *win);
 int wall(int i, int j, t_data *win);
 void draw_line(t_data *win, float Istart, float Jstart, float Iend, float Jend, int color);
-void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, int texture);
+void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, float line_loc);
 void create_struct_sprites(t_data *win, t_vars *vars);
 /*----------------MATH-----------------*/
 int sgn(float n);
 int	min(int a, int b);
 int	max(int a, int b);
+//float	remainder(float a, float b);
 
 /*----------------PARSING-----------------*/
 t_matrice	*parsing(char *map);

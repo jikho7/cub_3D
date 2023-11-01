@@ -106,6 +106,7 @@ void raycasting(t_player *you, t_data *win)
 	t_complex sqDelta;
 	int		step;
 	float	normRay;
+	float	line_loc;
 	int i;
 
 	i = 0;
@@ -114,19 +115,26 @@ void raycasting(t_player *you, t_data *win)
 		set_ray(i, &rayDir, &sqDelta, &sideDist, win, you);
 		step = DDA(you, win, rayDir, sqDelta, &sideDist);
 		normRay = sqrt(rayDir.x * rayDir.x + rayDir.y * rayDir.y);
+		//line_loc = (float)(remain(int)(you->pos.y + rayDir.y * sideDist.x / normRay)%win->square + 1)/win->square
 		if (step == 0)
 		{
+			line_loc = (remainder(you->pos.y + rayDir.y * sideDist.x / normRay, win->square) + 1)/win->square;
 			if (win->minimap == 1)
-				draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.x / normRay, you->pos.y + rayDir.y * sideDist.x / normRay, trgb(1,255,100,0));
+				return;
+				//draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.x / normRay, you->pos.y + rayDir.y * sideDist.x / normRay, trgb(1,255,100,0));
 			else
-				draw_wall(unfisheye(you, rayDir, sideDist.x), i, 0, win, rayDir, max((int)(you->pos.x + rayDir.x * sideDist.x / normRay)%win->square, (int)(you->pos.y + rayDir.y * sideDist.x / normRay)%win->square));
+				draw_wall(unfisheye(you, rayDir, sideDist.x), i, step, win, rayDir, line_loc);
+				//draw_wall(unfisheye(you, rayDir, sideDist.x), i, step, win, rayDir, (float)((int)(you->pos.y + rayDir.y * sideDist.x / normRay)%win->square + 1)/win->square);
 		}
 		else
 		{
+			line_loc = (remainder(you->pos.x + rayDir.x * sideDist.y / normRay, win->square) + 1)/win->square;
 			if (win->minimap == 1)
-				draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.y / normRay, you->pos.y + rayDir.y * sideDist.y / normRay, trgb(1,255,100,0));
+				return;
+				//draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.y / normRay, you->pos.y + rayDir.y * sideDist.y / normRay, trgb(1,255,100,0));
 			else
-				draw_wall(unfisheye(you, rayDir, sideDist.y), i, 1, win, rayDir, max((int)(you->pos.x + rayDir.x * sideDist.y / normRay)%win->square,(int)(you->pos.y + rayDir.y * sideDist.y / normRay)%win->square));
+				draw_wall(unfisheye(you, rayDir, sideDist.y), i, step, win, rayDir, line_loc);
+				//draw_wall(unfisheye(you, rayDir, sideDist.y), i, step, win, rayDir, (float)((int)(you->pos.x + rayDir.x * sideDist.y / normRay)%win->square + 1)/win->square);
 		}
 		i += 1;
 	}

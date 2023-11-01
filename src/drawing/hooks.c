@@ -6,6 +6,7 @@ int move(t_data *win, t_player *you, float addX, float addY)
 		return (1);
 	you->pos.x += addX * you->speed;
 	you->pos.y += addY * you->speed;
+	win->forward = 0;
 	character(win, you);
 	return (0);
 }
@@ -21,6 +22,7 @@ void turn(t_data *win, t_player *you, int clockwise)
 	you->dir.x = tdirx;
 	you->plane.x = you->dir.y;
 	you->plane.y = you->dir.x;
+	win->forward = 1;
 	character(win, you);
 }
 
@@ -74,6 +76,8 @@ int render_new_frame(t_vars *vars)
 
 int destroy(t_vars *vars)
 {
+	free(vars->map);
+	free(vars->you);
 	free(vars->win);
 	free(vars);
 	exit(0);

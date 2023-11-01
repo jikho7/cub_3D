@@ -29,7 +29,9 @@ int main(int ac, char **av)
  	win->img = mlx_new_image(vars->mlx, win->width, win->height);
  	win->addr = mlx_get_data_addr(win->img, &(win->bpp), &(win->line_len), &(win->endian));
  	win->minimap = -1;
- 	win->map = map;
+	win->map = map;
+	win->tex = malloc(sizeof(t_texture) * 4);
+	create_struct_sprites(win, vars);
 
 	i = 0;
 	while (map->map[i][0])

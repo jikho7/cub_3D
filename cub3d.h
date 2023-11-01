@@ -73,6 +73,20 @@ typedef struct s_player
 	int			speed;
 }		t_player;
 
+typedef struct s_texture
+{
+	void		*mlx;
+	char		*path;
+	void		*img_ptr;
+	char		*addr;
+	int			bpp;
+	int			line_len;
+	int			endian;
+	int			height;
+	int			width;
+
+}	t_texture;
+
 typedef struct s_data {
 	void		*img;
 	char		*addr;
@@ -84,6 +98,7 @@ typedef struct s_data {
 	t_matrice	*map;
 	int			minimap;
 	int			square;
+	struct s_texture	*tex;
 }		t_data;
 
 typedef struct s_vars {
@@ -117,7 +132,7 @@ void raycasting(t_player *you, t_data *win);
 int wall(int i, int j, t_data *win);
 void draw_line(t_data *win, float Istart, float Jstart, float Iend, float Jend, int color);
 void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, int texture);
-
+void create_struct_sprites(t_data *win, t_vars *vars);
 /*----------------MATH-----------------*/
 int sgn(float n);
 int	min(int a, int b);

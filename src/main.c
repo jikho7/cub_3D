@@ -1,6 +1,5 @@
 # include <cub3d.h>
 
-/*
 int main(int ac, char **av)
 {
  	(void)ac;
@@ -29,7 +28,9 @@ int main(int ac, char **av)
  	win->img = mlx_new_image(vars->mlx, win->width, win->height);
  	win->addr = mlx_get_data_addr(win->img, &(win->bpp), &(win->line_len), &(win->endian));
  	win->minimap = -1;
- 	win->map = map;
+	win->map = map;
+	win->tex = malloc(sizeof(t_texture) * 4);
+	create_struct_sprites(win, vars);
 
 	i = 0;
 	while (map->map[i][0])
@@ -63,52 +64,52 @@ int main(int ac, char **av)
 	mlx_hook(vars->mlx_win, 2, 0L, key_hook, vars);
  	mlx_loop(vars->mlx);
 	return (0);
-}*/
-
-int	main(void)
-{
-	t_vars	*vars;
-	t_data	*win;
-	void	*img = NULL;
-	char	*relative_path = "./xpm/cartoon-old-brick-wall-texture-for-2d-game-vector.xpm";
-	int		img_width = 0;
-	int		img_height = 0;
-	int		i = 0;
-	//void	*img_ptr = NULL;
-	// char	*addr;
-	// int		bpp;
-	// int		line_len;
-	// int		endian;
-
- 	vars = malloc(sizeof(t_vars));
- 	win = malloc(sizeof(t_data));
-	vars->win = win;
- 	vars->mlx = mlx_init();
- 	win->height = 700;
- 	win->width = 700;
-	vars->mlx_win = mlx_new_window(vars->mlx, win->width, win->height, "Play");
- 	win->img = mlx_new_image(vars->mlx, win->width, win->height);
- 	win->addr = mlx_get_data_addr(win->img, &(win->bpp), &(win->line_len), &(win->endian));
-
-	//img = mlx_new_image(mlx, 800, 800);
-	img = mlx_xpm_file_to_image(vars->mlx, relative_path, &img_width, &img_height);
-	printf("width: %d, height: %d\n", img_width, img_height);
-	while (i < img_width * img_height - 1)
-	{
-		my_mlx_pixel_put(win, i/img_width, i%img_width, (unsigned int)(img + i*win->bpp / 8));
-		i++;
-	}
-	printf("done copu\n");
-	if (img != NULL)
-    {
-		printf("hi\n");
-        mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
-        mlx_loop(vars->mlx);
-    }
-    else
-    {
-        printf("Failed to load the XPM image.\n");
-    }
-    return 0;
 }
+
+// int	main(void)
+// {
+// 	t_vars	*vars;
+// 	t_data	*win;
+// 	void	*img = NULL;
+// 	char	*relative_path = "./xpm/cartoon-old-brick-wall-texture-for-2d-game-vector.xpm";
+// 	int		img_width = 0;
+// 	int		img_height = 0;
+// 	int		i = 0;
+// 	//void	*img_ptr = NULL;
+// 	// char	*addr;
+// 	// int		bpp;
+// 	// int		line_len;
+// 	// int		endian;
+
+//  	vars = malloc(sizeof(t_vars));
+//  	win = malloc(sizeof(t_data));
+// 	vars->win = win;
+//  	vars->mlx = mlx_init();
+//  	win->height = 700;
+//  	win->width = 700;
+// 	vars->mlx_win = mlx_new_window(vars->mlx, win->width, win->height, "Play");
+//  	win->img = mlx_new_image(vars->mlx, win->width, win->height);
+//  	win->addr = mlx_get_data_addr(win->img, &(win->bpp), &(win->line_len), &(win->endian));
+
+// 	//img = mlx_new_image(mlx, 800, 800);
+// 	img = mlx_xpm_file_to_image(vars->mlx, relative_path, &img_width, &img_height);
+// 	printf("width: %d, height: %d\n", img_width, img_height);
+// 	while (i < img_width * img_height - 1)
+// 	{
+// 		my_mlx_pixel_put(win, i/img_width, i%img_width, (unsigned int)(img + i*win->bpp / 8));
+// 		i++;
+// 	}
+// 	printf("done copu\n");
+// 	if (img != NULL)
+//     {
+// 		printf("hi\n");
+//         mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
+//         mlx_loop(vars->mlx);
+//     }
+//     else
+//     {
+//         printf("Failed to load the XPM image.\n");
+//     }
+//     return 0;
+// }
 

@@ -15,17 +15,18 @@ int	lstsize(t_parse *lst)
 	return (nbr_element);
 }
 
-t_parse	*lstnew(char *str)
+t_parse	*lstnew(char *data, t_list **trash_lst)
 {
 	t_parse	*new_element;
 
-	new_element = ft_calloc(1, (sizeof(t_parse)));
+	new_element = my_malloc(1, sizeof(t_parse), trash_lst);
 	if (new_element == NULL)
 		return (NULL);
-	(*new_element).content = str;
+	(*new_element).content = data;
 	new_element->next = NULL;
 	return (new_element);
 }
+
 
 void	add_back(t_parse **head, t_parse *node_to_add)
 {

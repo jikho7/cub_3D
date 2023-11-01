@@ -29,10 +29,13 @@ typedef struct s_check
 	int		F;
 	int		wrong_spell;
 	int		is_map;
+	t_list	*trash;
+	struct s_matrice *matrice;
 }t_check;
 
 typedef struct s_matrice
 {
+	struct s_check *check;
 	char	**map_with_spaces;
 	char	**map;
 	int		height;
@@ -41,6 +44,12 @@ typedef struct s_matrice
 	int		S;
 	int		E;
 	int		W;
+	char	*NO_path;
+	char	*SO_path;
+	char	*EA_path;
+	char	*WE_path;
+	int		*F_info;
+	int		*C_info;
 	int		wrong_symbol;
 	int		player_sympbol;
 	int		pos_x_player;
@@ -143,12 +152,12 @@ int	max(int a, int b);
 /*----------------PARSING-----------------*/
 t_matrice	*parsing(char *map);
 void	read_lst(t_parse **lst, t_check *check_lst);
-void	init_struct_check(t_check *check, char *map);
-void	init_matrice(t_matrice *matrice);
+void	init_struct_check(t_check *check, char *map, t_matrice *matrice);
+void	init_matrice(t_matrice *matrice, t_check *check);
 void	check_map_extension(char *name);
 void	check_tex_extension(t_parse **info, t_check *check);
 void	check_spelling(t_parse **lst, t_check *check_lst);
-void	check_F_C(t_parse **info);
+void	check_F_C(t_parse **info, t_matrice *matrice);
 int		ft_is_str_digit(char *str);
 void	check_if_info_after_map(t_parse **info, t_check *check);
 void	check_excess_info(t_parse **info);
@@ -157,24 +166,25 @@ void	create_matrice(t_parse **origin, t_matrice *matrice);
 void	get_height(t_parse **map, t_matrice *matrice);
 void	flood_fill(t_matrice *matrice);
 void	strtrim_matrice(t_parse info, int i);
-void	reduce_spaces_to_one(t_parse ** lst);
+void	reduce_spaces_to_one(t_parse **lst, t_check *check);
 int		size_len(char *str);
 void	check_map(t_matrice *matrice);
-void	strtrim_F_C(char *str);
+void	strtrim_F_C(char *str, t_matrice *matrice);
 void	get_width(t_parse **map, t_matrice *matrice);
 void	check_spaces_NSEW(t_parse **info);
 void	remove_empty_block(t_parse **info);
 void	get_width2(t_matrice *matrice);
-
+char	*ft_strcpy(char *s1, char *s2);
 /*----------------LISTS-----------------*/
 void	add_back(t_parse **head, t_parse *node_to_add);
 int		lstsize(t_parse *lst);
 int		create_lst(t_parse **info, t_check *check);
-t_parse	*lstnew(char *str);
+t_parse	*lstnew(char *data, t_list **trash_lst);
 void	display_node(t_parse *lst);
 void	display_lst(t_parse **ptr_to_head, char *name);
-void	cpy_lst(t_parse **dest_lst, t_parse **src_lst);
+void	cpy_lst(t_parse **dest_lst, t_parse **src_lst, t_check *check);
 
 /*----------------ERRORS-----------------*/
 void	error_msg(int option);
+
 #endif

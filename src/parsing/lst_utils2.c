@@ -10,7 +10,7 @@ int create_lst(t_parse **info, t_check *check)
 		return (1);
 	while(1)
 	{
-		new = lstnew(get_next_line(fd));
+		new = lstnew(get_next_line(fd), &check->trash);
 	//	printf("new->content[0]: %c\n", new->content[0]);
 		add_back(info, new);
 		if (new->content == NULL)
@@ -20,7 +20,7 @@ int create_lst(t_parse **info, t_check *check)
 	return (0);
 }
 
-void cpy_lst(t_parse **dest_lst, t_parse **src_lst)
+void cpy_lst(t_parse **dest_lst, t_parse **src_lst, t_check *check)
 {
 	t_parse *s_tmp;
 	t_parse *tmp = NULL;
@@ -30,7 +30,7 @@ void cpy_lst(t_parse **dest_lst, t_parse **src_lst)
 	{
 		while (s_tmp->next != NULL)
 		{
-			tmp = lstnew(s_tmp->content);
+			tmp = lstnew(s_tmp->content, &check->trash);
 			add_back(dest_lst, tmp);
 			s_tmp = s_tmp->next;
 		}

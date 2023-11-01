@@ -1,6 +1,6 @@
 NAME		= cub3D
-CC			= gcc #-g3 -fsanitize=address
-CFLAGS		= -Wall -Werror -Wextra -g
+CC			= gcc
+CFLAGS		= -Wall -Werror -Wextra -g3 -fsanitize=address
 SRC_PATH	= ./src
 PARSE_PATH	= ./src/parsing
 DRAW_PATH	= ./src/drawing

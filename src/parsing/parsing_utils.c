@@ -1,6 +1,6 @@
 # include <cub3d.h>
 
-void reduce_spaces_to_one(t_parse ** lst)
+void reduce_spaces_to_one(t_parse **lst, t_check *check)
 {
 	t_parse *tmp;
 	int i;
@@ -13,7 +13,7 @@ void reduce_spaces_to_one(t_parse ** lst)
 	while (tmp->next != NULL)
 	{
 		size = size_len(tmp->content);
-		res = ft_calloc(size, sizeof(char));
+		res = my_malloc(size + 1, sizeof(char), &check->trash);//ft_calloc(size, sizeof(char));
 		i = 0;
 		j = 0;
 		while (tmp->content[i])

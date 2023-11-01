@@ -1,61 +1,43 @@
 #include <cub3d.h>
 
-int	key_hook(int keycode, t_vars *vars)
+int move(t_data *win, t_player *you, float addX, float addY)
+{
+	if (cancle(you->pos.x + addX * you->speed, you->pos.y + addY * you->speed, win))
+		return (1);
+	you->pos.x += addX * you->speed;
+	you->pos.y += addY * you->speed;
+	character(win, you);
+	return (0);
+}
+
+void turn(t_data *win, t_player *you, int clockwise)
 {
 	float angle;
 	float tdirx;
 
-	angle = M_PI / 12;
+	angle = M_PI /12;
+	tdirx = you->dir.x*cos(clockwise * angle) - you->dir.y*sin(clockwise * angle);
+	you->dir.y = you->dir.y*cos(clockwise * angle) + you->dir.x*sin(clockwise * angle);
+	you->dir.x = tdirx;
+	you->plane.x = you->dir.y;
+	you->plane.y = you->dir.x;
+	character(win, you);
+}
+
+int	key_hook(int keycode, t_vars *vars)
+{
 	if (keycode == 13)
-	{
-		if (cancle(vars->you->pos.x + vars->you->dir.x * vars->you->speed, vars->you->pos.y - vars->you->dir.y * vars->you->speed, vars->win))
-			return (0);
-		vars->you->pos.x += vars->you->dir.x * vars->you->speed;
-		vars->you->pos.y -= vars->you->dir.y * vars->you->speed;
-		character(vars->win, vars->you);
-	}
+		move(vars->win, vars->you, vars->you->dir.x, -vars->you->dir.y);
 	else if (keycode == 1)
-	{
-		if (cancle(vars->you->pos.x - vars->you->dir.x * vars->you->speed, vars->you->pos.y + vars->you->dir.y * vars->you->speed, vars->win))
-			return (0);
-		vars->you->pos.x -= vars->you->dir.x * vars->you->speed;
-		vars->you->pos.y += vars->you->dir.y * vars->you->speed;
-		character(vars->win, vars->you);
-	}
+		move(vars->win, vars->you, -vars->you->dir.x, vars->you->dir.y);
 	else if (keycode == 0)
-	{
-		if (cancle(vars->you->pos.x - vars->you->dir.y * vars->you->speed, vars->you->pos.y - vars->you->dir.x * vars->you->speed, vars->win))
-			return (0);
-		vars->you->pos.x -= vars->you->dir.y * vars->you->speed;
-		vars->you->pos.y -= vars->you->dir.x * vars->you->speed;
-		character(vars->win, vars->you);
-	}
+		move(vars->win, vars->you, -vars->you->dir.y, -vars->you->dir.x);
 	else if (keycode == 2)
-	{
-		if (cancle(vars->you->pos.x + vars->you->dir.y * vars->you->speed, vars->you->pos.y + vars->you->dir.x * vars->you->speed, vars->win))
-			return (0);
-		vars->you->pos.x += vars->you->dir.y * vars->you->speed;
-		vars->you->pos.y += vars->you->dir.x * vars->you->speed;
-		character(vars->win, vars->you);
-	}
+		move(vars->win, vars->you, vars->you->dir.y, vars->you->dir.x);
 	else if (keycode == 123)
-	{
-		tdirx = vars->you->dir.x*cos(angle) - vars->you->dir.y*sin(angle);
-		vars->you->dir.y = vars->you->dir.y*cos(angle) + vars->you->dir.x*sin(angle);
-		vars->you->dir.x = tdirx;
-	vars->you->plane.x = vars->you->dir.y;
-	vars->you->plane.y = vars->you->dir.x;
-		character(vars->win, vars->you);
-	}
+		turn(vars->win, vars->you, 1);
 	else if(keycode == 124)
-	{
-		tdirx = vars->you->dir.x*cos(-angle) - vars->you->dir.y*sin(-angle);
-		vars->you->dir.y = vars->you->dir.y*cos(-angle) + vars->you->dir.x*sin(-angle);
-		vars->you->dir.x = tdirx;
-	vars->you->plane.x = vars->you->dir.y;
-	vars->you->plane.y = vars->you->dir.x;
-		character(vars->win, vars->you);
-	}
+		turn(vars->win, vars->you, -1);
 	else if (keycode == 53)
 		mlx_destroy_window(vars->mlx, vars->mlx_win);
 	else if (keycode == 46)

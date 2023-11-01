@@ -67,6 +67,7 @@ void	character(t_data *win, t_player *you)
 		//direction(you, win);
 		while (i < win->width)
 		{
+			j = 0;
 			while(j < win->height)
 			{
 				my_mlx_pixel_put(win, i, j, 0);

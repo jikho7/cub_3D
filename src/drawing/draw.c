@@ -19,13 +19,13 @@ void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, int
 	int	percentile;
 	int	red;
 	int	SE;
-	(void)texture;
 
+	printf("text = %d\n", texture);
 	hight = win->square;
 	percentile = win->height *(distance - win->square /2) / (2 * distance);
 	j = 0;
 	SE = (NW) * sgn(raydir.y) + (1 - NW) * sgn(raydir.x);
-	red = max(0, NW * 100 + SE * 30);
+	red = max(0, NW * 10 + SE * 3);
 	while (j <= win->height / 2)
 	{
 		if (j < percentile)
@@ -37,8 +37,8 @@ void draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, int
 		{
 			// my_mlx_pixel_put(win, i, j, trgb(1,texture * 5, 0,0));
 			// my_mlx_pixel_put(win, i, win->height - j, trgb(1,texture * 5,0,0));
-			my_mlx_pixel_put(win, i, j, trgb(1,red,20,0));
-			my_mlx_pixel_put(win, i, win->height - j, trgb(1,red,20,0));
+			my_mlx_pixel_put(win, i, j, trgb(1,texture * red,20,0));
+			my_mlx_pixel_put(win, i, win->height - j, trgb(1,texture * red,20,0));
 		}
 		j++;
 	}
@@ -68,16 +68,17 @@ void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
     if (data == NULL) 
 	{
-        printf("Invalid data\n");
+       // printf("Invalid data\n");
         return;
     }
 	if (data->addr == NULL) 
 	{
-        printf("data->addr is NULL\n");
+       // printf("data->addr is NULL\n");
         return;
 	}
-    if (x < 0 || x >= data->width || y < 0 || y >= data->height) {
-        printf("Out-of-bounds access: (%d, %d) > (%d, %d)\n", x, y, data->width, data->height);
+    if (x < 0 || x >= data->width || y < 0 || y >= data->height)
+	{
+       // printf("Out-of-bounds access: (%d, %d) > (%d, %d)\n", x, y, data->width, data->height);
         return;
     }
     char *dst = data->addr + (y * data->line_len + x * (data->bpp / 8));

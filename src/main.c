@@ -71,15 +71,10 @@ int	main(void)
 {
 	t_vars	*vars;
 	t_data	*win;
-	void	*img = NULL;
-	int		img_width = 0;
-	int		img_height = 0;
 	int		i = 0;
 
  	vars = malloc(sizeof(t_vars));
  	win = malloc(sizeof(t_data));
-	win->tex = malloc(sizeof(t_texture) * 4);
-	create_struct_sprites(win, vars);
 	vars->win = win;
  	vars->mlx = mlx_init();
  	win->height = 700;
@@ -87,24 +82,17 @@ int	main(void)
 	vars->mlx_win = mlx_new_window(vars->mlx, win->width, win->height, "Play");
  	win->img = mlx_new_image(vars->mlx, win->width, win->height);
  	win->addr = mlx_get_data_addr(win->img, &(win->bpp), &(win->line_len), &(win->endian));
+	win->tex = malloc(sizeof(t_texture) * 4);
+	create_struct_sprites(win, vars);
 
-	printf("width: %d, height: %d\n", img_width, img_height);
-	while (i < img_width * img_height - 1)
+	while (i < win->tex->width * win->tex->height - 1)
 	{
-		my_mlx_pixel_put(win, i/img_width, i%img_width, (unsigned int)(win->tex->addr + i * (win->tex->bpp / 8)));
+		my_mlx_pixel_put(win, i%win->tex->width, i/win->tex->width, (unsigned int)(*(win->tex->addr + i * (win->tex->bpp / 8))));
 		i++;
 	}
-	printf("done copu\n");
-	if (img != NULL)
-    {
-		printf("hi\n");
-        mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
-        mlx_loop(vars->mlx);
-    }
-    else
-    {
-        printf("Failed to load the XPM image.\n");
-    }
+	printf("done copy\n");
+    mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
+    mlx_loop(vars->mlx);
     return 0;
 }
 

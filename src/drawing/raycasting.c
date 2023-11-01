@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
+/*   Updated: 2023/10/31 19:33:58 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, t_data *win, t_player *you)
@@ -5,7 +17,7 @@ void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, 
 	float	delta;
 	float	camX;
 
-	camX = 2 * (double)i/win->width - 1;
+	camX = 2 * (double)i / win->width - 1;
 	rayDir->x = you->dir.x + you->plane.x * camX;
 	rayDir->y = -(you->dir.y - you->plane.y * camX);
 	if (rayDir->x >= 0.0001 || rayDir->x <= -0.0001 )
@@ -22,9 +34,9 @@ void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, 
 		sideDist->x = 10000000;
 		sqDelta->x = 100000000;
 	}
-	if (rayDir->y >= 0.0001 || rayDir->y <= -0.0001 )
+	if (rayDir->y >= 0.0001 || rayDir->y <= -0.0001)
 	{
-		sqDelta->y = sqrt(win->square*win->square  * (1 + (rayDir->x * rayDir->x) / (rayDir->y * rayDir->y)));
+		sqDelta->y = sqrt(win->square*win->square * (1 + (rayDir->x * rayDir->x) / (rayDir->y * rayDir->y)));
 		if (rayDir->y > 0)
 			delta = ceilf(you->pos.y / win->square) * win->square - you->pos.y;
 		else
@@ -40,10 +52,10 @@ void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, 
 
 int	DDA(t_player *you, t_data *win, t_complex rayDir, t_complex sqDelta, t_complex *sideDist)
 {
-	t_complex Adelta;
-	int		mapX;
-	int		mapY;
-	int		step;
+	t_complex	Adelta;
+	int			mapX;
+	int			mapY;
+	int			step;
 
 	mapX = you->pos.x / win->square;
 	mapY = you->pos.y / win->square;
@@ -63,7 +75,7 @@ int	DDA(t_player *you, t_data *win, t_complex rayDir, t_complex sqDelta, t_compl
 	}
 	while (1)
 	{
-		if (wall(mapX * win->square + win->square/2, mapY * win->square + win->square/2, win))
+		if (wall(mapX * win->square + win->square / 2, mapY * win->square + win->square / 2, win))
 			break;
 		if (sideDist->x + Adelta.x < sideDist->y + Adelta.y)
 		{
@@ -83,12 +95,12 @@ int	DDA(t_player *you, t_data *win, t_complex rayDir, t_complex sqDelta, t_compl
 	return (step);
 }
 
-float proj_dist(t_complex a, t_complex b)
+float	proj_dist(t_complex a, t_complex b)
 {
-	return ((a.x*b.x + a.y*b.y) / sqrtf(b.x*b.x + b.y*b.y));
+	return ((a.x  *b.x + a.y * b.y) / sqrtf(b.x * b.x + b.y * b.y));
 }
 
-float unfisheye(t_player *you, t_complex rayDir, float sideDist)
+float	unfisheye(t_player *you, t_complex rayDir, float sideDist)
 {
 	t_complex	dist;
 	float		normRay;
@@ -101,41 +113,29 @@ float unfisheye(t_player *you, t_complex rayDir, float sideDist)
 
 void raycasting(t_player *you, t_data *win)
 {
-	t_complex rayDir;
-	t_complex sideDist;
-	t_complex sqDelta;
-	int		step;
-	float	normRay;
-	float	line_loc;
-	int i;
+	t_complex	rayDir;
+	t_complex	sideDist;
+	t_complex	sqDelta;
+	int			step;
+	float		normRay;
+	int			i;
 
+	if (you->pos.x == (int)you->pos.x)
+		you->pos.x += 0.0001;
+	if (you->pos.y == (int)you->pos.y)
+		you->pos.y += 0.0001;
 	i = 0;
 	while (i <= win->width)
 	{
 		set_ray(i, &rayDir, &sqDelta, &sideDist, win, you);
 		step = DDA(you, win, rayDir, sqDelta, &sideDist);
 		normRay = sqrt(rayDir.x * rayDir.x + rayDir.y * rayDir.y);
-		//line_loc = (float)(remain(int)(you->pos.y + rayDir.y * sideDist.x / normRay)%win->square + 1)/win->square
 		if (step == 0)
-		{
-			line_loc = (remainder(you->pos.y + rayDir.y * sideDist.x / normRay, win->square) + 1)/win->square;
-			if (win->minimap == 1)
-				return;
-				//draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.x / normRay, you->pos.y + rayDir.y * sideDist.x / normRay, trgb(1,255,100,0));
-			else
-				draw_wall(unfisheye(you, rayDir, sideDist.x), i, step, win, rayDir, line_loc);
-				//draw_wall(unfisheye(you, rayDir, sideDist.x), i, step, win, rayDir, (float)((int)(you->pos.y + rayDir.y * sideDist.x / normRay)%win->square + 1)/win->square);
-		}
+			draw_wall(unfisheye(you, rayDir, sideDist.x), i, step, win, rayDir,
+				(remainder(you->pos.y + rayDir.y * sideDist.x / normRay, win->square) + 1)/win->square);
 		else
-		{
-			line_loc = (remainder(you->pos.x + rayDir.x * sideDist.y / normRay, win->square) + 1)/win->square;
-			if (win->minimap == 1)
-				return;
-				//draw_line(win, you->pos.x, you->pos.y, you->pos.x + rayDir.x * sideDist.y / normRay, you->pos.y + rayDir.y * sideDist.y / normRay, trgb(1,255,100,0));
-			else
-				draw_wall(unfisheye(you, rayDir, sideDist.y), i, step, win, rayDir, line_loc);
-				//draw_wall(unfisheye(you, rayDir, sideDist.y), i, step, win, rayDir, (float)((int)(you->pos.x + rayDir.x * sideDist.y / normRay)%win->square + 1)/win->square);
-		}
+			draw_wall(unfisheye(you, rayDir, sideDist.y), i, step, win, rayDir,
+				(remainder(you->pos.x + rayDir.x * sideDist.y / normRay, win->square) + 1)/win->square);
 		i += 1;
 	}
 }

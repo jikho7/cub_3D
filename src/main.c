@@ -15,10 +15,11 @@ void	chara_loc(t_data *win, t_player *you, t_matrice *map)
 			{
 				you->pos.x = j * win->square + win->square/2;
 				you->pos.y = i * win->square + win->square/2;
-				printf("%d = %d, %d = %d\n", i, map->pos_x_player, j, map->pos_y_player);
 				map->map[i][j] -= 69;
 				you->dir.x = ((-map->map[i][j] * map->map[i][j] * map->map[i][j] + 27 * map->map[i][j] * map->map[i][j] - 227 * map->map[i][j])/585 + 1);
 				you->dir.y = -((- 73 * map->map[i][j] * map->map[i][j] * map->map[i][j] + 2101 * map->map[i][j] * map->map[i][j] - 14166 * map->map[i][j])/10530);
+				you->plane.x = you->dir.y * 0.8;
+				you->plane.y = you->dir.x * 0.8;
 				return;
 			}
 			j++;
@@ -27,48 +28,57 @@ void	chara_loc(t_data *win, t_player *you, t_matrice *map)
 	}
 }
 
+t_data *init_win(t_matrice *map)
+{
+	t_data	*win;
+
+	win = malloc(sizeof(t_data));
+	win->tex = malloc(sizeof(t_texture) * 4);
+	win->square = 20;
+ 	win->height = 700;
+ 	win->width = 700;
+	win->map = map;
+	win->forward = 1;
+	win->minimap = -1;
+	return (win);
+}
+
+t_vars	*init_vars(t_data *win, t_player *you, t_matrice *map)
+{
+	t_vars *vars;
+
+	vars = malloc(sizeof(t_vars));
+	vars->mlx = mlx_init();
+	vars->you = you;
+	vars->win = win;
+	vars->map = map;
+	vars->mlx_win = mlx_new_window(vars->mlx, win->width, win->height, "Play");
+	return(vars);
+}
+
 int main(int ac, char **av)
 {
  	(void)ac;
-	(void)av;
  	t_vars *vars;
  	t_data	*win;
  	t_player *you;
  	t_matrice *map;
 
-	printf("parsing...\n");
 	map = parsing(av[1]);
-	printf(">>>>>DONE>>>\n");
- 	vars = malloc(sizeof(t_vars));
- 	win = malloc(sizeof(t_data));
+	win = init_win(map);
  	you = malloc(sizeof(t_player));
- 	vars->you = you;
-	vars->map = map;
- 	vars->mlx = mlx_init();
- 	win->square = 80;
- 	win->height = 700;
- 	win->width = 700;
-	vars->mlx_win = mlx_new_window(vars->mlx, win->width, win->height, "Play");
- 	vars->win = win;
+	vars = init_vars(win, you, map);
  	win->img = mlx_new_image(vars->mlx, win->width, win->height);
  	win->addr = mlx_get_data_addr(win->img, &(win->bpp), &(win->line_len), &(win->endian));
- 	win->minimap = -1;
-	win->map = map;
-	win->tex = malloc(sizeof(t_texture) * 4);
 	create_struct_sprites(win, vars);
-	win->forward = 1;
-
 	chara_loc(win, you, map);
-	printf("drawing map...\n");
 	you->speed = win->square / 10;
-	vars->you->plane.x = vars->you->dir.y * 0.8;
-	vars->you->plane.y = vars->you->dir.x * 0.8;
 	character(win, you);
  	mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
 	mlx_hook(vars->mlx_win, 4 ,0L, mouse_hook, win);
- 	mlx_loop_hook(vars->mlx, render_new_frame, vars);
-	mlx_hook(vars->mlx_win, 17 ,0L, destroy, vars);
 	mlx_hook(vars->mlx_win, 2, 0L, key_hook, vars);
+	mlx_hook(vars->mlx_win, 17 ,0L, destroy, vars);
+	mlx_loop_hook(vars->mlx, render_new_frame, vars);
  	mlx_loop(vars->mlx);
 	return (0);
 }

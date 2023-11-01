@@ -1,30 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
+/*   Updated: 2023/10/31 19:33:58 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
-
-int move(t_data *win, t_player *you, float addX, float addY)
-{
-	if (cancle(you->pos.x + addX * you->speed, you->pos.y + addY * you->speed, win))
-		return (1);
-	you->pos.x += addX * you->speed;
-	you->pos.y += addY * you->speed;
-	win->forward = 0;
-	character(win, you);
-	return (0);
-}
-
-void turn(t_data *win, t_player *you, int clockwise)
-{
-	float angle;
-	float tdirx;
-
-	angle = M_PI /12;
-	tdirx = you->dir.x*cos(clockwise * angle) - you->dir.y*sin(clockwise * angle);
-	you->dir.y = you->dir.y*cos(clockwise * angle) + you->dir.x*sin(clockwise * angle);
-	you->dir.x = tdirx;
-	you->plane.x = you->dir.y;
-	you->plane.y = you->dir.x;
-	win->forward = 1;
-	character(win, you);
-}
 
 int	key_hook(int keycode, t_vars *vars)
 {
@@ -38,7 +24,7 @@ int	key_hook(int keycode, t_vars *vars)
 		move(vars->win, vars->you, vars->you->dir.y, vars->you->dir.x);
 	else if (keycode == 123)
 		turn(vars->win, vars->you, 1);
-	else if(keycode == 124)
+	else if (keycode == 124)
 		turn(vars->win, vars->you, -1);
 	else if (keycode == 53)
 		mlx_destroy_window(vars->mlx, vars->mlx_win);
@@ -54,31 +40,33 @@ int	key_hook(int keycode, t_vars *vars)
 		else
 			vars->you->speed = vars->win->square / 10;
 	}
-	else
-		printf("%d\n", keycode);
-	return(0);
+	return (0);
 }
 
-
-int mouse_hook(int mousecode, int i, int j, t_data *win)
+int	mouse_hook(int mousecode, int i, int j, t_data *win)
 {
 	if (mousecode == 1)
 		printf("(i,j) = (%d,%d)\n", i, j);
 	(void) win;
-	return(0);
+	return (0);
 }
 
-int render_new_frame(t_vars *vars)
+int	render_new_frame(t_vars *vars)
 {
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->win->img, 0, 0);
-	return(0);
+	return (0);
 }
 
-int destroy(t_vars *vars)
+int	destroy(t_vars *vars)
 {
+	printf("GO\n");
 	free(vars->map);
+	printf("GOO\n");
 	free(vars->you);
+	printf("GOOD\n");
 	free(vars->win);
+	printf("GOODB\n");
 	free(vars);
+	printf("GOODBYE\n");
 	exit(0);
 }

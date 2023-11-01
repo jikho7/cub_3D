@@ -10,25 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	sgn(float n)
+#include <cub3d.h>
+
+int	move(t_data *win, t_player *you, float addX, float addY)
 {
-	if (n < 0)
-		return (-1);
-	else
+	if (cancle(you->pos.x + addX * you->speed, you->pos.y + addY * you->speed, win))
 		return (1);
+	you->pos.x += addX * you->speed;
+	you->pos.y += addY * you->speed;
+	win->forward = 0;
+	character(win, you);
 	return (0);
 }
 
-int	min(int a, int b)
+void	turn(t_data *win, t_player *you, int clockwise)
 {
-	if (a < b)
-		return (a);
-	return (b);
-}
+	float	angle;
+	float	tdirx;
 
-int	max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	return (b);
+	angle = M_PI / 12;
+	tdirx = you->dir.x * cos(clockwise * angle) - you->dir.y * sin(clockwise * angle);
+	you->dir.y = you->dir.y * cos(clockwise * angle) + you->dir.x * sin(clockwise * angle);
+	you->dir.x = tdirx;
+	you->plane.x = you->dir.y;
+	you->plane.y = you->dir.x;
+	win->forward = 1;
+	character(win, you);
 }

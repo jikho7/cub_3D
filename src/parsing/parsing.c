@@ -32,7 +32,7 @@ t_matrice *parsing(char *map)
 	read_lst(&info, &check);
 	//display_lst(&info, "before spelling\n");
 	check_excess_info(&info);
-	check_F_C(&info, matrice);
+	//check_F_C(&info, matrice);
 	reduce_spaces_to_one(&info, &check);
 	check_spelling(&info, &check);
 //	display_lst(&origin, "ORIGIN\n");

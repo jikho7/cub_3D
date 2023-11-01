@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:41:56 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/10/18 20:08:46 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:03:38 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
+/* Garbage Collector */
+void	*my_malloc(size_t size, size_t type, t_list **trash);
 #endif

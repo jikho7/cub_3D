@@ -93,20 +93,20 @@ static void calloc_maps(t_matrice *matrice)
 {
 	int i;
 
-	matrice->map = ft_calloc(sizeof(char *), (matrice->height + 1));
+	matrice->map = my_malloc(matrice->height + 1, sizeof(char *), &matrice->check->trash); //ft_calloc(sizeof(char *), (matrice->height + 1));
 	matrice->map[matrice->height] = 0;
-	matrice->map_with_spaces = ft_calloc(sizeof(char *), (matrice->height + 1));
+	matrice->map_with_spaces = my_malloc((matrice->height + 1), sizeof(char *), &matrice->check->trash);//ft_calloc(sizeof(char *), (matrice->height + 1));
 	matrice->map_with_spaces[matrice->height] = 0;
 	i = 0;
 	while (i < matrice->height)
 	{
-		matrice->map[i] = ft_calloc(sizeof(char), (matrice->width));
+		matrice->map[i] = my_malloc(matrice->width, sizeof(char), &matrice->check->trash);//ft_calloc(sizeof(char), (matrice->width));
 		i++;
 	}
 	i = 0;
 	while (i < matrice->height)
 	{
-		matrice->map_with_spaces[i] = ft_calloc(sizeof(char), (matrice->width));
+		matrice->map_with_spaces[i] = my_malloc(matrice->width, sizeof(char), &matrice->check->trash);//ft_calloc(sizeof(char), (matrice->width));
 		i++;
 	}
 }

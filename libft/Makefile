@@ -6,7 +6,7 @@
 #    By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 15:50:27 by jdefayes          #+#    #+#              #
-#    Updated: 2023/10/18 14:28:11 by jdefayes         ###   ########.fr        #
+#    Updated: 2023/11/01 15:01:33 by jdefayes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,9 @@ SRC 	= 	ft_putnbr_fd.c\
 			ft_lstlast.c\
 			ft_lstmap.c\
 			ft_lstnew.c\
+			ft_lstnew_GC.c\
 			ft_lstsize.c\
+			my_malloc.c\
 
 OBJ		= ${SRC:.c=.o}
 CC			= gcc

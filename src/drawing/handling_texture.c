@@ -41,10 +41,10 @@ void create_struct_sprites(t_data *win, t_vars *vars)
 		// 	//exit(EXIT_FAILURE);
 		// }
 	}
-	i = 0;
-	while (i < 4)
-	{
-		printf("bpp: %d\n line_len: %d\n", win->tex[i].bpp, win->tex[i].line_len);
-		i++;
-	}
+	// i = 0;
+	// while (i < 4)
+	// {
+	// 	printf("bpp: %d\n line_len: %d \npath: %s\n", win->tex[i].bpp, win->tex[i].line_len, win->tex[i].path);
+	// 	i++;
+	// }
 }

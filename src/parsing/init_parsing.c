@@ -2,7 +2,7 @@
 
 void init_struct_check(t_check *check, char *map, t_matrice *matrice)
 {
-	check->map = ft_strdup(map); //pas oublier de free
+	check->map = ft_strdup_GC(map, &check->trash); //pas oublier de free
 	check->EA = 0;
 	check->NO = 0;
 	check->SO = 0;
@@ -29,8 +29,8 @@ void init_matrice(t_matrice *matrice, t_check *check)
 	matrice->SO_path = NULL;
 	matrice->EA_path = NULL;
 	matrice->WE_path = NULL;
-	matrice->F_info = NULL;
-	matrice->C_info = NULL;
+	matrice->F = my_malloc(3, sizeof(int), &check->trash);
+	matrice->C = my_malloc(3, sizeof(int), &check->trash);
 	matrice->wrong_symbol = 0;
 	matrice->player_sympbol = 0;
 	matrice->pos_y_player = 0;

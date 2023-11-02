@@ -27,7 +27,7 @@ void reduce_spaces_to_one(t_parse **lst, t_check *check)
 				i++;
 			}
 		}
-		free(tmp->content);
+		//free(tmp->content);
 		tmp->content = NULL;
 		tmp->content = res;
 		tmp = tmp->next;

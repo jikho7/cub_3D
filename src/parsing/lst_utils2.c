@@ -42,7 +42,7 @@ void cpy_lst(t_parse **dest_lst, t_parse **src_lst, t_check *check)
 	}
 }
 
-void strtrim_lst(t_parse **info)
+void strtrim_lst(t_parse **info, t_check *check)
 {
 	t_parse *tmp;
 	char sign[] = {' ', '\t'};
@@ -50,7 +50,7 @@ void strtrim_lst(t_parse **info)
 	tmp = *info;
 	while (tmp->next != NULL)
 	{
-		tmp->content = ft_strtrim(tmp->content, sign);
+		tmp->content = ft_strtrim_GC(tmp->content, sign, &check->trash);
 		tmp = tmp->next;
 	}
 }

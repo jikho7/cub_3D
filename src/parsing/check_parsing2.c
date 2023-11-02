@@ -1,5 +1,9 @@
 # include <cub3d.h>
 
+void save_F_C_info(int option, t_matrice *matrice, int j, char *split);
+void handle_C_norm(int *j, int *i, char **split, t_matrice *matrice);
+void handle_F_norm(int *i, int *j, char **split, t_matrice *matrice);
+
 void read_lst(t_parse **lst, t_check *check_lst)
 {
 	t_parse *tmp;
@@ -51,104 +55,71 @@ void check_F_C(t_parse **info, t_matrice *matrice)
 	}
 }
 
-// void strtrim_F_C(char *str, t_matrice *matrice)
-// {
-// 	(void)matrice;
-// 	int i;
-// 	char sign[] = {'F', 'C', ' ', '\n'};
-// 	char **split;
-// 	int nb;
-
-// 	split = ft_split(str, ',');
-// 	i = 0;
-// 	if (split[1] == 0)
-// 	{
-// 		error_msg(4);
-// 	}
-// 	while (split[i])
-// 	{
-// 		split[i] = ft_strtrim(split[i], sign);
-// 		printf("split[%d]: %s\n", i, split[i]);
-// 		nb = ft_atoi(split[i]);
-// 		if (nb < 0 || nb > 255)
-// 		{
-// 			error_msg(4);
-// 		}
-// 		i++;
-// 	}
-// 	if (i != 3)
-// 	{
-// 		error_msg(4);
-// 	}
-// }
-
 void strtrim_F_C(char *str, t_matrice *matrice)
 {
-	(void)matrice;
 	int i;
-	char sign[] = {' ', '\n'};
 	char **split;
-	int nb;
 	int j;
-	int k;
 
-	split = ft_split(str, ',');
+	split = ft_split_GC(str, ',', &matrice->check->trash);
 	i = 0;
 	j = 0;
-	k = 0;
 	if (split[1] == 0)
-	{
 		error_msg(4);
-	}
 	while (split[i])
 	{
-		if (split[0][0] == 'F')
+		if (split[i][0] == 'F')
 		{
-			while (k > 2)
-			{
-				split[i] = ft_strtrim(split[i], sign);
-				printf("F :%s\n", split[i]);
-				nb = ft_atoi(split[i]);
-				if (nb < 0 || nb > 255)
-				{
-					error_msg(4);
-				}
-				//matrice->F_info =
-				k++;
-				i++;
-			}
+			while (j <= 2)
+				handle_F_norm(&j, &i, split, matrice);
 		}
-
-		else if (split[0][0] == 'C')
+		else if (split[i][0] == 'C')
 		{
-			while (j > 2)
-			{
-				split[i] = ft_strtrim(split[i], sign);
-				printf("C :%s\n", split[i]);
-				//matrice->C_info
-				nb = ft_atoi(split[i]);
-				if (nb < 0 || nb > 255)
-				{
-					error_msg(4);
-				}
-				j++;
-				i++;
-			}
+			while (j <= 2)
+				handle_C_norm(&j, &i, split, matrice);
 		}
-
-		// //split[i] = ft_strtrim(split[i], sign);
-		// printf("f :%s\n", split[i]);
-		// nb = ft_atoi(split[i]);
-		// if (nb < 0 || nb > 255)
-		// {
-		// 	error_msg(4);
-		// }
-		// i++;
+		j = 0;
 	}
 	if (i != 3)
+		error_msg(4);
+}
+
+void handle_F_norm(int *i, int *j, char **split, t_matrice *matrice)
+{
+	char sign_F[] = {'F', ' ', '\n'};
+
+	split[*i] = ft_strtrim_GC(split[*i], sign_F, &matrice->check->trash);
+	save_F_C_info(0, matrice, *j, split[*i]);
+	(*j)++;
+	(*i)++;
+}
+
+void handle_C_norm(int *i, int *j, char **split, t_matrice *matrice)
+{
+	char sign_C[] = {'C', ' ', '\n'};
+
+	split[*i] = ft_strtrim_GC(split[*i], sign_C, &matrice->check->trash);
+	save_F_C_info(1, matrice, *j, split[*i]);
+	(*j)++;
+	(*i)++;
+}
+
+void save_F_C_info(int option, t_matrice *matrice, int j, char *split)
+{
+	int nb;
+	//char sign_C[] = {' ', '\n'};
+	nb = 0;
+	nb = ft_atoi(split);
+	//printf("i: %d, split: %s\n", j, split);
+
+	if (nb < 0 || nb > 255)
 	{
 		error_msg(4);
 	}
+	if (option == 0)
+		matrice->F[j] = nb;
+	if (option == 1)
+		matrice->C[j] = nb;
 }
 
 int ft_is_str_digit(char *str)

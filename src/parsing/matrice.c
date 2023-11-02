@@ -3,6 +3,7 @@
 static void fill_matrice(t_matrice *matrice, t_parse *tmp);
 static void calloc_maps(t_matrice *matrice);
 static void get_orientation(char c, t_matrice *matrice);
+void check_if_space_in_map(t_parse *lst, t_matrice *matrice);
 
 void create_matrice(t_parse **origin, t_matrice *matrice)
 {
@@ -35,7 +36,27 @@ void create_matrice(t_parse **origin, t_matrice *matrice)
 			break;
 		}
 	}
+	check_if_space_in_map(tmp, matrice);
 	fill_matrice(matrice, tmp);
+}
+
+void check_if_space_in_map(t_parse *lst, t_matrice *matrice)
+{
+	t_parse *tmp;
+	int i;
+
+	i = 0;
+	tmp = lst;
+	while (matrice->height > i)
+	{
+		if(tmp->content[0] == '\n')
+		{
+			error_msg(14);
+		}
+		tmp = tmp->next;
+		i++;
+
+	}
 }
 
 static void fill_matrice(t_matrice *matrice, t_parse *tmp)

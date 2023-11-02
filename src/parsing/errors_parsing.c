@@ -30,5 +30,8 @@ void error_msg(int option)
 		printf("Error: Missing information\n");
 	if (option == 13)
 		printf("Error: Missing Player\n");
+	if (option == 14)
+		printf("Error: empty line in map\n");
+	//free_ft();
 	exit(0) ;
 }

@@ -80,7 +80,7 @@ int main(int ac, char **av)
 	// mlx_hook(vars->mlx_win, 17 ,0L, destroy, vars);
 	// mlx_loop_hook(vars->mlx, render_new_frame, vars);
  	// mlx_loop(vars->mlx);
-	//free(map->check->trash);
+	// free(map->check->trash);
 	return (0);
 }
 

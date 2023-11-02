@@ -3,6 +3,7 @@
 void save_F_C_info(int option, t_matrice *matrice, int j, char *split);
 void handle_C_norm(int *j, int *i, char **split, t_matrice *matrice);
 void handle_F_norm(int *i, int *j, char **split, t_matrice *matrice);
+void size_split(char **split);
 
 void read_lst(t_parse **lst, t_check *check_lst)
 {
@@ -62,10 +63,9 @@ void strtrim_F_C(char *str, t_matrice *matrice)
 	int j;
 
 	split = ft_split_GC(str, ',', &matrice->check->trash);
+	size_split(split);
 	i = 0;
 	j = 0;
-	if (split[1] == 0)
-		error_msg(4);
 	while (split[i])
 	{
 		if (split[i][0] == 'F')
@@ -79,6 +79,18 @@ void strtrim_F_C(char *str, t_matrice *matrice)
 				handle_C_norm(&j, &i, split, matrice);
 		}
 		j = 0;
+	}
+	printf("i: %d\n", i);
+}
+
+void size_split(char **split)
+{
+	int i;
+
+	i = 0;
+	while (split[i])
+	{
+		i++;
 	}
 	if (i != 3)
 		error_msg(4);

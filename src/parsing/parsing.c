@@ -30,22 +30,19 @@ t_matrice *parsing(char *map)
 	// (void) line_debug;
 	check_tex_extension(&info, &check);
 	read_lst(&info, &check);
-	//display_lst(&info, "before spelling\n");
 	check_excess_info(&info);
 	check_F_C(&info, matrice);
 	reduce_spaces_to_one(&info, &check);
 	check_spelling(&info, &check);
-//	display_lst(&origin, "ORIGIN\n");
 	check_if_info_after_map(&info, &check);
 	create_matrice(&origin, matrice);
 	check_map(matrice);
 	flood_fill(matrice);
 	get_width2(matrice);
-	display_lst(&info, "info2");
-	ft_lstclear(&check.trash, free);
-	display_lst(&info, "info3");
+	// ft_lstclear(&check.trash, free);
+	// info = NULL;
+	//ft_lstclear((t_list**)&origin, free);
 //	ft_lstclear((t_list**)info, free);
-	while (1);
-//	printf("orientation: %c\n", matrice->orientation);
+//	while (1);
 	return (matrice);
 }

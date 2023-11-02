@@ -12,7 +12,7 @@
 
 #include <cub3d.h>
 
-int	key_hook(int keycode, t_vars *vars)
+void	movement(t_vars *vars, int keycode)
 {
 	if (keycode == 13)
 		move(vars->win, vars->you, vars->you->dir.x, -vars->you->dir.y);
@@ -26,35 +26,31 @@ int	key_hook(int keycode, t_vars *vars)
 		turn(vars->win, vars->you, 1);
 	else if (keycode == 124)
 		turn(vars->win, vars->you, -1);
-	else if (keycode == 53)
+}
+
+int	key_hook(int key, t_vars *vars)
+{
+	if (key == 13 || (key <= 2 && key >= 0) || key == 123 || key == 124)
+		movement(vars, key);
+	else if (key == 53)
 		mlx_destroy_window(vars->mlx, vars->mlx_win);
-	else if (keycode == 46)
+	else if (key == 46)
 	{
 		vars->win->minimap *= -1;
 		character(vars->win, vars->you);
 	}
-	else if (keycode == 8)
+	else if (key == 8)
 	{
 		vars->win->c *= -1;
 		character(vars->win, vars->you);
 	}
-	else if (keycode == 257)
+	else if (key == 257)
 	{
-		if (vars->you->speed == vars->win->square / 10)
-			vars->you->speed = vars->win->square / 5;
+		if (vars->you->speed == vars->win->sqr / 10)
+			vars->you->speed = vars->win->sqr / 5;
 		else
-			vars->you->speed = vars->win->square / 10;
+			vars->you->speed = vars->win->sqr / 10;
 	}
-	else
-		printf("%d\n", keycode);
-	return (0);
-}
-
-int	mouse_hook(int mousecode, int i, int j, t_data *win)
-{
-	if (mousecode == 1)
-		printf("(i,j) = (%d,%d)\n", i, j);
-	(void) win;
 	return (0);
 }
 

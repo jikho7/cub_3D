@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <cub3d.h>
+
 int	sgn(float n)
 {
 	if (n < 0)
@@ -31,4 +33,9 @@ int	max(int a, int b)
 	if (a > b)
 		return (a);
 	return (b);
+}
+
+float	sq(float a)
+{
+	return (a * a);
 }

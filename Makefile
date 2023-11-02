@@ -6,7 +6,7 @@ PARSE_PATH	= ./src/parsing
 DRAW_PATH	= ./src/drawing
 
 SRC			=	main.c
-DRAW		=	minimap.c draw.c hooks.c raycasting.c math.c handling_texture.c hook_actions.c
+DRAW		=	minimap.c draw.c hooks.c raycasting.c math.c handling_texture.c hook_actions.c raycasting_utils.c
 PARSE		=	get_next_line.c get_next_line_utils.c parsing.c parsing_utils.c init_parsing.c check_parsing1.c check_parsing2.c lst_utils.c lst_utils2.c matrice.c matrice_utils.c flood_fill.c check_map.c errors_parsing.c
 SRCS		= $(addprefix $(SRC_PATH)/,$(SRC)) $(addprefix $(PARSE_PATH)/,$(PARSE)) $(addprefix $(DRAW_PATH)/,$(DRAW))
 OBJ			= ${SRCS:.c=.o}

@@ -53,7 +53,7 @@ void get_height(t_parse **map, t_matrice *matrice)
 	while (tmp->next != NULL)
 	{
 		// printf("%s\n", tmp->content);
-		strtrim_matrice(*tmp, i);
+		strtrim_matrice(*tmp, i, matrice->check);
 		i = 0;
 		// while (tmp->content[i] != '\0' && ft_strchr("01 NSWE", tmp->content[i]) != NULL)
 		// {
@@ -85,12 +85,12 @@ void get_height(t_parse **map, t_matrice *matrice)
 		error_msg(11);
 }
 
-void strtrim_matrice(t_parse info, int i)
+void strtrim_matrice(t_parse info, int i, t_check *check)
 {
 	(void)i;
 	char sign[] = {' '};
 	t_parse cpy;
 
 	cpy = info;
-	cpy.content = ft_strtrim(cpy.content, sign);
+	cpy.content = ft_strtrim_GC(cpy.content, sign, &check->trash);
 }

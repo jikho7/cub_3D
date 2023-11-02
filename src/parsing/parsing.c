@@ -14,13 +14,13 @@ t_matrice *parsing(char *map)
 	check_map_extension(map);
 
 	create_lst(&info, &check);
-	//display_lst(&info, "info");
+	display_lst(&info, "info1");
 	remove_empty_block(&info);
 	//display_lst(&info, "after removed empty blocks");
 	cpy_lst(&origin, &info, &check);
 	get_width(&info, matrice);
 
-	strtrim_lst(&info);
+	strtrim_lst(&info, &check);
 	check_spaces_NSEW(&info);
 	get_height(&info, matrice);
 //	printf("width: %d, height: %d\n", matrice.width, matrice.height);
@@ -32,21 +32,20 @@ t_matrice *parsing(char *map)
 	read_lst(&info, &check);
 	//display_lst(&info, "before spelling\n");
 	check_excess_info(&info);
-	//check_F_C(&info, matrice);
+	check_F_C(&info, matrice);
 	reduce_spaces_to_one(&info, &check);
 	check_spelling(&info, &check);
 //	display_lst(&origin, "ORIGIN\n");
 	check_if_info_after_map(&info, &check);
 	create_matrice(&origin, matrice);
-//	printf("pXdfghdfh");
 	check_map(matrice);
 	flood_fill(matrice);
 	get_width2(matrice);
+	display_lst(&info, "info2");
+	ft_lstclear(&check.trash, free);
+	display_lst(&info, "info3");
+//	ft_lstclear((t_list**)info, free);
+	while (1);
 //	printf("orientation: %c\n", matrice->orientation);
-
-	// printf(",,NO path: %s\n", matrice->NO_path);
-	// printf(",,SO path: %s\n", matrice->SO_path);
-	// printf(",,EA path: %s\n", matrice->EA_path);
-	// printf(",,WE path: %s\n", matrice->WE_path);
 	return (matrice);
 }

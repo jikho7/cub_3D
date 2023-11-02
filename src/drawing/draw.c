@@ -12,7 +12,7 @@
 
 #include <cub3d.h>
 
-void	draw_texture(t_data *win, int x, int sky, float line_loc, int NWSE)
+void	draw_texture(t_data *win, int x, int sky, t_ray *ray)
 {
 	int		j;
 	float	jump;
@@ -21,62 +21,57 @@ void	draw_texture(t_data *win, int x, int sky, float line_loc, int NWSE)
 	int		y_dep;
 
 	j = max(0, sky);
-	jump = (float)win->tex[NWSE].height / (float)(win->height - 2 * sky);
-	x_dep = (int)(line_loc * win->tex[NWSE].height) * (win->tex[NWSE].bpp / 8);
+	jump = (float)win->tex[ray->NWSE].height / (float)(win->height - 2 * sky);
+	x_dep = (int)(ray->line_loc * win->tex[ray->NWSE].height)
+		* (win->tex[ray->NWSE].bpp / 8);
 	while (j < win->height - sky)
 	{
-		y_dep = (int)((float)(j - sky) * jump) * win->tex[NWSE].line_len;
-		color = *(unsigned int *)(win->tex[NWSE].addr + (x_dep + y_dep));
+		y_dep = (int)((float)(j - sky) *jump) *win->tex[ray->NWSE].line_len;
+		color = *(unsigned int *)(win->tex[ray->NWSE].addr + (x_dep + y_dep));
 		my_mlx_pixel_put(win, x, j, max(0, color));
 		j++;
 	}
 	my_mlx_pixel_put(win, x, j, max(0, color));
 }
 
-/*(udorlr ; uord_lorr): (1;1) = N = , (1,-1) = S, (0,1) = W , (0, -1) = E*/
-void	draw_wall(float distance, int i, int udorlr, t_data *win, t_complex raydir, float line_loc)
+void	pretty_or_legal(t_data *win, int i, int j)
 {
-	int	j;
-	int	sky;
-	int	uord_lorr;
 	int	clr;
 
-	sky = win->height * (distance - win->square / 2) / (2 * distance);
-	uord_lorr = (udorlr) * sgn(raydir.y) + (1 - udorlr) * sgn(raydir.x);
-	j = 0;
-	while (j <= win->height / 2)
+	clr = 255 * ((rand() % 4900) / 4899);
+	if (win->c == 1)
 	{
-		if (j < sky)
-		{
-			clr = 255 * ((rand() % 4900) / 4899);
-			my_mlx_pixel_put(win, i, j, trgb(1, clr, clr, clr));
-			my_mlx_pixel_put(win, i, win->height - j, trgb(1, 0, rand() % 50, 0));
-		}
-		else
-		{
-			draw_texture(win, i, sky, line_loc, udorlr + uord_lorr + 1);
-			break ;
-		}
-		j++;
+		my_mlx_pixel_put(win, i, j, trgb(1, clr, clr, clr));
+		my_mlx_pixel_put(win, i, win->height - j, trgb(1, 0, rand() % 50, 0));
+	}
+	else
+	{
+		my_mlx_pixel_put(win, i, j, trgb(1, win->map->C[0],
+				win->map->C[1], win->map->C[2]));
+		my_mlx_pixel_put(win, i, win->height - j, trgb(1, win->map->F[0],
+				win->map->F[1], win->map->F[2]));
 	}
 }
 
-void	draw_line(t_data *win, float Istart, float Jstart, float Iend, float Jend, int color)
+void	draw_wall(t_ray *ray, int i, int udorlr, t_data *win)
 {
-	int		i;
-	int		j;
-	float	len;
-	float	t;
+	int	j;
+	int	sky;
 
-	len = fabsf(Iend - Istart) + fabsf(Jend - Jstart);
-	t = 0;
-	while (t <= 1)
+	sky = win->height * (ray->distance - win->sqr / 2) / (2 * ray->distance);
+	j = 0;
+	ray->NWSE = udorlr + (udorlr * sgn(ray->rDir.y) + (1 - udorlr)
+			* sgn(ray->rDir.x) + 1);
+	while (j <= win->height / 2)
 	{
-		i = t * Istart + (1 - t) * Iend;
-		j = t * Jstart + (1 - t) * Jend;
-		if ((i < win->width && i > 0) && (j < win->height && j > 0))
-			my_mlx_pixel_put(win, (int)i, (int)j, color);
-		t = t + (1 / len);
+		if (j < sky)
+			pretty_or_legal(win, i, j);
+		else
+		{
+			draw_texture(win, i, sky, ray);
+			break ;
+		}
+		j++;
 	}
 }
 

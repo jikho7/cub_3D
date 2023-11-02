@@ -18,6 +18,7 @@
 # define TEXTURE_HEIGHT 64
 # define FOV 60
 
+
 typedef struct s_check
 {
 	char	*map;
@@ -74,6 +75,17 @@ typedef struct s_complex {
 	float	y;
 }	t_complex;
 
+typedef struct s_ray
+{
+	t_complex	rDir;
+	t_complex	sideDist;
+	t_complex	sqDel;
+	float		line_loc;
+	int			udorlr;
+	float		distance;
+	int			NWSE;
+}t_ray;
+
 typedef struct s_player
 {
 	t_complex	pos;
@@ -106,9 +118,11 @@ typedef struct s_data {
 	int			width;
 	t_matrice	*map;
 	int			minimap;
-	int			square;
+	int			sqr;
 	t_texture	*tex;
 	int			forward;
+	int			c;
+	t_ray		*ray;
 }		t_data;
 
 typedef struct s_vars {
@@ -140,17 +154,21 @@ int		render_new_frame(t_vars *vars);
 int		destroy(t_vars *vars);
 void	raycasting(t_player *you, t_data *win);
 int		wall(int i, int j, t_data *win);
-void	draw_line(t_data *win, float Istart, float Jstart, float Iend, float Jend, int color);
-void	draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, float line_loc);
+void	draw_line(t_data *win, t_complex start, t_complex end);
+void	draw_wall(t_ray *ray, int i, int udorlr, t_data *win);
 void	create_struct_sprites(t_data *win, t_vars *vars);
 void	turn(t_data *win, t_player *you, int clockwise);
 int		move(t_data *win, t_player *you, float addX, float addY);
+void	pretty_or_legal(t_data *win, int i, int j);
+void	init_ray(t_ray *ray, int step, t_player *you, t_data *win);
+int		dda_start(t_complex *adelta, t_ray *ray, t_complex *map);
+int		x_or_y(t_ray *ray, t_complex *adelta, t_complex *map);
 
 /*----------------MATH-----------------*/
 int	sgn(float n);
 int	min(int a, int b);
 int	max(int a, int b);
-//float	remainder(float a, float b);
+float	sq(float a);
 
 /*----------------PARSING-----------------*/
 t_matrice	*parsing(char *map);

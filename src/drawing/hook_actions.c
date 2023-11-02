@@ -14,7 +14,8 @@
 
 int	move(t_data *win, t_player *you, float addX, float addY)
 {
-	if (cancle(you->pos.x + addX * you->speed, you->pos.y + addY * you->speed, win))
+	if (cancle(you->pos.x + 2 * addX * you->speed, you->pos.y + 2 * addY
+			* you->speed, win))
 		return (1);
 	you->pos.x += addX * you->speed;
 	you->pos.y += addY * you->speed;
@@ -23,14 +24,14 @@ int	move(t_data *win, t_player *you, float addX, float addY)
 	return (0);
 }
 
-void	turn(t_data *win, t_player *you, int clockwise)
+void	turn(t_data *win, t_player *you, int turn)
 {
-	float	angle;
+	float	agl;
 	float	tdirx;
 
-	angle = M_PI / 12;
-	tdirx = you->dir.x * cos(clockwise * angle) - you->dir.y * sin(clockwise * angle);
-	you->dir.y = you->dir.y * cos(clockwise * angle) + you->dir.x * sin(clockwise * angle);
+	agl = M_PI / 12;
+	tdirx = you->dir.x * cos(turn * agl) - you->dir.y * sin(turn * agl);
+	you->dir.y = you->dir.y * cos(turn * agl) + you->dir.x * sin(turn * agl);
 	you->dir.x = tdirx;
 	you->plane.x = you->dir.y;
 	you->plane.y = you->dir.x;

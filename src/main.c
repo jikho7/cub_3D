@@ -61,12 +61,13 @@ t_vars	*init_vars(t_data *win, t_player *you, t_matrice *map)
 int main(int ac, char **av)
 {
  	(void)ac;
- 	// t_vars *vars;
- 	// t_data	*win;
- 	// t_player *you;
+ 	t_vars *vars;
+ 	t_data	*win;
+ 	t_player *you;
  	t_matrice *map;
 
 	map = parsing(av[1]);
+	printf("<<<DONE>>>\n");
 	win = init_win(map);
  	you = malloc(sizeof(t_player));
 	vars = init_vars(win, you, map);

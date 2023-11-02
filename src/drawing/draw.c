@@ -46,10 +46,10 @@ void	pretty_or_legal(t_data *win, int i, int j)
 	}
 	else
 	{
-		my_mlx_pixel_put(win, i, j, trgb(1, win->map->F_info[0],
-				win->map->F_info[1], win->map->F_info[2]));
-		my_mlx_pixel_put(win, i, win->height - j, trgb(1, win->map->F_info[0],
-				win->map->F_info[1], win->map->F_info[2]));
+		my_mlx_pixel_put(win, i, j, trgb(1, win->map->C[0],
+				win->map->C[1], win->map->C[2]));
+		my_mlx_pixel_put(win, i, win->height - j, trgb(1, win->map->F[0],
+				win->map->F[1], win->map->F[2]));
 	}
 }
 

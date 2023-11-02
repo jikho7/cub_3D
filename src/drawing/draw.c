@@ -33,31 +33,38 @@ void	draw_texture(t_data *win, int x, int sky, float line_loc, int NWSE)
 	my_mlx_pixel_put(win, x, j, max(0, color));
 }
 
-/*(udorlr ; uord_lorr): (1;1) = N = , (1,-1) = S, (0,1) = W , (0, -1) = E*/
-void	draw_wall(float distance, int i, int udorlr, t_data *win, t_complex raydir, float line_loc)
+/*(udorlr ; ulordr): (1;1) = N = , (1,-1) = S, (0,1) = W , (0, -1) = E*/
+void	draw_wall(t_ray *ray, int i, int udorlr, t_data *win)
 {
 	int	j;
 	int	sky;
-	int	uord_lorr;
+	int	ulordr;
 	int	clr;
 
-	sky = win->height * (distance - win->square / 2) / (2 * distance);
-	uord_lorr = (udorlr) * sgn(raydir.y) + (1 - udorlr) * sgn(raydir.x);
-	j = 0;
-	while (j <= win->height / 2)
+	sky = win->height * (ray->distance - win->square / 2) / (2 * ray->distance);
+	ulordr = (udorlr) * sgn(ray->rayDir.y) + (1 - udorlr) * sgn(ray->rayDir.x);
+	j = -1;
+	while (j++ <= win->height / 2)
 	{
 		if (j < sky)
 		{
 			clr = 255 * ((rand() % 4900) / 4899);
-			my_mlx_pixel_put(win, i, j, trgb(1, clr, clr, clr));
-			my_mlx_pixel_put(win, i, win->height - j, trgb(1, 0, rand() % 50, 0));
+			if (win->c == 1)
+				my_mlx_pixel_put(win, i, j, trgb(1, clr, clr, clr));
+			else 
+				my_mlx_pixel_put(win, i, j, trgb(1, win->map->F_info[0],
+					win->map->F_info[1], win->map->F_info[2]));
+			if (win->c == 1)
+				my_mlx_pixel_put(win, i, win->height - j, trgb(1, 0, rand() % 50, 0));
+			else
+				my_mlx_pixel_put(win, i, win->height - j, trgb(1,
+					win->map->F_info[0], win->map->F_info[1], win->map->F_info[2]));
 		}
 		else
 		{
-			draw_texture(win, i, sky, line_loc, udorlr + uord_lorr + 1);
+			draw_texture(win, i, sky, ray->line_loc, udorlr + ulordr + 1);
 			break ;
 		}
-		j++;
 	}
 }
 

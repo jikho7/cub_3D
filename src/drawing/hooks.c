@@ -33,6 +33,11 @@ int	key_hook(int keycode, t_vars *vars)
 		vars->win->minimap *= -1;
 		character(vars->win, vars->you);
 	}
+	else if (keycode == 8)
+	{
+		vars->win->c *= -1;
+		character(vars->win, vars->you);
+	}
 	else if (keycode == 257)
 	{
 		if (vars->you->speed == vars->win->square / 10)
@@ -40,6 +45,8 @@ int	key_hook(int keycode, t_vars *vars)
 		else
 			vars->you->speed = vars->win->square / 10;
 	}
+	else
+		printf("%d\n", keycode);
 	return (0);
 }
 
@@ -59,13 +66,17 @@ int	render_new_frame(t_vars *vars)
 
 int	destroy(t_vars *vars)
 {
+	printf("G\n");
+	free(vars->win->tex);
 	printf("GO\n");
 	free(vars->map);
 	printf("GOO\n");
 	free(vars->you);
 	printf("GOOD\n");
-	free(vars->win);
+	free(vars->win->ray);
 	printf("GOODB\n");
+	free(vars->win);
+	printf("GOODBY\n");
 	free(vars);
 	printf("GOODBYE\n");
 	exit(0);

@@ -12,45 +12,45 @@
 
 #include <cub3d.h>
 
-void	set_ray(int i, t_complex *rayDir, t_complex *sqDelta, t_complex *sideDist, t_data *win, t_player *you)
+void	set_ray(int i, t_ray *ray, t_data *win, t_player *you)
 {
 	float	delta;
 	float	camX;
 
 	camX = 2 * (double)i / win->width - 1;
-	rayDir->x = you->dir.x + you->plane.x * camX;
-	rayDir->y = -(you->dir.y - you->plane.y * camX);
-	if (rayDir->x >= 0.0001 || rayDir->x <= -0.0001 )
+	ray->rayDir.x = you->dir.x + you->plane.x * camX;
+	ray->rayDir.y = -(you->dir.y - you->plane.y * camX);
+	if (ray->rayDir.x >= 0.0001 || ray->rayDir.x <= -0.0001 )
 	{
-		sqDelta->x = sqrt(win->square*win->square * (1 + (rayDir->y * rayDir->y) / (rayDir->x * rayDir->x)));
-		if (rayDir->x > 0)
+		ray->sqDelta.x = sqrt(win->square*win->square * (1 + (ray->rayDir.y * ray->rayDir.y) / (ray->rayDir.x * ray->rayDir.x)));
+		if (ray->rayDir.x > 0)
 			delta = ceilf(you->pos.x / win->square) * win->square - you->pos.x;
 		else
 			delta = you->pos.x - floorf(you->pos.x / win->square) * win->square;
-		sideDist->x = delta * sqrt((1 + (rayDir->y * rayDir->y) / (rayDir->x * rayDir->x)));
+		ray->sideDist.x = delta * sqrt((1 + (ray->rayDir.y * ray->rayDir.y) / (ray->rayDir.x * ray->rayDir.x)));
 	}
 	else
 	{
-		sideDist->x = 10000000;
-		sqDelta->x = 100000000;
+		ray->sideDist.x = 10000000;
+		ray->sqDelta.x = 100000000;
 	}
-	if (rayDir->y >= 0.0001 || rayDir->y <= -0.0001)
+	if (ray->rayDir.y >= 0.0001 || ray->rayDir.y <= -0.0001)
 	{
-		sqDelta->y = sqrt(win->square*win->square * (1 + (rayDir->x * rayDir->x) / (rayDir->y * rayDir->y)));
-		if (rayDir->y > 0)
+		ray->sqDelta.y = sqrt(win->square*win->square * (1 + (ray->rayDir.x * ray->rayDir.x) / (ray->rayDir.y * ray->rayDir.y)));
+		if (ray->rayDir.y > 0)
 			delta = ceilf(you->pos.y / win->square) * win->square - you->pos.y;
 		else
 			delta = you->pos.y - floorf(you->pos.y / win->square) * win->square;
-		sideDist->y = delta * sqrt((1 + (rayDir->x * rayDir->x) / (rayDir->y * rayDir->y)));
+		ray->sideDist.y = delta * sqrt((1 + (ray->rayDir.x * ray->rayDir.x) / (ray->rayDir.y * ray->rayDir.y)));
 	}
 	else
 	{
-		sideDist->y = 10000000;
-		sqDelta->y = 100000000;
+		ray->sideDist.y = 10000000;
+		ray->sqDelta.y = 100000000;
 	}
 }
 
-int	DDA(t_player *you, t_data *win, t_complex rayDir, t_complex sqDelta, t_complex *sideDist)
+int	DDA(t_player *you, t_data *win, t_ray *ray)
 {
 	t_complex	Adelta;
 	int			mapX;
@@ -61,35 +61,35 @@ int	DDA(t_player *you, t_data *win, t_complex rayDir, t_complex sqDelta, t_compl
 	mapY = you->pos.y / win->square;
 	Adelta.x = 0;
 	Adelta.y = 0;
-	if (sideDist->x < sideDist->y)
+	if (ray->sideDist.x < ray->sideDist.y)
 	{
-		mapX += sgn(rayDir.x);
+		mapX += sgn(ray->rayDir.x);
 		step = 0;
-		Adelta.x = sqDelta.x;
+		Adelta.x = ray->sqDelta.x;
 	}
 	else
 	{
-		mapY += sgn(rayDir.y);
+		mapY += sgn(ray->rayDir.y);
 		step = 1;
-		Adelta.y = sqDelta.y;
+		Adelta.y = ray->sqDelta.y;
 	}
 	while (1)
 	{
 		if (wall(mapX * win->square + win->square / 2, mapY * win->square + win->square / 2, win))
 			break;
-		if (sideDist->x + Adelta.x < sideDist->y + Adelta.y)
+		if (ray->sideDist.x + Adelta.x < ray->sideDist.y + Adelta.y)
 		{
-			sideDist->x += Adelta.x;
+			ray->sideDist.x += Adelta.x;
 			step = 0;
-			mapX += sgn(rayDir.x);
-			Adelta.x = sqDelta.x;
+			mapX += sgn(ray->rayDir.x);
+			Adelta.x = ray->sqDelta.x;
 		}
 		else
 		{
-			sideDist->y += Adelta.y;
+			ray->sideDist.y += Adelta.y;
 			step = 1;
-			mapY += sgn(rayDir.y);
-			Adelta.y = sqDelta.y;
+			mapY += sgn(ray->rayDir.y);
+			Adelta.y = ray->sqDelta.y;
 		}
 	}
 	return (step);
@@ -111,15 +111,32 @@ float	unfisheye(t_player *you, t_complex rayDir, float sideDist)
 	return (fabsf(proj_dist(dist, you->dir)));
 }
 
+void init_ray(t_ray *ray, int step, t_player *you, t_data *win)
+{
+	float	norm;
+
+	norm = sqrt(ray->rayDir.x * ray->rayDir.x + ray->rayDir.y * ray->rayDir.y);
+	if (step == 0)
+	{
+		ray->distance = unfisheye(you, ray->rayDir, ray->sideDist.x);
+		ray->line_loc = (remainder(you->pos.y + ray->rayDir.y *
+			ray->sideDist.x / norm, win->square) + 1)/win->square;
+	}
+	else
+	{
+		ray->distance = unfisheye(you, ray->rayDir, ray->sideDist.y);
+		ray->line_loc = (remainder(you->pos.x + ray->rayDir.x *
+			ray->sideDist.y / norm, win->square) + 1)/win->square;
+	}
+}
+
 void raycasting(t_player *you, t_data *win)
 {
-	t_complex	rayDir;
-	t_complex	sideDist;
-	t_complex	sqDelta;
 	int			step;
-	float		normRay;
 	int			i;
+	t_ray		*ray;
 
+	ray = win->ray;
 	if (you->pos.x == (int)you->pos.x)
 		you->pos.x += 0.0001;
 	if (you->pos.y == (int)you->pos.y)
@@ -127,15 +144,10 @@ void raycasting(t_player *you, t_data *win)
 	i = 0;
 	while (i <= win->width)
 	{
-		set_ray(i, &rayDir, &sqDelta, &sideDist, win, you);
-		step = DDA(you, win, rayDir, sqDelta, &sideDist);
-		normRay = sqrt(rayDir.x * rayDir.x + rayDir.y * rayDir.y);
-		if (step == 0)
-			draw_wall(unfisheye(you, rayDir, sideDist.x), i, step, win, rayDir,
-				(remainder(you->pos.y + rayDir.y * sideDist.x / normRay, win->square) + 1)/win->square);
-		else
-			draw_wall(unfisheye(you, rayDir, sideDist.y), i, step, win, rayDir,
-				(remainder(you->pos.x + rayDir.x * sideDist.y / normRay, win->square) + 1)/win->square);
-		i += 1;
+		set_ray(i, ray, win, you);
+		step = DDA(you, win, ray);
+		init_ray(ray, step, you, win);
+		draw_wall(ray, i, step, win);
+		i++;
 	}
 }

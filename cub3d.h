@@ -18,6 +18,7 @@
 # define TEXTURE_HEIGHT 64
 # define FOV 60
 
+
 typedef struct s_check
 {
 	char	*map;
@@ -74,6 +75,16 @@ typedef struct s_complex {
 	float	y;
 }	t_complex;
 
+typedef struct s_ray
+{
+	t_complex	rayDir;
+	t_complex	sideDist;
+	t_complex	sqDelta;
+	float		line_loc;
+	int			udorlr;
+	float		distance;
+}t_ray;
+
 typedef struct s_player
 {
 	t_complex	pos;
@@ -109,6 +120,8 @@ typedef struct s_data {
 	int			square;
 	t_texture	*tex;
 	int			forward;
+	int			c;
+	t_ray		*ray;
 }		t_data;
 
 typedef struct s_vars {
@@ -141,7 +154,7 @@ int		destroy(t_vars *vars);
 void	raycasting(t_player *you, t_data *win);
 int		wall(int i, int j, t_data *win);
 void	draw_line(t_data *win, float Istart, float Jstart, float Iend, float Jend, int color);
-void	draw_wall(float distance, int i, int NW, t_data *win, t_complex raydir, float line_loc);
+void	draw_wall(t_ray *ray, int i, int udorlr, t_data *win);
 void	create_struct_sprites(t_data *win, t_vars *vars);
 void	turn(t_data *win, t_player *you, int clockwise);
 int		move(t_data *win, t_player *you, float addX, float addY);

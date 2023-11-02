@@ -40,6 +40,8 @@ t_data *init_win(t_matrice *map)
 	win->map = map;
 	win->forward = 1;
 	win->minimap = -1;
+	win->c		= 1;
+	win->ray = malloc(sizeof(t_ray));
 	return (win);
 }
 

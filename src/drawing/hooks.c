@@ -33,7 +33,10 @@ int	key_hook(int key, t_vars *vars)
 	if (key == 13 || (key <= 2 && key >= 0) || key == 123 || key == 124)
 		movement(vars, key);
 	else if (key == 53)
-		mlx_destroy_window(vars->mlx, vars->mlx_win);
+	{
+		//mlx_destroy_window(vars->mlx, vars->mlx_win);
+		destroy(vars);
+	}
 	else if (key == 46)
 	{
 		vars->win->minimap *= -1;

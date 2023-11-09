@@ -67,24 +67,6 @@ int main(int ac, char **av)
  	t_matrice *map;
 
 	map = parsing(av[1]);
-<<<<<<< HEAD
-	// win = init_win(map);
- 	// you = malloc(sizeof(t_player));
-	// vars = init_vars(win, you, map);
- 	// win->img = mlx_new_image(vars->mlx, win->width, win->height);
- 	// win->addr = mlx_get_data_addr(win->img, &(win->bpp), &(win->line_len), &(win->endian));
-	// create_struct_sprites(win, vars);
-	// chara_loc(win, you, map);
-	// you->speed = win->square / 10;
-	// character(win, you);
- 	// mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
-	// mlx_hook(vars->mlx_win, 4 ,0L, mouse_hook, win);
-	// mlx_hook(vars->mlx_win, 2, 0L, key_hook, vars);
-	// mlx_hook(vars->mlx_win, 17 ,0L, destroy, vars);
-	// mlx_loop_hook(vars->mlx, render_new_frame, vars);
- 	// mlx_loop(vars->mlx);
-	// free(map->check->trash);
-=======
 	printf("<<<DONE>>>\n");
 	win = init_win(map);
  	you = malloc(sizeof(t_player));
@@ -100,7 +82,6 @@ int main(int ac, char **av)
 	mlx_hook(vars->mlx_win, 17 ,0L, destroy, vars);
 	mlx_loop_hook(vars->mlx, render_new_frame, vars);
  	mlx_loop(vars->mlx);
->>>>>>> 9eff7d25b968df32184a29dedabcb0fe41acb9ae
 	return (0);
 }
 

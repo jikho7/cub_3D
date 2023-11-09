@@ -5,8 +5,8 @@
 static int		delete_word(char **str, int size);
 static int		count_words(const char *str, char sign);
 static void		write_word(char *dest, const char *from, char sign);
-static int		write_split(char **tab_split, const char *str, char sign, t_list **trash);
-char			**ft_split_GC(const char *str, char c, t_list **trash);
+static int		write_split(char **tab_split, const char *str, char sign, t_list **gc);
+char			**ft_split_GC(const char *str, char c, t_list **gc);
 
 /*int main ()
 {
@@ -65,7 +65,7 @@ static void	write_word(char *dest, const char *word_begin, char sign)
 	dest[i] = '\0';
 }
 
-static int	write_split(char **tab_split, const char *str, char sign, t_list **trash)
+static int	write_split(char **tab_split, const char *str, char sign, t_list **gc)
 {
 	int		i;
 	int		j;
@@ -82,7 +82,7 @@ static int	write_split(char **tab_split, const char *str, char sign, t_list **tr
 			j = 0;
 			while (str[i + j] != sign && str[i + j] != '\0')
 				j++;
-			tab_split [word] = (char *)my_malloc((j + 1),sizeof(char), trash); //(char *)malloc(sizeof(char) * (j + 1));
+			tab_split [word] = (char *)my_malloc((j + 1),sizeof(char), gc); //(char *)malloc(sizeof(char) * (j + 1));
 			if (tab_split[word] == NULL)
 				return (delete_word(tab_split, word - 1));
 			write_word(tab_split[word], &str[i], sign);
@@ -93,16 +93,16 @@ static int	write_split(char **tab_split, const char *str, char sign, t_list **tr
 	return (0);
 }
 
-char	**ft_split_GC(const char *str, char c, t_list **trash)
+char	**ft_split_GC(const char *str, char c, t_list **gc)
 {
 	char	**tab_result;
 	int		words;
 
 	words = count_words(str, c);
-	tab_result = (char **)my_malloc((words + 1), sizeof(char *), trash);//(char **)malloc(sizeof(char *) * (words + 1));
+	tab_result = (char **)my_malloc((words + 1), sizeof(char *), gc);//(char **)malloc(sizeof(char *) * (words + 1));
 	if (tab_result == NULL)
 		return (NULL);
 	tab_result[words] = 0;
-	write_split(tab_result, str, c, trash);
+	write_split(tab_result, str, c, gc);
 	return (tab_result);
 }

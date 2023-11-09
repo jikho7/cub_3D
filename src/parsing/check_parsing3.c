@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 19:17:53 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/09 21:03:49 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:37:21 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,31 @@ void	check_spelling(t_parse **lst, t_check *check_lst)
 	}
 }
 
-void	save_textures(char *str, t_check *check)
+void	save_textures(char *s, t_check *ch)
 {
-	if (str[0] == 'E')
+	if (s[0] == 'E')
 	{
-		check->mat->EA_path = my_malloc(ft_strlen(str), sizeof(char *),
-				&check->trash);
-		check->mat->EA_path = ft_strcpy(check->mat->EA_path, str + 2);
+		ch->mat->EA_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
+		verif_malloc(ch->mat->EA_path);
+		ch->mat->EA_path = ft_strcpy(ch->mat->EA_path, s + 2);
 	}
-	if (str[0] == 'S')
+	if (s[0] == 'S')
 	{
-		check->mat->SO_path = my_malloc(ft_strlen(str), sizeof(char *),
-				&check->trash);
-		check->mat->SO_path = ft_strcpy(check->mat->SO_path, str + 2);
+		ch->mat->SO_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
+		verif_malloc(ch->mat->SO_path);
+		ch->mat->SO_path = ft_strcpy(ch->mat->SO_path, s + 2);
 	}
-	if (str[0] == 'N')
+	if (s[0] == 'N')
 	{
-		check->mat->NO_path = my_malloc(ft_strlen(str), sizeof(char *),
-				&check->trash);
-		check->mat->NO_path = ft_strcpy(check->mat->NO_path, str + 2);
+		ch->mat->NO_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
+		verif_malloc(ch->mat->NO_path);
+		ch->mat->NO_path = ft_strcpy(ch->mat->NO_path, s + 2);
 	}
-	if (str[0] == 'W')
+	if (s[0] == 'W')
 	{
-		check->mat->WE_path = my_malloc(ft_strlen(str), sizeof(char *),
-				&check->trash);
-		check->mat->WE_path = ft_strcpy(check->mat->WE_path, str + 2);
+		ch->mat->WE_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
+		verif_malloc(ch->mat->WE_path);
+		ch->mat->WE_path = ft_strcpy(ch->mat->WE_path, s + 2);
 	}
 }
 
@@ -76,7 +76,7 @@ void	handle_c_norm(int *i, int *j, char **split, t_mat *matrice)
 	sign_c[0] = 'C';
 	sign_c[1] = ' ';
 	sign_c[2] = '\n';
-	split[*i] = ft_strtrim_GC(split[*i], sign_c, &matrice->check->trash);
+	split[*i] = ft_strtrim_GC(split[*i], sign_c, &matrice->check->gc);
 	save_f_c_info(1, matrice, *j, split[*i]);
 	(*j)++;
 	(*i)++;

@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:18 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/09 19:32:58 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/09 23:58:30 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,6 @@ static void	error_msg_2(int option)
 		printf("Error: Missing Player\n");
 	if (option == 14)
 		printf("Error: empty line in map\n");
+	if (option == 15)
+		printf("Malloc allocation failed\n");
 }

@@ -10,7 +10,6 @@
 #include <fcntl.h>
 #include <string.h>
 
-
 # define BUFFER_SIZE 11
 # define WIN_WIDTH 1440
 # define WIN_HEIGHT 960
@@ -18,50 +17,49 @@
 # define TEXTURE_HEIGHT 64
 # define FOV 60
 
-
 typedef struct s_check
 {
-	char	*map;
-	int		EA;
-	int		NO;
-	int		SO;
-	int		WE;
-	int		C;
-	int		F;
-	int		wrong_spell;
-	int		is_map;
-	t_list	*trash;
-	struct s_mat *mat;
+	char			*map;
+	int				EA;
+	int				NO;
+	int				SO;
+	int				WE;
+	int				C;
+	int				F;
+	int				wrong_spell;
+	int				is_map;
+	t_list			*gc;
+	struct	s_mat	*mat;
 }t_check;
 
 typedef struct s_mat
 {
-	struct s_check *check;
-	char	**map_with_spaces;
-	char	**map;
-	int		height;
-	int		width;
-	int		N;
-	int		S;
-	int		E;
-	int		W;
-	char	*NO_path;
-	char	*SO_path;
-	char	*EA_path;
-	char	*WE_path;
-	int		*F;
-	int		*C;
-	int		wrong_symbol;
-	int		player_sympbol;
-	int		pos_x_player;
-	int		pos_y_player;
-	char	orientation;
+	struct s_check	*check;
+	char			**map_space;
+	char			**map;
+	int				hei;
+	int				wid;
+	int				N;
+	int				S;
+	int				E;
+	int				W;
+	char			*NO_path;
+	char			*SO_path;
+	char			*EA_path;
+	char			*WE_path;
+	int				*F;
+	int				*C;
+	int				wrong_symbol;
+	int				player_sympbol;
+	int				pos_x_player;
+	int				pos_y_player;
+	char			orientation;
 }t_mat;
 
-typedef struct  s_f_fill
+typedef struct s_f_fill
 {
-    int           x;
-    int           y;
+	int	x;
+	int	y;
 }t_f_fill;
 
 typedef struct s_parse
@@ -92,7 +90,7 @@ typedef struct s_player
 	t_complex	dir;
 	t_complex	plane;
 	int			speed;
-}		t_player;
+}t_player;
 
 typedef struct s_texture
 {
@@ -106,7 +104,7 @@ typedef struct s_texture
 	int			height;
 	int			width;
 
-}	t_texture;
+}t_texture;
 
 typedef struct s_data {
 	void		*img;
@@ -116,22 +114,22 @@ typedef struct s_data {
 	int			endian;
 	int			height;
 	int			width;
-	t_mat	*map;
+	t_mat		*map;
 	int			minimap;
 	int			sqr;
 	t_texture	*tex;
 	int			forward;
 	int			c;
 	t_ray		*ray;
-}		t_data;
+}t_data;
 
 typedef struct s_vars {
 	void		*mlx;
 	void		*mlx_win;
 	t_data		*win;
 	t_player	*you;
-	t_mat	*map;
-}		t_vars;
+	t_mat		*map;
+}t_vars;
 
 int		init_mlx(t_data *data);
 
@@ -165,9 +163,9 @@ int		dda_start(t_complex *adelta, t_ray *ray, t_complex *map);
 int		x_or_y(t_ray *ray, t_complex *adelta, t_complex *map);
 
 /*----------------MATH-----------------*/
-int	sgn(float n);
-int	min(int a, int b);
-int	max(int a, int b);
+int		sgn(float n);
+int		min(int a, int b);
+int		max(int a, int b);
 float	sq(float a);
 
 /*----------------PARSING-----------------*/
@@ -206,11 +204,12 @@ int		check_directions(t_mat *mat, int pos_y, int pos_x);
 int		check_left(t_mat *mat, int pos_y, int pos_x);
 int		check_right(t_mat *mat, int pos_y, int pos_x);
 int		check_down(t_mat *mat, int pos_y, int pos_x);
+int		verif_malloc(void *malloc);
 /*----------------LISTS-----------------*/
 void	add_back(t_parse **head, t_parse *node_to_add);
 int		lstsize(t_parse *lst);
 int		create_lst(t_parse **info, t_check *check);
-t_parse	*lstnew(char *data, t_list **trash_lst);
+t_parse	*lstnew(char *data, t_list **gc_lst);
 void	display_node(t_parse *lst);
 void	display_lst(t_parse **ptr_to_head, char *name);
 void	cpy_lst(t_parse **dest_lst, t_parse **src_lst, t_check *check);

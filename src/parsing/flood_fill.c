@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flood_fill2.c                                      :+:      :+:    :+:   */
+/*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 20:38:53 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/09 20:39:42 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:30:56 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	flood_fill(t_mat *mat)
 
 	i = 0;
 	j = 0;
-	while (mat->map_with_spaces[j])
+	while (mat->map_space[j])
 	{
 		i = 0;
-		while (mat->map_with_spaces[j][i])
+		while (mat->map_space[j][i])
 		{
-			if (mat->map_with_spaces[j][i] == '0'
+			if (mat->map_space[j][i] == '0'
 				|| mat->map[j][i] == 'N' || mat->map[j][i] == 'E'
 					|| mat->map[j][i] == 'S' || mat->map[j][i] == 'W')
 				check_directions(mat, j, i);

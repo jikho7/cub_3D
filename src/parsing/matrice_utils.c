@@ -25,9 +25,9 @@ void	get_width(t_parse **map, t_mat *mat)
 		{
 			i++;
 		}
-		if (mat->width < i)
+		if (mat->wid < i)
 		{
-			mat->width = i;
+			mat->wid = i;
 		}
 		tmp = tmp->next;
 	}
@@ -53,7 +53,7 @@ void	get_width2(t_mat *mat)
 			max = i;
 		j++;
 	}
-	mat->width = max - 1;
+	mat->wid = max - 1;
 }
 
 void	get_height(t_parse **map, t_mat *mat)
@@ -75,13 +75,13 @@ void	get_height(t_parse **map, t_mat *mat)
 		else if (tmp->next != NULL && (tmp->content[i] == '1'
 				|| tmp->content[i] == '0'))
 		{
-			mat->height++;
+			mat->hei++;
 			tmp = tmp->next;
 		}
 		else if (tmp->next != NULL && tmp->content[i] == '\n')
 		tmp = tmp->next;
 	}
-	if (mat->height == 0)
+	if (mat->hei == 0)
 		error_msg(11);
 }
 
@@ -92,7 +92,7 @@ void	strtrim_mat(t_parse info, t_check *check)
 
 	sign[0] = ' ';
 	cpy = info;
-	cpy.content = ft_strtrim_GC(cpy.content, sign, &check->trash);
+	cpy.content = ft_strtrim_GC(cpy.content, sign, &check->gc);
 }
 
 void	check_if_space_in_map(t_parse *lst, t_mat *mat)
@@ -102,7 +102,7 @@ void	check_if_space_in_map(t_parse *lst, t_mat *mat)
 
 	i = 0;
 	tmp = lst;
-	while (mat->height > i)
+	while (mat->hei > i)
 	{
 		if (tmp->content[0] == '\n')
 		{

@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:44 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/09 20:50:56 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:29:13 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	reduce_spaces_to_one(t_parse **lst, t_check *check)
 	while (tmp->next != NULL)
 	{
 		size = size_len(tmp->content);
-		res = my_malloc(size + 1, sizeof(char), &check->trash);
+		res = my_malloc(size + 1, sizeof(char), &check->gc);
+		verif_malloc(res);
 		i = 0;
 		j = 0;
 		while (tmp->content[i])

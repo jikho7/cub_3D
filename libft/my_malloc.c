@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "libft.h"
 
-void	*my_malloc(size_t size, size_t type, t_list **trash)
+void	*my_malloc(size_t size, size_t type, t_list **gc)
 {
 	void	*ptr;
 	t_list	*new;
@@ -14,6 +14,6 @@ void	*my_malloc(size_t size, size_t type, t_list **trash)
 	if (!new)
 		return (NULL);
 	new->content = ptr;
-	ft_lstadd_back(trash, new);
+	ft_lstadd_back(gc, new);
 	return (ptr);
 }

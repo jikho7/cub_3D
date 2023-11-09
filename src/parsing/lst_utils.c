@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:33 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/09 18:04:37 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:21:27 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int	lstsize(t_parse *lst)
 	return (nbr_element);
 }
 
-t_parse	*lstnew(char *data, t_list **trash_lst)
+t_parse	*lstnew(char *data, t_list **gc_lst)
 {
 	t_parse	*new_element;
 
-	new_element = my_malloc(1, sizeof(t_parse), trash_lst);
+	new_element = my_malloc(1, sizeof(t_parse), gc_lst);
 	if (new_element == NULL)
 		return (NULL);
 	(*new_element).content = data;

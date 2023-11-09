@@ -34,7 +34,7 @@ static int	ft_end(const char *s1, const char *set)
 	return (size);
 }
 
-char	*ft_strtrim_GC(char const *s1, char const *set, t_list **trash)
+char	*ft_strtrim_GC(char const *s1, char const *set, t_list **gc)
 {
 	int		start;
 	int		end;
@@ -48,7 +48,7 @@ char	*ft_strtrim_GC(char const *s1, char const *set, t_list **trash)
 	end = ft_end(s1, set);
 	if (start >= end)
 		return (ft_strdup(""));
-	result = (char*)my_malloc((end - start + 1), sizeof(char), trash);//(char *)malloc(sizeof(char) * (end - start + 1));
+	result = (char*)my_malloc((end - start + 1), sizeof(char), gc);//(char *)malloc(sizeof(char) * (end - start + 1));
 	if (result == NULL)
 		return (NULL);
 	ft_strlcpy(result, s1 + start, end - start + 1);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/10/31 19:33:58 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:18:59 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	minimap(t_data *win, t_player *you, int i, t_complex shift)
 	int	j;
 
 	j = 0;
-	while (j < min(win->width, win->map->height * win->sqr))
+	while (j < min(win->width, win->map->hei * win->sqr))
 	{
 		if (circle(i + (int)shift.x, j + shift.y, you))
 			my_mlx_pixel_put(win, i, j, trgb(1, 0, 255, 0));
@@ -71,11 +71,11 @@ void	character(t_data *win, t_player *you)
 
 	i = -1;
 	shift.x = max(0, you->pos.x - win->width / 2);
-	shift.y = min(max(0, win->map->height * win->sqr - win->height),
+	shift.y = min(max(0, win->map->hei * win->sqr - win->height),
 			max(0, you->pos.y - win->height / 2));
 	if (win->minimap == 1)
 	{
-		while (i++ < min(win->width, win->map->width * win->sqr))
+		while (i++ < min(win->width, win->map->wid * win->sqr))
 			minimap(win, you, i, shift);
 		while (i < win->width)
 		{

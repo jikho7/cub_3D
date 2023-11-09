@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/11/09 21:18:39 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:21:27 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	destroy(t_vars *vars)
 	free(vars->win);
 	//free(vars->map);
 	free(vars);
-	// free(vars->map->check->trash);
-	// while (1);
+	// free(vars->map->check->gc);
+	//while (1);
 	exit(0);
 }

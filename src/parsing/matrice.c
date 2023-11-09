@@ -37,7 +37,7 @@ static void	fill_mat(t_mat *mat, t_parse *tmp)
 
 	i = 0;
 	j = 0;
-	while (mat->height > j)
+	while (mat->hei > j)
 	{
 		i = 0;
 		while (tmp->content[i])
@@ -55,7 +55,7 @@ static void	filling_matrice(char c, t_mat *mat, int j, int i)
 {
 	if (c == ' ')
 	{
-		mat->map_with_spaces[j][i] = ' ';
+		mat->map_space[j][i] = ' ';
 		mat->map[j][i] = '1';
 	}
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
@@ -64,12 +64,12 @@ static void	filling_matrice(char c, t_mat *mat, int j, int i)
 		mat->pos_x_player = i + 1;
 		mat->pos_y_player = j + 1;
 		mat->map[j][i] = c;
-		mat->map_with_spaces[j][i] = '0';
+		mat->map_space[j][i] = '0';
 	}
 	else
 	{
 		mat->map[j][i] = c;
-		mat->map_with_spaces[j][i] = c;
+		mat->map_space[j][i] = c;
 	}
 }
 
@@ -89,23 +89,23 @@ static void	calloc_maps(t_mat *mat)
 {
 	int	i;
 
-	mat->map = my_malloc(mat->height + 1, sizeof(char *),
-			&mat->check->trash);
-	mat->map[mat->height] = 0;
-	mat->map_with_spaces = my_malloc((mat->height + 1), sizeof(char *),
-			&mat->check->trash);
-	mat->map_with_spaces[mat->height] = 0;
-	i = 0;
-	while (i < mat->height)
+	mat->map = my_malloc(mat->hei + 1, sizeof(char *), &mat->check->gc);
+	verif_malloc(mat->map);
+	mat->map[mat->hei] = 0;
+	mat->map_space = my_malloc((mat->hei + 1), sizeof(char *),
+			&mat->check->gc);
+	verif_malloc(mat->map_space);
+	mat->map_space[mat->hei] = 0;
+	i = -1;
+	while (++i < mat->hei)
 	{
-		mat->map[i] = my_malloc(mat->width, sizeof(char), &mat->check->trash);
-		i++;
+		mat->map[i] = my_malloc(mat->wid, sizeof(char), &mat->check->gc);
+		verif_malloc(mat->map[i]);
 	}
-	i = 0;
-	while (i < mat->height)
+	i = -1;
+	while (++i < mat->hei)
 	{
-		mat->map_with_spaces[i] = my_malloc(mat->width, sizeof(char),
-				&mat->check->trash);
-				i++;
+		mat->map_space[i] = my_malloc(mat->wid, sizeof(char), &mat->check->gc);
+		verif_malloc(mat->map_space[i]);
 	}
 }

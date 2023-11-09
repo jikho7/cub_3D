@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:48 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/09 21:13:36 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:38:23 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ t_mat	*parsing(char *map)
 	t_mat	*mat;
 	t_parse	*origin;
 
-	check.trash = NULL;
+	check.gc = NULL;
 	info = NULL;
 	mat = NULL;
 	origin = NULL;
-	mat = my_malloc(1, sizeof(t_mat), &check.trash);
+	mat = my_malloc(1, sizeof(t_mat), &check.gc);
+	if (mat == NULL)
+		return (NULL);
 	init_struct_check(&check, map, mat);
 	init_mat(mat, &check);
 	check_map_extension(map);
@@ -53,4 +55,11 @@ static void	parsing2(t_parse *info, t_check check, t_mat *mat, t_parse *origin)
 	check_map(mat);
 	flood_fill(mat);
 	get_width2(mat);
+}
+
+int verif_malloc(void *malloc)
+{
+	if (malloc == NULL)
+		error_msg(15);
+	return (0);
 }

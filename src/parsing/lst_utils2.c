@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:36 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/09 21:04:28 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:21:27 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	create_lst(t_parse **info, t_check *check)
 		return (1);
 	while (1)
 	{
-		new = lstnew(get_next_line(fd), &check->trash);
+		new = lstnew(get_next_line(fd), &check->gc);
 		add_back(info, new);
 		if (new->content == NULL)
 			break ;
@@ -42,7 +42,7 @@ void	cpy_lst(t_parse **dest_lst, t_parse **src_lst, t_check *check)
 	{
 		while (s_tmp->next != NULL)
 		{
-			tmp = lstnew(s_tmp->content, &check->trash);
+			tmp = lstnew(s_tmp->content, &check->gc);
 			add_back(dest_lst, tmp);
 			s_tmp = s_tmp->next;
 		}
@@ -64,7 +64,7 @@ void	strtrim_lst(t_parse **info, t_check *check)
 	tmp = *info;
 	while (tmp->next != NULL)
 	{
-		tmp->content = ft_strtrim_GC(tmp->content, sign, &check->trash);
+		tmp->content = ft_strtrim_GC(tmp->content, sign, &check->gc);
 		tmp = tmp->next;
 	}
 }

@@ -12,36 +12,32 @@
 
 #include <cub3d.h>
 
-void	chara_loc(t_data *win, t_player *you, t_mat *map)
+void	chara_loc(t_data *win, t_player *you, t_mat *mat)
 {
 	int	i;
 	int	j;
+	int	eye;
 
-	i = 0;
-	while (map->map[i][0])
+	i = -1;
+	while (mat->map[++i][0])
 	{
-		j = 0;
-		while (map->map[i][j])
+		j = -1;
+		while (mat->map[i][++j])
 		{
-			if (map->map[i][j] == 'N' || map->map[i][j] == 'W'
-				|| map->map[i][j] == 'S' || map->map[i][j] == 'E')
+			if (mat->map[i][j] == 'N' || mat->map[i][j] == 'W'
+				|| mat->map[i][j] == 'S' || mat->map[i][j] == 'E')
 			{
+				eye = mat->map[i][j] - 69;
 				you->pos.x = j * win->sqr + win->sqr / 2;
 				you->pos.y = i * win->sqr + win->sqr / 2;
-				map->map[i][j] -= 69;
-				you->dir.x = ((-map->map[i][j] * map->map[i][j] * map->map[i][j]
-							+ 27 * map->map[i][j] * map->map[i][j] - 227
-							* map->map[i][j]) / 585 + 1);
-				you->dir.y = -((- 73 * map->map[i][j] * map->map[i][j]
-							* map->map[i][j] + 2101 * map->map[i][j]
-							* map->map[i][j] - 14166 * map->map[i][j]) / 10530);
-				you->plane.x = you->dir.y * 0.8;
-				you->plane.y = you->dir.x * 0.8;
+				you->dir.x = ((-eye * sq(eye) + 27 * sq(eye) - 227 * eye)
+						/ 585 + 1);
+				you->dir.y = -((-73 * eye * sq(eye) + 2101 * sq(eye) - 14166
+							* eye) / 10530);
+				set_comp(&(you->plane), you->dir.y * 0.8, you->dir.x * 0.8);
 				return ;
 			}
-			j++;
 		}
-		i++;
 	}
 }
 
@@ -81,8 +77,8 @@ int	main(int ac, char **av)
 	t_data		*win;
 	t_player	*you;
 	t_mat		*map;
-	(void)ac;
 
+	(void)ac;
 	map = parsing(av[1]);
 	win = init_win(map);
 	you = malloc(sizeof(t_player));
@@ -92,11 +88,11 @@ int	main(int ac, char **av)
 			&(win->line_len), &(win->endian));
 	create_struct_sprites(win, vars);
 	chara_loc(win, you, map);
-	you->speed = win->sqr / 10;
+	you->speed = win->sqr / 5;
 	character(win, you);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
 	mlx_hook(vars->mlx_win, 2, 0L, key_hook, vars);
-	mlx_hook(vars->mlx_win, 17 , 0L, destroy, vars);
+	mlx_hook(vars->mlx_win, 17, 0L, destroy, vars);
 	mlx_loop_hook(vars->mlx, render_new_frame, vars);
 	mlx_loop(vars->mlx);
 	return (0);

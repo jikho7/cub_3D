@@ -10,7 +10,6 @@
 #include <fcntl.h>
 #include <string.h>
 
-
 # define BUFFER_SIZE 11
 # define WIN_WIDTH 1440
 # define WIN_HEIGHT 960
@@ -18,50 +17,49 @@
 # define TEXTURE_HEIGHT 64
 # define FOV 60
 
-
 typedef struct s_check
 {
-	char	*map;
-	int		EA;
-	int		NO;
-	int		SO;
-	int		WE;
-	int		C;
-	int		F;
-	int		wrong_spell;
-	int		is_map;
-	t_list	*trash;
-	struct s_mat *mat;
+	char		*map;
+	int			EA;
+	int			NO;
+	int			SO;
+	int			WE;
+	int			C;
+	int			F;
+	int			wrong_spell;
+	int			is_map;
+	t_list		*trash;
+	struct s_mat	*mat;
 }t_check;
 
 typedef struct s_mat
 {
-	struct s_check *check;
-	char	**map_with_spaces;
-	char	**map;
-	int		height;
-	int		width;
-	int		N;
-	int		S;
-	int		E;
-	int		W;
-	char	*NO_path;
-	char	*SO_path;
-	char	*EA_path;
-	char	*WE_path;
-	int		*F;
-	int		*C;
-	int		wrong_symbol;
-	int		player_sympbol;
-	int		pos_x_player;
-	int		pos_y_player;
-	char	orientation;
+	struct s_check	*check;
+	char			**map_with_spaces;
+	char			**map;
+	int				height;
+	int				width;
+	int				N;
+	int				S;
+	int				E;
+	int				W;
+	char			*NO_path;
+	char			*SO_path;
+	char			*EA_path;
+	char			*WE_path;
+	int				*F;
+	int				*C;
+	int				wrong_symbol;
+	int				player_sympbol;
+	int				pos_x_player;
+	int				pos_y_player;
+	char			orientation;
 }t_mat;
 
-typedef struct  s_f_fill
+typedef struct s_f_fill
 {
-    int           x;
-    int           y;
+	int	x;
+	int	y;
 }t_f_fill;
 
 typedef struct s_parse
@@ -116,7 +114,7 @@ typedef struct s_data {
 	int			endian;
 	int			height;
 	int			width;
-	t_mat	*map;
+	t_mat		*map;
 	int			minimap;
 	int			sqr;
 	t_texture	*tex;
@@ -130,7 +128,7 @@ typedef struct s_vars {
 	void		*mlx_win;
 	t_data		*win;
 	t_player	*you;
-	t_mat	*map;
+	t_mat		*map;
 }		t_vars;
 
 int		init_mlx(t_data *data);
@@ -165,10 +163,11 @@ int		dda_start(t_complex *adelta, t_ray *ray, t_complex *map);
 int		x_or_y(t_ray *ray, t_complex *adelta, t_complex *map);
 
 /*----------------MATH-----------------*/
-int	sgn(float n);
-int	min(int a, int b);
-int	max(int a, int b);
+int		sgn(float n);
+int		min(int a, int b);
+int		max(int a, int b);
 float	sq(float a);
+void	set_comp(t_complex *c, float x, float y);
 
 /*----------------PARSING-----------------*/
 t_mat	*parsing(char *map);

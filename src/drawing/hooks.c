@@ -33,10 +33,7 @@ int	key_hook(int key, t_vars *vars)
 	if (key == 13 || (key <= 2 && key >= 0) || key == 123 || key == 124)
 		movement(vars, key);
 	else if (key == 53)
-	{
-		//mlx_destroy_window(vars->mlx, vars->mlx_win);
 		destroy(vars);
-	}
 	else if (key == 46)
 	{
 		vars->win->minimap *= -1;
@@ -49,10 +46,10 @@ int	key_hook(int key, t_vars *vars)
 	}
 	else if (key == 257)
 	{
-		if (vars->you->speed == vars->win->sqr / 10)
-			vars->you->speed = vars->win->sqr / 5;
+		if (vars->you->speed == vars->win->sqr / 5)
+			vars->you->speed = vars->win->sqr / 2;
 		else
-			vars->you->speed = vars->win->sqr / 10;
+			vars->you->speed = vars->win->sqr / 5;
 	}
 	return (0);
 }
@@ -65,13 +62,17 @@ int	render_new_frame(t_vars *vars)
 
 int	destroy(t_vars *vars)
 {
+	int	i;
+
 	free(vars->win->tex);
 	free(vars->you);
 	free(vars->win->ray);
 	free(vars->win);
-	//free(vars->map);
+	i = -1;
+	while (vars->map->map[i++])
+		free(vars->map->map[i]);
+	free(vars->map->map);
+	free(vars->map);
 	free(vars);
-	// free(vars->map->check->trash);
-	// while (1);
 	exit(0);
 }

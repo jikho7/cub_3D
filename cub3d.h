@@ -57,7 +57,10 @@ typedef struct s_mat
 }t_mat;
 
 typedef struct s_f_fill
+typedef struct s_f_fill
 {
+	int	x;
+	int	y;
 	int	x;
 	int	y;
 }t_f_fill;
@@ -115,6 +118,7 @@ typedef struct s_data {
 	int			height;
 	int			width;
 	t_mat		*map;
+	t_mat		*map;
 	int			minimap;
 	int			sqr;
 	t_texture	*tex;
@@ -166,7 +170,11 @@ int		x_or_y(t_ray *ray, t_complex *adelta, t_complex *map);
 int		sgn(float n);
 int		min(int a, int b);
 int		max(int a, int b);
+int		sgn(float n);
+int		min(int a, int b);
+int		max(int a, int b);
 float	sq(float a);
+void	set_comp(t_complex *c, float x, float y);
 
 /*----------------PARSING-----------------*/
 t_mat	*parsing(char *map);

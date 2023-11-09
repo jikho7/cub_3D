@@ -91,7 +91,6 @@ void	strtrim_f_c(char *str, t_mat *matrice)
 		}
 		j = 0;
 	}
-	printf("i: %d\n", i);
 }
 
 void	size_split(char **split)
@@ -100,9 +99,7 @@ void	size_split(char **split)
 
 	i = 0;
 	while (split[i])
-	{
 		i++;
-	}
 	if (i != 3)
 		error_msg(4);
 }

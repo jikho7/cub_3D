@@ -39,3 +39,9 @@ float	sq(float a)
 {
 	return (a * a);
 }
+
+void	set_comp(t_complex *c, float x, float y)
+{
+	c->x = x;
+	c->y = y;
+}

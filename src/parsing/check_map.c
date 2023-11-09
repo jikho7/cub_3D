@@ -1,42 +1,65 @@
-# include <cub3d.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 17:51:10 by jdefayes          #+#    #+#             */
+/*   Updated: 2023/11/09 18:32:45 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void check_map(t_matrice *matrice)
+#include <cub3d.h>
+
+static void	control_symbol(t_mat *mat);
+static void	go_through_map(t_mat *mat, int *j);
+
+void	check_map(t_mat *mat)
 {
-	int i = 0;
-	int j = 0;
+	int	j;
 
-	while (matrice->map[j])
+	j = 0;
+	while (mat->map[j])
 	{
-		i = 0;
-		while (matrice->map[j][i])
-		{
-			if (matrice->map[j][i] == 'N' || matrice->map[j][i] == 'E' || matrice->map[j][i] == 'S' || matrice->map[j][i] == 'W')
-			{
-				matrice->player_sympbol++;
-			}
-			if (matrice->map[j][i] == 'N')
-				matrice->N++;
-			else if (matrice->map[j][i] == 'S')
-			{
-				matrice->S++;
-			}
-			else if (matrice->map[j][i] == 'E')
-				matrice->E++;
-			else if (matrice->map[j][i] == 'W')
-				matrice->W++;
-			else if (matrice->map[j][i] != '1' && matrice->map[j][i] != '0' && matrice->map[j][i] != '\n')
-			{
-				printf("wrong symbol: %c\n", matrice->map[j][i]);
-				matrice->wrong_symbol++;
-			}
-			i++;
-		}
+		go_through_map(mat, &j);
 		j++;
 	}
-	if (matrice->N > 1 || matrice->S > 1 || matrice->E > 1 || matrice->W > 1 || matrice->player_sympbol > 1)
+	control_symbol(mat);
+}
+
+static void	go_through_map(t_mat *mat, int *j)
+{
+	int	i;
+
+	i = 0;
+	while (mat->map[*j][i])
+	{
+		if (mat->map[*j][i] == 'N' || mat->map[*j][i] == 'E'
+			|| mat->map[*j][i] == 'S' || mat->map[*j][i] == 'W')
+			mat->player_sympbol++;
+		if (mat->map[*j][i] == 'N')
+			mat->N++;
+		else if (mat->map[*j][i] == 'S')
+			mat->S++;
+		else if (mat->map[*j][i] == 'E')
+			mat->E++;
+		else if (mat->map[*j][i] == 'W')
+			mat->W++;
+		else if (mat->map[*j][i] != '1' && mat->map[*j][i] != '0'
+			&& mat->map[*j][i] != '\n')
+			mat->wrong_symbol++;
+		i++;
+	}
+}
+
+static void	control_symbol(t_mat *mat)
+{
+	if (mat->N > 1 || mat->S > 1 || mat->E > 1 || mat->W > 1
+		|| mat->player_sympbol > 1)
 		error_msg(7);
-	if (matrice->wrong_symbol != 0)
+	if (mat->wrong_symbol != 0)
 		error_msg(8);
-	if (matrice->player_sympbol == 0)
+	if (mat->player_sympbol == 0)
 		error_msg(13);
 }

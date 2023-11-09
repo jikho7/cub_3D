@@ -1,48 +1,56 @@
-# include <cub3d.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 17:51:48 by jdefayes          #+#    #+#             */
+/*   Updated: 2023/11/09 21:13:36 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_matrice *parsing(char *map)
+#include <cub3d.h>
+
+static void	parsing2(t_parse *info, t_check check, t_mat *mat, t_parse *origin);
+
+t_mat	*parsing(char *map)
 {
-	t_parse *info = NULL;
-	t_check check;
-	t_matrice *matrice = NULL;
-	t_parse *origin = NULL;
+	t_parse	*info;
+	t_check	check;
+	t_mat	*mat;
+	t_parse	*origin;
+
 	check.trash = NULL;
-
-	matrice = my_malloc(1, sizeof(t_matrice), &check.trash);
-	init_struct_check(&check, map, matrice);
-	init_matrice(matrice, &check);
+	info = NULL;
+	mat = NULL;
+	origin = NULL;
+	mat = my_malloc(1, sizeof(t_mat), &check.trash);
+	init_struct_check(&check, map, mat);
+	init_mat(mat, &check);
 	check_map_extension(map);
-
 	create_lst(&info, &check);
-	display_lst(&info, "info1");
 	remove_empty_block(&info);
-	//display_lst(&info, "after removed empty blocks");
 	cpy_lst(&origin, &info, &check);
-	get_width(&info, matrice);
-
+	get_width(&info, mat);
 	strtrim_lst(&info, &check);
-	check_spaces_NSEW(&info);
-	get_height(&info, matrice);
-//	printf("width: %d, height: %d\n", matrice.width, matrice.height);
-//	display_lst(&origin, "origin");
-//	display_lst(&info, "info");
-	// char * line_debug = info->content;
-	// (void) line_debug;
+	parsing2(info, check, mat, origin);
+	return (mat);
+}
+
+static void	parsing2(t_parse *info, t_check check, t_mat *mat, t_parse *origin)
+{
+	check_spaces_nsew(&info);
+	get_height(&info, mat);
 	check_tex_extension(&info, &check);
 	read_lst(&info, &check);
 	check_excess_info(&info);
-	check_F_C(&info, matrice);
+	check_f_c(&info, mat);
 	reduce_spaces_to_one(&info, &check);
 	check_spelling(&info, &check);
 	check_if_info_after_map(&info, &check);
-	create_matrice(&origin, matrice);
-	check_map(matrice);
-	flood_fill(matrice);
-	get_width2(matrice);
-	// ft_lstclear(&check.trash, free);
-	// info = NULL;
-	//ft_lstclear((t_list**)&origin, free);
-//	ft_lstclear((t_list**)info, free);
-//	while (1);
-	return (matrice);
+	create_mat(&origin, mat);
+	check_map(mat);
+	flood_fill(mat);
+	get_width2(mat);
 }

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mat_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 17:51:39 by jdefayes          #+#    #+#             */
+/*   Updated: 2023/11/09 18:06:45 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
-void get_width(t_parse **map, t_matrice *matrice)
+void	get_width(t_parse **map, t_mat *mat)
 {
-	t_parse *tmp;
-	int i;
+	t_parse	*tmp;
+	int		i;
 
 	tmp = *map;
 	while (tmp->next != NULL)
@@ -13,27 +25,27 @@ void get_width(t_parse **map, t_matrice *matrice)
 		{
 			i++;
 		}
-		if (matrice->width < i)
+		if (mat->width < i)
 		{
-			matrice->width = i;
+			mat->width = i;
 		}
 		tmp = tmp->next;
 	}
 }
 
-void get_width2(t_matrice *matrice)
+void	get_width2(t_mat *mat)
 {
-	int i;
-	int j;
-	int max;
+	int	i;
+	int	j;
+	int	max;
 
 	j = 0;
 	i = 0;
 	max = 0;
-	while (matrice->map[j][i])
+	while (mat->map[j][i])
 	{
 		i = 0;
-		while (matrice->map[j][i])
+		while (mat->map[j][i])
 		{
 			i++;
 		}
@@ -41,56 +53,62 @@ void get_width2(t_matrice *matrice)
 			max = i;
 		j++;
 	}
-	matrice->width = max - 1;
+	mat->width = max - 1;
 }
 
-void get_height(t_parse **map, t_matrice *matrice)
+void	get_height(t_parse **map, t_mat *mat)
 {
-	t_parse *tmp;
-	int i;
+	t_parse	*tmp;
+	int		i;
 
 	tmp = *map;
 	while (tmp->next != NULL)
 	{
-		// printf("%s\n", tmp->content);
-		strtrim_matrice(*tmp, i, matrice->check);
+		strtrim_mat(*tmp, mat->check);
 		i = 0;
-		// while (tmp->content[i] != '\0' && ft_strchr("01 NSWE", tmp->content[i]) != NULL)
-		// {
-		// 	++i;
-		// }
-		// if (tmp->content[i] != '\n' || tmp->content[i] != '\0')
-		// {
-		// 	// is not a line map
-		// }
-		// else if (tmp->content[i] == '\0')
-		// 	matrice->height++;
-
-		if (tmp->next != NULL && tmp->content[i] != '\t' && tmp->content[i] != '1' && tmp->content[i] != '0')
+		if (tmp->next != NULL && tmp->content[i] != '\t'
+			&& tmp->content[i] != '1' && tmp->content[i] != '0')
 		{
-			// printf("> %s\n", tmp->content);
 			i = 0;
 			tmp = tmp->next;
 		}
-		else if (tmp->next != NULL && (tmp->content[i] == '1' || tmp->content[i] == '0'))
+		else if (tmp->next != NULL && (tmp->content[i] == '1'
+				|| tmp->content[i] == '0'))
 		{
-		//	printf(">> %s\n", tmp->content);
-			matrice->height++;
+			mat->height++;
 			tmp = tmp->next;
 		}
 		else if (tmp->next != NULL && tmp->content[i] == '\n')
 		tmp = tmp->next;
 	}
-	if (matrice->height == 0)
+	if (mat->height == 0)
 		error_msg(11);
 }
 
-void strtrim_matrice(t_parse info, int i, t_check *check)
+void	strtrim_mat(t_parse info, t_check *check)
 {
-	(void)i;
-	char sign[] = {' '};
-	t_parse cpy;
+	t_parse	cpy;
+	char	sign[1];
 
+	sign[0] = ' ';
 	cpy = info;
 	cpy.content = ft_strtrim_GC(cpy.content, sign, &check->trash);
+}
+
+void	check_if_space_in_map(t_parse *lst, t_mat *mat)
+{
+	t_parse	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = lst;
+	while (mat->height > i)
+	{
+		if (tmp->content[0] == '\n')
+		{
+			error_msg(14);
+		}
+		tmp = tmp->next;
+		i++;
+	}
 }

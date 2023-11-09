@@ -1,8 +1,20 @@
-# include <cub3d.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_parsing.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 17:51:29 by jdefayes          #+#    #+#             */
+/*   Updated: 2023/11/09 21:08:05 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void init_struct_check(t_check *check, char *map, t_matrice *matrice)
+#include <cub3d.h>
+
+void	init_struct_check(t_check *check, char *map, t_mat *mat)
 {
-	check->map = ft_strdup_GC(map, &check->trash); //pas oublier de free
+	check->map = ft_strdup_GC(map, &check->trash);
 	check->EA = 0;
 	check->NO = 0;
 	check->SO = 0;
@@ -11,29 +23,29 @@ void init_struct_check(t_check *check, char *map, t_matrice *matrice)
 	check->F = 0;
 	check->wrong_spell = 0;
 	check->is_map = 0;
-	check->matrice = matrice;
+	check->mat = mat;
 }
 
-void init_matrice(t_matrice *matrice, t_check *check)
+void	init_mat(t_mat *mat, t_check *check)
 {
-	matrice->check = check;
-	matrice->height = 0;
-	matrice->width = 0;
-	matrice->map = NULL;
-	matrice->map_with_spaces = NULL;
-	matrice->N = 0;
-	matrice->S = 0;
-	matrice->E = 0;
-	matrice->W = 0;
-	matrice->NO_path = NULL;
-	matrice->SO_path = NULL;
-	matrice->EA_path = NULL;
-	matrice->WE_path = NULL;
-	matrice->F = my_malloc(3, sizeof(int), &check->trash);
-	matrice->C = my_malloc(3, sizeof(int), &check->trash);
-	matrice->wrong_symbol = 0;
-	matrice->player_sympbol = 0;
-	matrice->pos_y_player = 0;
-	matrice->pos_x_player = 0;
-	matrice->orientation = '\0';
+	mat->check = check;
+	mat->height = 0;
+	mat->width = 0;
+	mat->map = NULL;
+	mat->map_with_spaces = NULL;
+	mat->N = 0;
+	mat->S = 0;
+	mat->E = 0;
+	mat->W = 0;
+	mat->NO_path = NULL;
+	mat->SO_path = NULL;
+	mat->EA_path = NULL;
+	mat->WE_path = NULL;
+	mat->F = my_malloc(3, sizeof(int), &check->trash);
+	mat->C = my_malloc(3, sizeof(int), &check->trash);
+	mat->wrong_symbol = 0;
+	mat->player_sympbol = 0;
+	mat->pos_y_player = 0;
+	mat->pos_x_player = 0;
+	mat->orientation = '\0';
 }

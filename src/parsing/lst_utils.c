@@ -1,4 +1,16 @@
-# include <cub3d.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lst_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 17:51:33 by jdefayes          #+#    #+#             */
+/*   Updated: 2023/11/09 18:04:37 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <cub3d.h>
 
 int	lstsize(t_parse *lst)
 {
@@ -26,7 +38,6 @@ t_parse	*lstnew(char *data, t_list **trash_lst)
 	new_element->next = NULL;
 	return (new_element);
 }
-
 
 void	add_back(t_parse **head, t_parse *node_to_add)
 {

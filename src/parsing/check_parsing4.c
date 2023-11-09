@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flood_fill2.c                                      :+:      :+:    :+:   */
+/*   check_parsing4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 20:38:53 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/09 20:39:42 by jdefayes         ###   ########.fr       */
+/*   Created: 2023/11/09 19:28:51 by jdefayes          #+#    #+#             */
+/*   Updated: 2023/11/09 19:29:40 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	flood_fill(t_mat *mat)
+void	check_read_lst(t_check *check_lst)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (mat->map_with_spaces[j])
-	{
-		i = 0;
-		while (mat->map_with_spaces[j][i])
-		{
-			if (mat->map_with_spaces[j][i] == '0'
-				|| mat->map[j][i] == 'N' || mat->map[j][i] == 'E'
-					|| mat->map[j][i] == 'S' || mat->map[j][i] == 'W')
-				check_directions(mat, j, i);
-			i++;
-		}
-		j++;
-	}
+	if (check_lst->NO > 1 || check_lst->EA > 1 || check_lst->SO > 1
+		|| check_lst->WE > 1 || check_lst->F > 1 || check_lst->C > 1)
+		error_msg(0);
+	if (check_lst->NO == 0 || check_lst->EA == 0 || check_lst->SO == 0
+		|| check_lst->WE == 0 || check_lst->F == 0 || check_lst->C == 0)
+		error_msg(12);
 }

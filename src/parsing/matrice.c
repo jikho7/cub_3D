@@ -1,95 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mat.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 17:51:41 by jdefayes          #+#    #+#             */
+/*   Updated: 2023/11/09 18:08:34 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
-static void fill_matrice(t_matrice *matrice, t_parse *tmp);
-static void calloc_maps(t_matrice *matrice);
-static void get_orientation(char c, t_matrice *matrice);
-void check_if_space_in_map(t_parse *lst, t_matrice *matrice);
+static void	fill_mat(t_mat *mat, t_parse *tmp);
+static void	calloc_maps(t_mat *mat);
+static void	get_orientation(char c, t_mat *mat);
+static void	filling_matrice(char c, t_mat *mat, int j, int i);
 
-void create_matrice(t_parse **origin, t_matrice *matrice)
+void	create_mat(t_parse **origin, t_mat *mat)
 {
-	t_parse *tmp;
-	int i;
+	t_parse	*tmp;
+	int		i;
 
 	tmp = *origin;
-	calloc_maps(matrice);
-	while (tmp->next != NULL)
-	{
-		i = 0;
-		while (tmp->content[i])
-		{
-			if (tmp->content[i] != ' ' && tmp->content[i] != '0' && tmp->content[i] != '1' && tmp->content[i] != '\n'
-				&& tmp->content[i] != 'N' && tmp->content[i] != 'S' && tmp->content[i] != 'W' && tmp->content[i] != 'E')
-			{
-				i = 0;
-				tmp = tmp->next;
-				break;
-			}
-			i++;
-		}
-		if (tmp->content[0] == '\n') // && tmp->content[i] == '\n')
-		{
-			i = 0;
-			tmp = tmp->next;
-		}
-		else if (tmp->content[i] == '\0')
-		{
-			break;
-		}
-	}
-	check_if_space_in_map(tmp, matrice);
-	fill_matrice(matrice, tmp);
-}
-
-void check_if_space_in_map(t_parse *lst, t_matrice *matrice)
-{
-	t_parse *tmp;
-	int i;
-
+	calloc_maps(mat);
 	i = 0;
-	tmp = lst;
-	while (matrice->height > i)
-	{
-		if(tmp->content[0] == '\n')
-		{
-			error_msg(14);
-		}
-		tmp = tmp->next;
-		i++;
-
-	}
+	tmp = go_through_no_map_char(tmp, i);
+	check_if_space_in_map(tmp, mat);
+	fill_mat(mat, tmp);
 }
 
-static void fill_matrice(t_matrice *matrice, t_parse *tmp)
+static void	fill_mat(t_mat *mat, t_parse *tmp)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
-
-	while (matrice->height > j)
+	while (mat->height > j)
 	{
 		i = 0;
 		while (tmp->content[i])
 		{
-			if (tmp->content[i] == ' ')
-			{
-				matrice->map_with_spaces[j][i] = ' ';
-				matrice->map[j][i] = '1';
-			}
-			else if (tmp->content[i] == 'N' || tmp->content[i] == 'S' || tmp->content[i] == 'E' || tmp->content[i] == 'W')
-			{
-				get_orientation(tmp->content[i], matrice);
-				matrice->pos_x_player = i + 1;
-				matrice->pos_y_player = j + 1;
-				matrice->map[j][i] = tmp->content[i];
-				matrice->map_with_spaces[j][i] = '0';
-			}
-			else
-			{
-				matrice->map[j][i] = tmp->content[i];
-				matrice->map_with_spaces[j][i] = tmp->content[i];
-			}
+			filling_matrice(tmp->content[i], mat, j, i);
 			i++;
 		}
 		j++;
@@ -98,36 +51,61 @@ static void fill_matrice(t_matrice *matrice, t_parse *tmp)
 	}
 }
 
-static void get_orientation(char c, t_matrice *matrice)
+static void	filling_matrice(char c, t_mat *mat, int j, int i)
 {
-	if (c == 'N')
-		matrice->orientation = 'N';
-	if (c == 'S')
-		matrice->orientation = 'S';
-	if (c == 'W')
-		matrice->orientation = 'W';
-	if (c == 'E')
-		matrice->orientation = 'E';
+	if (c == ' ')
+	{
+		mat->map_with_spaces[j][i] = ' ';
+		mat->map[j][i] = '1';
+	}
+	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	{
+		get_orientation(c, mat);
+		mat->pos_x_player = i + 1;
+		mat->pos_y_player = j + 1;
+		mat->map[j][i] = c;
+		mat->map_with_spaces[j][i] = '0';
+	}
+	else
+	{
+		mat->map[j][i] = c;
+		mat->map_with_spaces[j][i] = c;
+	}
 }
 
-static void calloc_maps(t_matrice *matrice)
+static void	get_orientation(char c, t_mat *mat)
 {
-	int i;
+	if (c == 'N')
+		mat->orientation = 'N';
+	if (c == 'S')
+		mat->orientation = 'S';
+	if (c == 'W')
+		mat->orientation = 'W';
+	if (c == 'E')
+		mat->orientation = 'E';
+}
 
-	matrice->map = my_malloc(matrice->height + 1, sizeof(char *), &matrice->check->trash); //ft_calloc(sizeof(char *), (matrice->height + 1));
-	matrice->map[matrice->height] = 0;
-	matrice->map_with_spaces = my_malloc((matrice->height + 1), sizeof(char *), &matrice->check->trash);//ft_calloc(sizeof(char *), (matrice->height + 1));
-	matrice->map_with_spaces[matrice->height] = 0;
+static void	calloc_maps(t_mat *mat)
+{
+	int	i;
+
+	mat->map = my_malloc(mat->height + 1, sizeof(char *),
+			&mat->check->trash);
+	mat->map[mat->height] = 0;
+	mat->map_with_spaces = my_malloc((mat->height + 1), sizeof(char *),
+			&mat->check->trash);
+	mat->map_with_spaces[mat->height] = 0;
 	i = 0;
-	while (i < matrice->height)
+	while (i < mat->height)
 	{
-		matrice->map[i] = my_malloc(matrice->width, sizeof(char), &matrice->check->trash);//ft_calloc(sizeof(char), (matrice->width));
+		mat->map[i] = my_malloc(mat->width, sizeof(char), &mat->check->trash);
 		i++;
 	}
 	i = 0;
-	while (i < matrice->height)
+	while (i < mat->height)
 	{
-		matrice->map_with_spaces[i] = my_malloc(matrice->width, sizeof(char), &matrice->check->trash);//ft_calloc(sizeof(char), (matrice->width));
-		i++;
+		mat->map_with_spaces[i] = my_malloc(mat->width, sizeof(char),
+				&mat->check->trash);
+				i++;
 	}
 }

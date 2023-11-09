@@ -1,4 +1,16 @@
-# include <cub3d.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 17:51:26 by jdefayes          #+#    #+#             */
+/*   Updated: 2023/11/09 18:04:15 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <cub3d.h>
 
 char		*get_next_line(int fd);
 static char	*extraction(char *save);
@@ -27,7 +39,7 @@ static char	*read_n_save(int fd, char *save)
 	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (buf == NULL)
 		return (NULL);
-	while (!gnl_strchr(save) && bytes != 0) // si 0 , pas de n
+	while (!gnl_strchr(save) && bytes != 0)
 	{
 		bytes = read(fd, buf, BUFFER_SIZE);
 		if (bytes == -1)

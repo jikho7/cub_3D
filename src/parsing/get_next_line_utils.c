@@ -1,4 +1,16 @@
-# include <cub3d.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 17:51:24 by jdefayes          #+#    #+#             */
+/*   Updated: 2023/11/09 18:04:06 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <cub3d.h>
 
 char	*gnl_strchr(char *s);
 size_t	gnl_strlen(char *s);
@@ -24,10 +36,10 @@ char	*gnl_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	if (!s1)								// si s1 pas initialise
+	if (!s1)
 	{
-		s1 = malloc(sizeof(char) * 1);		// init
-		s1[0] = '\0';						//
+		s1 = malloc(sizeof(char) * 1);
+		s1[0] = '\0';
 	}
 	result = malloc((sizeof(char)) * (gnl_strlen(s1)) + (gnl_strlen(s2) + 1));
 	if (result == NULL)
@@ -38,7 +50,7 @@ char	*gnl_strjoin(char *s1, char *s2)
 	while (s2[i])
 		result[j++] = s2[i++];
 	result[j] = '\0';
-	free(s1);			// on free l ancien free pour laisser la place a save = gnl_strjoin(save, buf);
+	free(s1);
 	return (result);
 }
 

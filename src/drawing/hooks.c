@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/11/02 14:05:00 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/09 21:18:39 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,12 @@ int	render_new_frame(t_vars *vars)
 
 int	destroy(t_vars *vars)
 {
-	printf("G\n");
 	free(vars->win->tex);
-	printf("GO\n");
-	free(vars->map);
-	printf("GOO\n");
 	free(vars->you);
-	printf("GOOD\n");
 	free(vars->win->ray);
-	printf("GOODB\n");
 	free(vars->win);
-	printf("GOODBY\n");
+	//free(vars->map);
 	free(vars);
-	printf("GOODBYE\n");
 	// free(vars->map->check->trash);
 	// while (1);
 	exit(0);

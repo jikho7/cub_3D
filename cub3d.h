@@ -31,10 +31,10 @@ typedef struct s_check
 	int		wrong_spell;
 	int		is_map;
 	t_list	*trash;
-	struct s_matrice *matrice;
+	struct s_mat *mat;
 }t_check;
 
-typedef struct s_matrice
+typedef struct s_mat
 {
 	struct s_check *check;
 	char	**map_with_spaces;
@@ -56,7 +56,7 @@ typedef struct s_matrice
 	int		pos_x_player;
 	int		pos_y_player;
 	char	orientation;
-}t_matrice;
+}t_mat;
 
 typedef struct  s_f_fill
 {
@@ -116,7 +116,7 @@ typedef struct s_data {
 	int			endian;
 	int			height;
 	int			width;
-	t_matrice	*map;
+	t_mat	*map;
 	int			minimap;
 	int			sqr;
 	t_texture	*tex;
@@ -130,7 +130,7 @@ typedef struct s_vars {
 	void		*mlx_win;
 	t_data		*win;
 	t_player	*you;
-	t_matrice	*map;
+	t_mat	*map;
 }		t_vars;
 
 int		init_mlx(t_data *data);
@@ -171,31 +171,41 @@ int	max(int a, int b);
 float	sq(float a);
 
 /*----------------PARSING-----------------*/
-t_matrice	*parsing(char *map);
+t_mat	*parsing(char *map);
 void	read_lst(t_parse **lst, t_check *check_lst);
-void	init_struct_check(t_check *check, char *map, t_matrice *matrice);
-void	init_matrice(t_matrice *matrice, t_check *check);
+void	init_struct_check(t_check *check, char *map, t_mat *mat);
+void	init_mat(t_mat *mat, t_check *check);
 void	check_map_extension(char *name);
 void	check_tex_extension(t_parse **info, t_check *check);
 void	check_spelling(t_parse **lst, t_check *check_lst);
-void	check_F_C(t_parse **info, t_matrice *matrice);
+void	check_f_c(t_parse **info, t_mat *mat);
 int		ft_is_str_digit(char *str);
 void	check_if_info_after_map(t_parse **info, t_check *check);
 void	check_excess_info(t_parse **info);
 void	strtrim_lst(t_parse **info, t_check *check);
-void	create_matrice(t_parse **origin, t_matrice *matrice);
-void	get_height(t_parse **map, t_matrice *matrice);
-void	flood_fill(t_matrice *matrice);
-void	strtrim_matrice(t_parse info, int i, t_check *check);
+void	create_mat(t_parse **origin, t_mat *mat);
+void	get_height(t_parse **map, t_mat *mat);
+void	flood_fill(t_mat *mat);
+void	strtrim_mat(t_parse info, t_check *check);
 void	reduce_spaces_to_one(t_parse **lst, t_check *check);
 int		size_len(char *str);
-void	check_map(t_matrice *matrice);
-void	strtrim_F_C(char *str, t_matrice *matrice);
-void	get_width(t_parse **map, t_matrice *matrice);
-void	check_spaces_NSEW(t_parse **info);
+void	check_map(t_mat *mat);
+void	strtrim_f_c(char *str, t_mat *mat);
+void	get_width(t_parse **map, t_mat *mat);
+void	check_spaces_nsew(t_parse **info);
 void	remove_empty_block(t_parse **info);
-void	get_width2(t_matrice *matrice);
+void	get_width2(t_mat *mat);
 char	*ft_strcpy(char *s1, char *s2);
+void	save_textures(char *str, t_check *check);
+void	check_read_lst(t_check *check_lst);
+t_parse	*go_through_no_map_char(t_parse *tmp, int i);
+void	save_f_c_info(int option, t_mat *matrice, int j, char *split);
+void	check_if_space_in_map(t_parse *lst, t_mat *mat);
+int		check_up(t_mat *mat, int pos_y, int pos_x);
+int		check_directions(t_mat *mat, int pos_y, int pos_x);
+int		check_left(t_mat *mat, int pos_y, int pos_x);
+int		check_right(t_mat *mat, int pos_y, int pos_x);
+int		check_down(t_mat *mat, int pos_y, int pos_x);
 /*----------------LISTS-----------------*/
 void	add_back(t_parse **head, t_parse *node_to_add);
 int		lstsize(t_parse *lst);

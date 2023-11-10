@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:41:56 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 00:21:27 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:49:44 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 /* Garbage Collector */
 void	*my_malloc(size_t size, size_t type, t_list **gc);
-char	*ft_strdup_GC(const char *str1, t_list **gc);
-t_list	*ft_lstnew_GC(void *data, t_list **gc_lst);
-char	**ft_split_GC(const char *str, char c, t_list **gc);
-char	*ft_strtrim_GC(char const *s1, char const *set, t_list **gc);
+char	*ft_strdup_gc(const char *str1, t_list **gc);
+t_list	*ft_lstnew_gc(void *data, t_list **gc_lst);
+char	**ft_split_gc(const char *str, char c, t_list **gc);
+char	*ft_strtrim_gc(char const *s1, char const *set, t_list **gc);
 #endif

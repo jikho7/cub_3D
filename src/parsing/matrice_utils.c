@@ -92,7 +92,7 @@ void	strtrim_mat(t_parse info, t_check *check)
 
 	sign[0] = ' ';
 	cpy = info;
-	cpy.content = ft_strtrim_GC(cpy.content, sign, &check->gc);
+	cpy.content = ft_strtrim_gc(cpy.content, sign, &check->gc);
 }
 
 void	check_if_space_in_map(t_parse *lst, t_mat *mat)

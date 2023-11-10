@@ -6,7 +6,7 @@
 #    By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 15:50:27 by jdefayes          #+#    #+#              #
-#    Updated: 2023/11/02 14:37:59 by jdefayes         ###   ########.fr        #
+#    Updated: 2023/11/10 00:49:46 by jdefayes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC 	= 	ft_putnbr_fd.c\
 			ft_isascii.c\
 			ft_itoa.c\
 			ft_strtrim.c\
-			ft_strtrim_GC.c\
+			ft_strtrim_gc.c\
 			ft_strjoin.c\
 			ft_substr.c\
 			ft_strdup.c\
@@ -52,9 +52,9 @@ SRC 	= 	ft_putnbr_fd.c\
 			ft_atoi.c\
 			ft_memset.c\
 			ft_split.c\
-			ft_split_GC.c\
+			ft_split_gc.c\
 			ft_strdup.c\
-			ft_strdup_GC.c\
+			ft_strdup_gc.c\
 			ft_strjoin.c\
 			ft_lstadd_back.c\
 			ft_lstadd_front.c\
@@ -64,7 +64,7 @@ SRC 	= 	ft_putnbr_fd.c\
 			ft_lstlast.c\
 			ft_lstmap.c\
 			ft_lstnew.c\
-			ft_lstnew_GC.c\
+			ft_lstnew_gc.c\
 			ft_lstsize.c\
 			my_malloc.c\
 

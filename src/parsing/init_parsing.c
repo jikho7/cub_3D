@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:29 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 00:32:24 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:49:53 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_struct_check(t_check *check, char *map, t_mat *mat)
 {
-	check->map = ft_strdup_GC(map, &check->gc);
+	check->map = ft_strdup_gc(map, &check->gc);
 	check->EA = 0;
 	check->NO = 0;
 	check->SO = 0;

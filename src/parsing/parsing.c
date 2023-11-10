@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:48 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 00:38:23 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 01:03:35 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	parsing2(t_parse *info, t_check check, t_mat *mat, t_parse *origin)
 	get_width2(mat);
 }
 
-int verif_malloc(void *malloc)
+int	verif_malloc(void *malloc)
 {
 	if (malloc == NULL)
 		error_msg(15);

@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:15 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 00:21:27 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:49:51 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	strtrim_f_c(char *str, t_mat *matrice)
 	char	**split;
 	int		j;
 
-	split = ft_split_GC(str, ',', &matrice->check->gc);
+	split = ft_split_gc(str, ',', &matrice->check->gc);
 	size_split(split);
 	i = 0;
 	j = 0;
@@ -111,7 +111,7 @@ void	handle_f_norm(int *i, int *j, char **split, t_mat *matrice)
 	sign_f[0] = 'F';
 	sign_f[1] = ' ';
 	sign_f[2] = '\n';
-	split[*i] = ft_strtrim_GC(split[*i], sign_f, &matrice->check->gc);
+	split[*i] = ft_strtrim_gc(split[*i], sign_f, &matrice->check->gc);
 	save_f_c_info(0, matrice, *j, split[*i]);
 	(*j)++;
 	(*i)++;

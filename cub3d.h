@@ -1,15 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/10 01:04:41 by jdefayes          #+#    #+#             */
+/*   Updated: 2023/11/10 01:05:58 by jdefayes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "mlx/mlx.h"
-#include "libft/libft.h"
-#include <fcntl.h>
-#include <string.h>
-
+# include <math.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include "mlx/mlx.h"
+# include "libft/libft.h"
+# include <fcntl.h>
+# include <string.h>
 # define BUFFER_SIZE 11
 # define WIN_WIDTH 1440
 # define WIN_HEIGHT 960
@@ -29,7 +40,7 @@ typedef struct s_check
 	int				wrong_spell;
 	int				is_map;
 	t_list			*gc;
-	struct	s_mat	*mat;
+	struct s_mat	*mat;
 }t_check;
 
 typedef struct s_mat
@@ -57,10 +68,7 @@ typedef struct s_mat
 }t_mat;
 
 typedef struct s_f_fill
-typedef struct s_f_fill
 {
-	int	x;
-	int	y;
 	int	x;
 	int	y;
 }t_f_fill;
@@ -117,7 +125,6 @@ typedef struct s_data {
 	int			endian;
 	int			height;
 	int			width;
-	t_mat		*map;
 	t_mat		*map;
 	int			minimap;
 	int			sqr;

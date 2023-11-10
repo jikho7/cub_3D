@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:36 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 00:21:27 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:49:55 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	strtrim_lst(t_parse **info, t_check *check)
 	tmp = *info;
 	while (tmp->next != NULL)
 	{
-		tmp->content = ft_strtrim_GC(tmp->content, sign, &check->gc);
+		tmp->content = ft_strtrim_gc(tmp->content, sign, &check->gc);
 		tmp = tmp->next;
 	}
 }

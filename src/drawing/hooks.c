@@ -54,11 +54,6 @@ int	key_hook(int key, t_vars *vars)
 	return (0);
 }
 
-int	mouse_hook(int mousecode, int i, int j, t_vars *vars)
-{
-	
-}
-
 int	render_new_frame(t_vars *vars)
 {
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->win->img, 0, 0);

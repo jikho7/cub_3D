@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 01:04:41 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 16:54:01 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:32:11 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,5 +234,11 @@ void	cpy_lst(t_parse **dest_lst, t_parse **src_lst, t_check *check);
 
 /*----------------ERRORS-----------------*/
 void	error_msg(int option);
+
+/*----------------GNL-----------------*/
+char	*ft_strchr1(char *s, int c);
+char	*ft_strjoin1(char *left_str, char *buff);
+char	*ft_get_line(char *left_str);
+char	*ft_new_left_str(char *left_str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:15 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 00:49:51 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:42:02 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,22 @@ void	read_lst(t_parse **lst, t_check *check_lst)
 	{
 		if (ft_strncmp(tmp->content, "EA ./", 5) == 0
 			|| ft_strncmp(tmp->content, "EA", 2) == 0)
-			check_lst->EA++;
+			check_lst->ea++;
 		if (ft_strncmp(tmp->content, "NO ./", 5) == 0
 			|| ft_strncmp(tmp->content, "NO", 2) == 0)
-			check_lst->NO++;
+			check_lst->no++;
 		if (ft_strncmp(tmp->content, "SO ./", 5) == 0
 			|| ft_strncmp(tmp->content, "SO", 2) == 0)
-			check_lst->SO++;
+			check_lst->so++;
 		if (ft_strncmp(tmp->content, "WE ./", 5) == 0
 			|| ft_strncmp(tmp->content, "WE", 2) == 0)
-			check_lst->WE++;
+			check_lst->we++;
 		if (ft_strncmp(tmp->content, "F ", 2) == 0
 			|| ft_strncmp(tmp->content, "F", 1) == 0)
-			check_lst->F++;
+			check_lst->f++;
 		if (ft_strncmp(tmp->content, "C ", 2) == 0
 			|| ft_strncmp(tmp->content, "C", 1) == 0)
-			check_lst->C++;
+			check_lst->c++;
 		tmp = tmp->next;
 	}
 }

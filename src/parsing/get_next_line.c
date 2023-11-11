@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:26 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 14:59:52 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:46:53 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,11 @@ static char	*extraction(char *save)
 	while (save[i] && save[i] != '\n')
 	{
 		result[i] = save[i];
-	//	printf("save adr result[%d]: %p, content : %c\n", i, &save[i], save[i]);
 		i++;
 	}
 	if (save[i] == '\n')
 		result[i++] = '\n';
 	result[i] = '\0';
-	//printf("result adr result[%d]: %p, content : %s\n", i, &result[i], result);
 	return (result);
 }
 

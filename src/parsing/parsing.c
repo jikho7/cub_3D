@@ -6,40 +6,34 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:48 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 13:31:39 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:48:18 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
 static void	parsing2(t_parse *info, t_check check, t_mat *mat, t_parse *origin);
-void free_parsing(t_parse *origin, t_check check);
 
-t_mat	*parsing(char *map)
+t_mat	*parsing(char *map, t_vars *vars)
 {
 	t_parse	*info;
-	t_check	check;
 	t_mat	*mat;
-	t_parse	*origin;
 
-	check.gc = NULL;
+	vars->check.gc = NULL;
 	info = NULL;
 	mat = NULL;
-	origin = NULL;
-	mat = my_malloc(1, sizeof(t_mat), &check.gc);
+	mat = my_malloc(1, sizeof(t_mat), &vars->check.gc);
 	if (mat == NULL)
 		return (NULL);
-	init_struct_check(&check, map, mat);
-	init_mat(mat, &check);
+	init_struct_check(&vars->check, map, mat, vars->check.origin);
+	init_mat(mat, &vars->check);
 	check_map_extension(map);
-	create_lst(&info, &check);
+	create_lst(&info, &vars->check);
 	remove_empty_block(&info);
-	cpy_lst(&origin, &info, &check);
+	cpy_lst(&vars->check.origin, &info, &vars->check);
 	get_width(&info, mat);
-	strtrim_lst(&info, &check);
-	parsing2(info, check, mat, origin);
-	//free_parsing(origin, check);
-	//while (1);
+	strtrim_lst(&info, &vars->check);
+	parsing2(info, vars->check, mat, vars->check.origin);
 	return (mat);
 }
 
@@ -67,7 +61,7 @@ int	verif_malloc(void *malloc)
 	return (0);
 }
 
-void free_parsing(t_parse *origin, t_check check)
+void	free_parsing(t_parse *origin, t_check check)
 {
 	while (origin->next != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:10 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/09 18:32:45 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:43:34 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ static void	go_through_map(t_mat *mat, int *j)
 			|| mat->map[*j][i] == 'S' || mat->map[*j][i] == 'W')
 			mat->player_sympbol++;
 		if (mat->map[*j][i] == 'N')
-			mat->N++;
+			mat->n++;
 		else if (mat->map[*j][i] == 'S')
-			mat->S++;
+			mat->s++;
 		else if (mat->map[*j][i] == 'E')
-			mat->E++;
+			mat->e++;
 		else if (mat->map[*j][i] == 'W')
-			mat->W++;
+			mat->w++;
 		else if (mat->map[*j][i] != '1' && mat->map[*j][i] != '0'
 			&& mat->map[*j][i] != '\n')
 			mat->wrong_symbol++;
@@ -55,7 +55,7 @@ static void	go_through_map(t_mat *mat, int *j)
 
 static void	control_symbol(t_mat *mat)
 {
-	if (mat->N > 1 || mat->S > 1 || mat->E > 1 || mat->W > 1
+	if (mat->n > 1 || mat->s > 1 || mat->e > 1 || mat->w > 1
 		|| mat->player_sympbol > 1)
 		error_msg(7);
 	if (mat->wrong_symbol != 0)

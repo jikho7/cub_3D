@@ -46,10 +46,10 @@ int	key_hook(int key, t_vars *vars)
 	}
 	else if (key == 257)
 	{
-		if (vars->you->speed == vars->win->sqr / 5)
-			vars->you->speed = vars->win->sqr / 2;
-		else
+		if (vars->you->speed == vars->win->sqr / 10)
 			vars->you->speed = vars->win->sqr / 5;
+		else
+			vars->you->speed = vars->win->sqr / 10;
 	}
 	return (0);
 }
@@ -74,6 +74,10 @@ int	destroy(t_vars *vars)
 		free(vars->map->map[i]);
 		i++;
 	}
+	free(vars->map->NO_path);
+	free(vars->map->SO_path);
+	free(vars->map->WE_path);
+	free(vars->map->EA_path);
 	free(vars->map->map);
 	free(vars->map);
 	free(vars);

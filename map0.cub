@@ -1,13 +1,7 @@
-
-
-
-
-
-
-   EA ./textures/maison1.png
-  NO ./textures/Wall_North.png
-  SO ./textures/Wall_South.png
-WE ./textures/Wall_West.png
+NO ./xpm/N.xpm
+SO ./xpm/S.xpm
+WE ./xpm/W.xpm
+EA ./xpm/E.xpm
 
     F    225   ,  123,25
 

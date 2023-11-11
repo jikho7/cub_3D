@@ -45,6 +45,8 @@ void	init_ray(t_ray *ray, int step, t_player *you, t_data *win)
 		ray->line_loc = (remainder(you->pos.x + ray->rDir.x
 					* ray->sideDist.y / norm, win->sqr) + 1) / win->sqr;
 	}
+	if (ray->line_loc < 0)
+		ray->line_loc += 1;
 }
 
 int	dda_start(t_complex *adelta, t_ray *ray, t_complex *map)

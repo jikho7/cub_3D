@@ -88,7 +88,7 @@ int	main(int ac, char **av)
 			&(win->line_len), &(win->endian));
 	create_struct_sprites(win, vars);
 	chara_loc(win, you, map);
-	you->speed = win->sqr / 5;
+	you->speed = win->sqr / 10;
 	character(win, you);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, win->img, 0, 0);
 	mlx_hook(vars->mlx_win, 2, 0L, key_hook, vars);

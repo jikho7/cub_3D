@@ -24,10 +24,9 @@ void	draw_texture(t_data *win, int x, int sky, t_ray *ray)
 	jump = (float)win->tex[ray->NWSE].height / (float)(win->height - 2 * sky);
 	x_dep = (int)(ray->line_loc * win->tex[ray->NWSE].height)
 		* (win->tex[ray->NWSE].bpp / 8);
-	while (j < win->height - sky)
+	while (j < win->height - sky && j < win->height)
 	{
 		y_dep = (int)((float)(j - sky) *jump) *win->tex[ray->NWSE].line_len;
-		if (x_dep >= 0 && y_dep >= 0) // to fix, ligne necessaire pour un fsanitize propre
 		color = *(unsigned int *)(win->tex[ray->NWSE].addr + (x_dep + y_dep));
 		my_mlx_pixel_put(win, x, j, max(0, color));
 		j++;

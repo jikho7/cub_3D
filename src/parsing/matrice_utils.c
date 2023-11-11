@@ -88,11 +88,9 @@ void	get_height(t_parse **map, t_mat *mat)
 void	strtrim_mat(t_parse info, t_check *check)
 {
 	t_parse	cpy;
-	char	sign[1];
 
-	sign[0] = ' ';
 	cpy = info;
-	cpy.content = ft_strtrim_gc(cpy.content, sign, &check->gc);
+	cpy.content = ft_strtrim_gc(cpy.content, " ", &check->gc);
 }
 
 void	check_if_space_in_map(t_parse *lst, t_mat *mat)

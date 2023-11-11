@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:15 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 16:42:02 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 19:00:45 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,7 @@ void	size_split(char **split)
 
 void	handle_f_norm(int *i, int *j, char **split, t_mat *matrice)
 {
-	char	sign_f[3];
-
-	sign_f[0] = 'F';
-	sign_f[1] = ' ';
-	sign_f[2] = '\n';
-	split[*i] = ft_strtrim_gc(split[*i], sign_f, &matrice->check->gc);
+	split[*i] = ft_strtrim_gc(split[*i], "F \n", &matrice->check->gc);
 	save_f_c_info(0, matrice, *j, split[*i]);
 	(*j)++;
 	(*i)++;

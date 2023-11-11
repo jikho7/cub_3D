@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:36 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 16:48:43 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 19:01:31 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ void	cpy_lst(t_parse **dest_lst, t_parse **src_lst, t_check *check)
 void	strtrim_lst(t_parse **info, t_check *check)
 {
 	t_parse	*tmp;
-	char	sign[2];
 
-	sign[0] = ' ';
-	sign[1] = '\t';
 	tmp = *info;
-	while (tmp->next != NULL)
+	if (tmp)
 	{
-		tmp->content = ft_strtrim_gc(tmp->content, sign, &check->gc);
-		tmp = tmp->next;
+		while (tmp->next != NULL)
+		{
+			tmp->content = ft_strtrim_gc(tmp->content, " \t", &check->gc);
+			tmp = tmp->next;
+		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:51 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 17:30:23 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 19:04:26 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_data	*init_win(t_mat *map)
 	win->map = map;
 	win->forward = 1;
 	win->minimap = -1;
-	win->c = 1;
+	win->c = -1;
 	win->ray = malloc(sizeof(t_ray));
 	return (win);
 }

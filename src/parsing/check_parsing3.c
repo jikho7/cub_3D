@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 19:17:53 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 16:54:51 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 19:00:28 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,7 @@ void	save_textures(char *s, t_check *ch)
 
 void	handle_c_norm(int *i, int *j, char **split, t_mat *matrice)
 {
-	char	sign_c[3];
-
-	sign_c[0] = 'C';
-	sign_c[1] = ' ';
-	sign_c[2] = '\n';
-	split[*i] = ft_strtrim_gc(split[*i], sign_c, &matrice->check->gc);
+	split[*i] = ft_strtrim_gc(split[*i], "C \n", &matrice->check->gc);
 	save_f_c_info(1, matrice, *j, split[*i]);
 	(*j)++;
 	(*i)++;

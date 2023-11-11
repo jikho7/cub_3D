@@ -20,20 +20,16 @@ OBJT	= ${SRCTS:.c=.o}
 
 all: $(NAME)
 
-.c.o:
+.c.o: cub3d.h
 	${CC} ${CFLAGS} -I. -c $< -o ${<:.c=.o}
-## -I. include les dossier .h du dossier courant (racine)
-## <> possible si inculs a la compilation (-I) (a la place de "").
-## mettre $(MAKE) a la place de make ecrit en dur, bonne pratique.
+	
 $(LIBFT) :
 	@$(MAKE) -C libft
 
 $(MLX) :
 	@$(MAKE) -C mlx_openGL
 
-##$(NAME) : $(OBJ) $(LIBFT) $(MLX_L)
-##	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX_L) -o $(NAME)
-$(NAME) : $(OBJ) $(LIBFT) $(MLX)
+$(NAME) : $(OBJ) $(LIBFT) $(MLX) 
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
 
 circle : $(OBJT) $(LIBFT) $(MLX)

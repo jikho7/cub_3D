@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:51 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 14:46:24 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:35:26 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,13 @@ t_data	*init_win(t_mat *map)
 	return (win);
 }
 
-void init_vars(t_vars *vars, t_data *win, t_player *you, t_mat *map)
+void	init_vars(t_vars *vars, t_data *win, t_player *you, t_mat *map)
 {
-	//t_vars	*vars;
-
-	//vars = malloc(sizeof(t_vars));
 	vars->mlx = mlx_init();
 	vars->you = you;
 	vars->win = win;
 	vars->map = map;
 	vars->mlx_win = mlx_new_window(vars->mlx, win->width, win->height, "Play");
-//	return (vars);
 }
 
 int	main(int ac, char **av)

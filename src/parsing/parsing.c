@@ -6,14 +6,13 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:48 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 15:59:35 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:48:18 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
 static void	parsing2(t_parse *info, t_check check, t_mat *mat, t_parse *origin);
-void free_parsing(t_parse *origin, t_check check);
 
 t_mat	*parsing(char *map, t_vars *vars)
 {
@@ -62,7 +61,7 @@ int	verif_malloc(void *malloc)
 	return (0);
 }
 
-void free_parsing(t_parse *origin, t_check check)
+void	free_parsing(t_parse *origin, t_check check)
 {
 	while (origin->next != NULL)
 	{

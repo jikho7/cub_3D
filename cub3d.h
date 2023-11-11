@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 01:04:41 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 14:10:14 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:54:01 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@
 typedef struct s_check
 {
 	char			*map;
-	int				EA;
-	int				NO;
-	int				SO;
-	int				WE;
-	int				C;
-	int				F;
+	int				ea;
+	int				no;
+	int				so;
+	int				we;
+	int				c;
+	int				f;
 	int				wrong_spell;
 	int				is_map;
 	t_list			*gc;
@@ -51,16 +51,16 @@ typedef struct s_mat
 	char			**map;
 	int				hei;
 	int				wid;
-	int				N;
-	int				S;
-	int				E;
-	int				W;
-	char			*NO_path;
-	char			*SO_path;
-	char			*EA_path;
-	char			*WE_path;
-	int				*F;
-	int				*C;
+	int				n;
+	int				s;
+	int				e;
+	int				w;
+	char			*no_path;
+	char			*so_path;
+	char			*ea_path;
+	char			*we_path;
+	int				*f;
+	int				*c;
 	int				wrong_symbol;
 	int				player_sympbol;
 	int				pos_x_player;
@@ -188,13 +188,13 @@ void	set_comp(t_complex *c, float x, float y);
 /*----------------PARSING-----------------*/
 t_mat	*parsing(char *map, t_vars *vars);
 void	read_lst(t_parse **lst, t_check *check_lst);
-void	init_struct_check(t_check *check, char *map, t_mat *mat, t_parse *origin);
+void	init_struct_check(t_check *check, char *map, t_mat *mat,
+			t_parse *origin);
 void	init_mat(t_mat *mat, t_check *check);
 void	check_map_extension(char *name);
 void	check_tex_extension(t_parse **info, t_check *check);
 void	check_spelling(t_parse **lst, t_check *check_lst);
 void	check_f_c(t_parse **info, t_mat *mat);
-int		ft_is_str_digit(char *str);
 void	check_if_info_after_map(t_parse **info, t_check *check);
 void	check_excess_info(t_parse **info);
 void	strtrim_lst(t_parse **info, t_check *check);
@@ -212,7 +212,6 @@ void	remove_empty_block(t_parse **info);
 void	get_width2(t_mat *mat);
 char	*ft_strcpy(char *s1, char *s2);
 void	save_textures(char *str, t_check *check);
-void	check_read_lst(t_check *check_lst);
 t_parse	*go_through_no_map_char(t_parse *tmp, int i);
 void	save_f_c_info(int option, t_mat *matrice, int j, char *split);
 void	check_if_space_in_map(t_parse *lst, t_mat *mat);

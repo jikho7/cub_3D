@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 19:17:53 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 00:49:52 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:54:51 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,27 @@ void	save_textures(char *s, t_check *ch)
 {
 	if (s[0] == 'E')
 	{
-		ch->mat->EA_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
-		verif_malloc(ch->mat->EA_path);
-		ft_strlcpy(ch->mat->EA_path, s + 2, strlen(s + 2));
+		ch->mat->ea_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
+		verif_malloc(ch->mat->ea_path);
+		ft_strlcpy(ch->mat->ea_path, s + 2, strlen(s + 2));
 	}
 	if (s[0] == 'S')
 	{
-		ch->mat->SO_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
-		verif_malloc(ch->mat->SO_path);
-		ft_strlcpy(ch->mat->SO_path, s + 2, strlen(s + 2));
+		ch->mat->so_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
+		verif_malloc(ch->mat->so_path);
+		ft_strlcpy(ch->mat->so_path, s + 2, strlen(s + 2));
 	}
 	if (s[0] == 'N')
 	{
-		ch->mat->NO_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
-		verif_malloc(ch->mat->NO_path);
-		ft_strlcpy(ch->mat->NO_path, s + 2, strlen(s + 2));
+		ch->mat->no_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
+		verif_malloc(ch->mat->no_path);
+		ft_strlcpy(ch->mat->no_path, s + 2, strlen(s + 2));
 	}
 	if (s[0] == 'W')
 	{
-		ch->mat->WE_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
-		verif_malloc(ch->mat->WE_path);
-		ft_strlcpy(ch->mat->WE_path, s + 2, strlen(s + 2));
+		ch->mat->we_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
+		verif_malloc(ch->mat->we_path);
+		ft_strlcpy(ch->mat->we_path, s + 2, strlen(s + 2));
 	}
 }
 
@@ -93,23 +93,7 @@ void	save_f_c_info(int option, t_mat *matrice, int j, char *split)
 		error_msg(4);
 	}
 	if (option == 0)
-		matrice->F[j] = nb;
+		matrice->f[j] = nb;
 	if (option == 1)
-		matrice->C[j] = nb;
-}
-
-int	ft_is_str_digit(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-		{
-			return (1);
-		}
-		i++;
-	}
-	return (0);
+		matrice->c[j] = nb;
 }

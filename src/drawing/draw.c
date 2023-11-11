@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/11/10 13:36:06 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:44:11 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void	pretty_or_legal(t_data *win, int i, int j)
 	}
 	else
 	{
-		my_mlx_pixel_put(win, i, j, trgb(1, win->map->C[0],
-				win->map->C[1], win->map->C[2]));
-		my_mlx_pixel_put(win, i, win->height - j, trgb(1, win->map->F[0],
-				win->map->F[1], win->map->F[2]));
+		my_mlx_pixel_put(win, i, j, trgb(1, win->map->c[0],
+				win->map->c[1], win->map->c[2]));
+		my_mlx_pixel_put(win, i, win->height - j, trgb(1, win->map->f[0],
+				win->map->f[1], win->map->f[2]));
 	}
 }
 

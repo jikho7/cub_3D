@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   handling_texture.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/10/31 19:33:58 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:44:37 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	create_struct_sprites(t_data *win, t_vars *vars)
 {
 	int	i;
 
-	win->tex[1].path = vars->map->NO_path;
-	win->tex[3].path = vars->map->SO_path;
-	win->tex[2].path = vars->map->EA_path;
-	win->tex[0].path = vars->map->WE_path;
+	win->tex[1].path = vars->map->no_path;
+	win->tex[3].path = vars->map->so_path;
+	win->tex[2].path = vars->map->ea_path;
+	win->tex[0].path = vars->map->we_path;
 	i = 0;
 	while (i < 4)
 	{

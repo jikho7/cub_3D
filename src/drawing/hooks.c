@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/11/11 16:24:19 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:35:15 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,6 @@ int	key_hook(int key, t_vars *vars)
 	return (0);
 }
 
-int	mouse_hook(int mousecode, int i, int j, t_vars *vars)
-{
-
-}
-
 int	render_new_frame(t_vars *vars)
 {
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->win->img, 0, 0);
@@ -67,17 +62,10 @@ int	render_new_frame(t_vars *vars)
 
 int	destroy(t_vars *vars)
 {
-	//int	i;
 	free(vars->win->tex);
 	free(vars->you);
 	free(vars->win->ray);
 	free(vars->win);
-	//i = 0; // pour avoir un fsanitize propre
-	// while (vars->map->map[i])
-	// {
-	// 	free(vars->map->map[i]);
-	// 	i++;
-	// }
 	if (vars->check.origin)
 	{
 		while (vars->check.origin->next != NULL)
@@ -87,16 +75,8 @@ int	destroy(t_vars *vars)
 		}
 		free(vars->check.origin->content);
 	}
-	free(vars->map->NO_path);
-	free(vars->map->SO_path);
-	free(vars->map->WE_path);
-	free(vars->map->EA_path);
-	free(vars->map->map);
-	free(vars->map);
 	ft_lstclear(&vars->check.gc, free);
 	vars->check.gc = NULL;
-	//free(vars->map->map);
-	//free(vars->map);
 	free(vars);
 	exit(0);
 }

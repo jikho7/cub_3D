@@ -1,6 +1,6 @@
 NAME		= cub3D
 CC			= gcc
-CFLAGS		= -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS		= -Wall -Werror -Wextra -g3 #-fsanitize=address
 SRC_PATH	= ./src
 PARSE_PATH	= ./src/parsing
 DRAW_PATH	= ./src/drawing
@@ -22,14 +22,14 @@ all: $(NAME)
 
 .c.o: cub3d.h
 	${CC} ${CFLAGS} -I. -c $< -o ${<:.c=.o}
-	
+
 $(LIBFT) :
 	@$(MAKE) -C libft
 
 $(MLX) :
 	@$(MAKE) -C mlx_openGL
 
-$(NAME) : $(OBJ) $(LIBFT) $(MLX) 
+$(NAME) : $(OBJ) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
 
 circle : $(OBJT) $(LIBFT) $(MLX)

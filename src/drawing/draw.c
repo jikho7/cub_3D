@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/10/31 19:33:58 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:36:06 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	draw_texture(t_data *win, int x, int sky, t_ray *ray)
 	while (j < win->height - sky)
 	{
 		y_dep = (int)((float)(j - sky) *jump) *win->tex[ray->NWSE].line_len;
+		if (x_dep >= 0 && y_dep >= 0) // to fix, ligne necessaire pour un fsanitize propre
 		color = *(unsigned int *)(win->tex[ray->NWSE].addr + (x_dep + y_dep));
 		my_mlx_pixel_put(win, x, j, max(0, color));
 		j++;

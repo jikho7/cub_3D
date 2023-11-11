@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/11/10 00:46:22 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 13:21:08 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,15 @@ int	destroy(t_vars *vars)
 	free(vars->you);
 	free(vars->win->ray);
 	free(vars->win);
-	i = -1;
-	while (vars->map->map[i++])
+	i = 0; // pour avoir un fsanitize propre
+	while (vars->map->map[i])
+	{
 		free(vars->map->map[i]);
+		i++;
+	}
 	free(vars->map->map);
 	free(vars->map);
 	free(vars);
+
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:44 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 00:29:13 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 13:01:57 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	remove_empty_block(t_parse **info)
 	{
 		while (tmp->content[0] == '\n')
 		{
+			free(tmp->content);
 			tmp = tmp->next;
 		}
 	}

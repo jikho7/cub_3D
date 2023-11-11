@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 01:04:41 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 01:05:58 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 13:29:58 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,8 @@ int		check_left(t_mat *mat, int pos_y, int pos_x);
 int		check_right(t_mat *mat, int pos_y, int pos_x);
 int		check_down(t_mat *mat, int pos_y, int pos_x);
 int		verif_malloc(void *malloc);
+void	free_parsing(t_parse *origin, t_check check);
+
 /*----------------LISTS-----------------*/
 void	add_back(t_parse **head, t_parse *node_to_add);
 int		lstsize(t_parse *lst);

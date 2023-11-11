@@ -56,8 +56,8 @@ void	check_f_c(t_parse **info, t_mat *matrice)
 	size = 0;
 	while (tmp->next != NULL)
 	{
-		if (strncmp(tmp->content, "F", 1) == 0
-			|| strncmp(tmp->content, "C", 1) == 0)
+		if (ft_strncmp(tmp->content, "F", 1) == 0
+			|| ft_strncmp(tmp->content, "C", 1) == 0)
 		{
 			cpy = ft_strdup(tmp->content);
 			strtrim_f_c(cpy, matrice);

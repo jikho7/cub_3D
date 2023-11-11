@@ -47,25 +47,25 @@ void	save_textures(char *s, t_check *ch)
 	{
 		ch->mat->ea_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
 		verif_malloc(ch->mat->ea_path);
-		ft_strlcpy(ch->mat->ea_path, s + 2, strlen(s + 2));
+		ft_strlcpy(ch->mat->ea_path, s + 2, ft_strlen(s + 2));
 	}
 	if (s[0] == 'S')
 	{
 		ch->mat->so_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
 		verif_malloc(ch->mat->so_path);
-		ft_strlcpy(ch->mat->so_path, s + 2, strlen(s + 2));
+		ft_strlcpy(ch->mat->so_path, s + 2, ft_strlen(s + 2));
 	}
 	if (s[0] == 'N')
 	{
 		ch->mat->no_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
 		verif_malloc(ch->mat->no_path);
-		ft_strlcpy(ch->mat->no_path, s + 2, strlen(s + 2));
+		ft_strlcpy(ch->mat->no_path, s + 2, ft_strlen(s + 2));
 	}
 	if (s[0] == 'W')
 	{
 		ch->mat->we_path = my_malloc(ft_strlen(s), sizeof(char *), &ch->gc);
 		verif_malloc(ch->mat->we_path);
-		ft_strlcpy(ch->mat->we_path, s + 2, strlen(s + 2));
+		ft_strlcpy(ch->mat->we_path, s + 2, ft_strlen(s + 2));
 	}
 }
 

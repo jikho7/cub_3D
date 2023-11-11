@@ -89,12 +89,13 @@ void	check_tex_extension(t_parse **info, t_check *check)
 	{
 		size = ft_strlen(tmp->content);
 		cpy = (tmp->content + (size - 5));
-		if ((strncmp(tmp->content, "EA", 2) == 0
-				|| strncmp(tmp->content, "NO", 2) == 0
-				|| strncmp(tmp->content, "SO", 2) == 0
-				|| strncmp(tmp->content, "WE", 2) == 0))
+		if ((ft_strncmp(tmp->content, "EA", 2) == 0
+				|| ft_strncmp(tmp->content, "NO", 2) == 0
+				|| ft_strncmp(tmp->content, "SO", 2) == 0
+				|| ft_strncmp(tmp->content, "WE", 2) == 0))
 		{
-			if (strncmp(cpy, ".xpm", 4) != 0 && (strncmp(cpy, ".png", 4) != 0))
+			if (ft_strncmp(cpy, ".xpm", 4) != 0
+				&& (ft_strncmp(cpy, ".png", 4) != 0))
 				error_msg(3);
 		}
 		tmp = tmp->next;

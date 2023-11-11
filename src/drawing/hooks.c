@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/11/11 13:21:08 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:15:44 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,31 @@ int	render_new_frame(t_vars *vars)
 
 int	destroy(t_vars *vars)
 {
-	int	i;
-
+	//int	i;
 	free(vars->win->tex);
 	free(vars->you);
 	free(vars->win->ray);
 	free(vars->win);
-	i = 0; // pour avoir un fsanitize propre
-	while (vars->map->map[i])
+	//i = 0; // pour avoir un fsanitize propre
+	// while (vars->map->map[i])
+	// {
+	// 	free(vars->map->map[i]);
+	// 	i++;
+	// }
+	if (vars->check.origin)
 	{
-		free(vars->map->map[i]);
-		i++;
+		while (vars->check.origin->next != NULL)
+		{
+			free(vars->check.origin->content);
+			vars->check.origin = vars->check.origin->next;
+		}
+		free(vars->check.origin->content);
 	}
-	free(vars->map->map);
-	free(vars->map);
+	ft_lstclear(&vars->check.gc, free);
+	vars->check.gc = NULL;
+	//free(vars->map->map);
+	//free(vars->map);
 	free(vars);
-
+	while (1);
 	exit(0);
 }

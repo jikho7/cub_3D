@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 01:04:41 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 13:29:58 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 14:10:14 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_check
 	int				is_map;
 	t_list			*gc;
 	struct s_mat	*mat;
+	struct s_parse	*origin;
 }t_check;
 
 typedef struct s_mat
@@ -140,6 +141,7 @@ typedef struct s_vars {
 	t_data		*win;
 	t_player	*you;
 	t_mat		*map;
+	t_check		check;
 }t_vars;
 
 int		init_mlx(t_data *data);
@@ -184,9 +186,9 @@ float	sq(float a);
 void	set_comp(t_complex *c, float x, float y);
 
 /*----------------PARSING-----------------*/
-t_mat	*parsing(char *map);
+t_mat	*parsing(char *map, t_vars *vars);
 void	read_lst(t_parse **lst, t_check *check_lst);
-void	init_struct_check(t_check *check, char *map, t_mat *mat);
+void	init_struct_check(t_check *check, char *map, t_mat *mat, t_parse *origin);
 void	init_mat(t_mat *mat, t_check *check);
 void	check_map_extension(char *name);
 void	check_tex_extension(t_parse **info, t_check *check);

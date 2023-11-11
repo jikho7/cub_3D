@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 01:00:20 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 01:00:25 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:06:29 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,16 @@ void	*my_malloc(size_t size, size_t type, t_list **gc)
 
 	ptr = ft_calloc(size, type);
 	if (!ptr)
+	{
+		ft_lstclear(gc, free);
 		return (NULL);
+	}
 	new = ft_calloc(1, sizeof(t_list));
 	if (!new)
+	{
+		ft_lstclear(gc, free);
 		return (NULL);
+	}
 	new->content = ptr;
 	ft_lstadd_back(gc, new);
 	return (ptr);

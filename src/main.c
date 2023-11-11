@@ -48,8 +48,8 @@ t_data	*init_win(t_mat *map)
 	win = malloc(sizeof(t_data));
 	win->tex = malloc(sizeof(t_texture) * 4);
 	win->sqr = 20;
-	win->height = 700;
-	win->width = 700;
+	win->height = 800;
+	win->width = 800;
 	win->map = map;
 	win->forward = 1;
 	win->minimap = -1;

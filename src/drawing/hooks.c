@@ -54,6 +54,11 @@ int	key_hook(int key, t_vars *vars)
 	return (0);
 }
 
+int	mouse_hook(int mousecode, int i, int j, t_vars *vars)
+{
+	
+}
+
 int	render_new_frame(t_vars *vars)
 {
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->win->img, 0, 0);
@@ -68,7 +73,7 @@ int	destroy(t_vars *vars)
 	free(vars->you);
 	free(vars->win->ray);
 	free(vars->win);
-	i = 0; // pour avoir un fsanitize propre
+	i = 0;
 	while (vars->map->map[i])
 	{
 		free(vars->map->map[i]);
@@ -81,6 +86,5 @@ int	destroy(t_vars *vars)
 	free(vars->map->map);
 	free(vars->map);
 	free(vars);
-
 	exit(0);
 }

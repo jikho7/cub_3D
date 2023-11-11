@@ -17,14 +17,14 @@ float	proj_dist(t_complex a, t_complex b)
 	return ((a.x * b.x + a.y * b.y) / sqrtf(b.x * b.x + b.y * b.y));
 }
 
-float	unfisheye(t_player *you, t_complex rDir, float sideDist)
+float	unfisheye(t_player *you, t_complex rdir, float sidedist)
 {
 	t_complex	dist;
 	float		normray;
 
-	normray = sqrt(rDir.x * rDir.x + rDir.y * rDir.y);
-	dist.x = rDir.x * sideDist / normray;
-	dist.y = -rDir.y * sideDist / normray;
+	normray = sqrt(rdir.x * rdir.x + rdir.y * rdir.y);
+	dist.x = rdir.x * sidedist / normray;
+	dist.y = -rdir.y * sidedist / normray;
 	return (fabsf(proj_dist(dist, you->dir)));
 }
 
@@ -32,18 +32,18 @@ void	init_ray(t_ray *ray, int step, t_player *you, t_data *win)
 {
 	float	norm;
 
-	norm = sqrt(ray->rDir.x * ray->rDir.x + ray->rDir.y * ray->rDir.y);
+	norm = sqrt(ray->rdir.x * ray->rdir.x + ray->rdir.y * ray->rdir.y);
 	if (step == 0)
 	{
-		ray->distance = unfisheye(you, ray->rDir, ray->sideDist.x);
-		ray->line_loc = (remainder(you->pos.y + ray->rDir.y
-					* ray->sideDist.x / norm, win->sqr) + 1) / win->sqr;
+		ray->distance = unfisheye(you, ray->rdir, ray->sidedist.x);
+		ray->line_loc = (remainder(you->pos.y + ray->rdir.y
+					* ray->sidedist.x / norm, win->sqr) + 1) / win->sqr;
 	}
 	else
 	{
-		ray->distance = unfisheye(you, ray->rDir, ray->sideDist.y);
-		ray->line_loc = (remainder(you->pos.x + ray->rDir.x
-					* ray->sideDist.y / norm, win->sqr) + 1) / win->sqr;
+		ray->distance = unfisheye(you, ray->rdir, ray->sidedist.y);
+		ray->line_loc = (remainder(you->pos.x + ray->rdir.x
+					* ray->sidedist.y / norm, win->sqr) + 1) / win->sqr;
 	}
 	if (ray->line_loc < 0)
 		ray->line_loc += 1;
@@ -53,34 +53,34 @@ int	dda_start(t_complex *adelta, t_ray *ray, t_complex *map)
 {
 	adelta->x = 0;
 	adelta->y = 0;
-	if (ray->sideDist.x < ray->sideDist.y)
+	if (ray->sidedist.x < ray->sidedist.y)
 	{
-		map->x += sgn(ray->rDir.x);
-		adelta->x = ray->sqDel.x;
+		map->x += sgn(ray->rdir.x);
+		adelta->x = ray->sqdel.x;
 		return (0);
 	}
 	else
 	{
-		map->y += sgn(ray->rDir.y);
-		adelta->y = ray->sqDel.y;
+		map->y += sgn(ray->rdir.y);
+		adelta->y = ray->sqdel.y;
 		return (1);
 	}
 }
 
 int	x_or_y(t_ray *ray, t_complex *adelta, t_complex *map)
 {
-	if (ray->sideDist.x + adelta->x < ray->sideDist.y + adelta->y)
+	if (ray->sidedist.x + adelta->x < ray->sidedist.y + adelta->y)
 	{
-		ray->sideDist.x += adelta->x;
-		map->x += sgn(ray->rDir.x);
-		adelta->x = ray->sqDel.x;
+		ray->sidedist.x += adelta->x;
+		map->x += sgn(ray->rdir.x);
+		adelta->x = ray->sqdel.x;
 		return (0);
 	}
 	else
 	{
-		ray->sideDist.y += adelta->y;
-		map->y += sgn(ray->rDir.y);
-		adelta->y = ray->sqDel.y;
+		ray->sidedist.y += adelta->y;
+		map->y += sgn(ray->rdir.y);
+		adelta->y = ray->sqdel.y;
 		return (1);
 	}
 }

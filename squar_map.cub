@@ -1,7 +1,7 @@
-   NO ./assets/normal_north.xpm
-SO ./assets/normal_south.xpm
-   WE ./assets/normal_we0st.xpm
-EA ./assets/normal_east.xpm
+   NO ./xpm/Wall_North.xpm
+SO ./xpm/Wall_South.xpm
+   WE ./xpm/Wall_West.xpm
+EA ./xpm/Wall_East.xpm
 
 F 255,123,255
 

@@ -21,13 +21,13 @@ void	draw_texture(t_data *win, int x, int sky, t_ray *ray)
 	int		y_dep;
 
 	j = max(0, sky);
-	jump = (float)win->tex[ray->NWSE].height / (float)(win->height - 2 * sky);
-	x_dep = (int)(ray->line_loc * win->tex[ray->NWSE].height)
-		* (win->tex[ray->NWSE].bpp / 8);
+	jump = (float)win->tex[ray->nwse].height / (float)(win->height - 2 * sky);
+	x_dep = (int)(ray->line_loc * win->tex[ray->nwse].height)
+		* (win->tex[ray->nwse].bpp / 8);
 	while (j < win->height - sky && j < win->height)
 	{
-		y_dep = (int)((float)(j - sky) *jump) *win->tex[ray->NWSE].line_len;
-		color = *(unsigned int *)(win->tex[ray->NWSE].addr + (x_dep + y_dep));
+		y_dep = (int)((float)(j - sky) *jump) *win->tex[ray->nwse].line_len;
+		color = *(unsigned int *)(win->tex[ray->nwse].addr + (x_dep + y_dep));
 		my_mlx_pixel_put(win, x, j, max(0, color));
 		j++;
 	}
@@ -60,8 +60,8 @@ void	draw_wall(t_ray *ray, int i, int udorlr, t_data *win)
 
 	sky = win->height * (ray->distance - win->sqr / 2) / (2 * ray->distance);
 	j = 0;
-	ray->NWSE = udorlr + (udorlr * sgn(ray->rDir.y) + (1 - udorlr)
-			* sgn(ray->rDir.x) + 1);
+	ray->nwse = udorlr + (udorlr * sgn(ray->rdir.y) + (1 - udorlr)
+			* sgn(ray->rdir.x) + 1);
 	while (j <= win->height / 2)
 	{
 		if (j < sky)

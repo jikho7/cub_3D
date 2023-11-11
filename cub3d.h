@@ -87,13 +87,13 @@ typedef struct s_complex {
 
 typedef struct s_ray
 {
-	t_complex	rDir;
-	t_complex	sideDist;
-	t_complex	sqDel;
+	t_complex	rdir;
+	t_complex	sidedist;
+	t_complex	sqdel;
 	float		line_loc;
 	int			udorlr;
 	float		distance;
-	int			NWSE;
+	int			nwse;
 }t_ray;
 
 typedef struct s_player

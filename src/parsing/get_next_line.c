@@ -76,7 +76,7 @@ static char	*extraction(char *save)
 	if (save[i] == '\n')
 		result[i++] = '\n';
 	result[i] = '\0';
-	printf("result adr result[%d]: %p, content : %s\n", i, &result[i], result);
+	//printf("result adr result[%d]: %p, content : %s\n", i, &result[i], result);
 	return (result);
 }
 

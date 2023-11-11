@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/11/11 16:15:44 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:24:19 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,17 @@ int	key_hook(int key, t_vars *vars)
 	}
 	else if (key == 257)
 	{
-		if (vars->you->speed == vars->win->sqr / 5)
-			vars->you->speed = vars->win->sqr / 2;
-		else
+		if (vars->you->speed == vars->win->sqr / 10)
 			vars->you->speed = vars->win->sqr / 5;
+		else
+			vars->you->speed = vars->win->sqr / 10;
 	}
 	return (0);
+}
+
+int	mouse_hook(int mousecode, int i, int j, t_vars *vars)
+{
+
 }
 
 int	render_new_frame(t_vars *vars)
@@ -82,11 +87,16 @@ int	destroy(t_vars *vars)
 		}
 		free(vars->check.origin->content);
 	}
+	free(vars->map->NO_path);
+	free(vars->map->SO_path);
+	free(vars->map->WE_path);
+	free(vars->map->EA_path);
+	free(vars->map->map);
+	free(vars->map);
 	ft_lstclear(&vars->check.gc, free);
 	vars->check.gc = NULL;
 	//free(vars->map->map);
 	//free(vars->map);
 	free(vars);
-	while (1);
 	exit(0);
 }

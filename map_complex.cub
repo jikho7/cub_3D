@@ -1,7 +1,7 @@
-   NO ./assets/normal_north.xpm
-SO ./assets/normal_south.xpm
-   WE ./assets/normal_we0st.xpm
-EA ./assets/normal_east.xpm
+NO ./xpm/Purple_Nebula_01-512x512.xpm
+SO ./xpm/Purple_Nebula_04-512x512.xpm
+WE ./xpm/Purple_Nebula_05-512x512.xpm
+EA ./xpm/Purple_Nebula_07-512x512.xpm
 
 F 152  ,   100,0
 C 125,30   ,  0

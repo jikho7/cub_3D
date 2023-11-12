@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:48 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 16:48:18 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/12 15:25:47 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	parsing2(t_parse *info, t_check check, t_mat *mat, t_parse *origin)
 	check_f_c(&info, mat);
 	reduce_spaces_to_one(&info, &check);
 	check_spelling(&info, &check);
-	check_if_info_after_map(&info, &check);
+	check_if_info_after_map(&info, &check, mat);
 	create_mat(&origin, mat);
 	check_map(mat);
 	flood_fill(mat);

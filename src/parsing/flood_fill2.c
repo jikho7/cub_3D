@@ -6,17 +6,11 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:21 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/10 00:30:56 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/12 13:59:16 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-int	check_up(t_mat *mat, int pos_y, int pos_x);
-int	check_directions(t_mat *mat, int pos_y, int pos_x);
-int	check_left(t_mat *mat, int pos_y, int pos_x);
-int	check_right(t_mat *mat, int pos_y, int pos_x);
-int	check_down(t_mat *mat, int pos_y, int pos_x);
 
 int	check_directions(t_mat *mat, int pos_y, int pos_x)
 {

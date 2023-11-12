@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:29 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 16:45:09 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/12 15:29:53 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	init_mat(t_mat *mat, t_check *check)
 	mat->check = check;
 	mat->hei = 0;
 	mat->wid = 0;
+	mat->wid_map = 0;
 	mat->map = NULL;
 	mat->map_space = NULL;
 	mat->n = 0;

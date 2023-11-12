@@ -1,9 +1,9 @@
 
 
-EA ./textures/Wall_East.png
-NO ./textures/Wall_North.png
-SO ./textures/Wall_South.png
-WE ./textures/Wall_West.png
+EA ./xpm/Purple_Nebula_01-512x512.xpm
+NO ./xpm/Purple_Nebula_04-512x512.xpm
+SO ./xpm/Purple_Nebula_05-512x512.xpm
+WE ./xpm/Purple_Nebula_07-512x512.xpm
 
 F 220,111,119
 C 225,111,200

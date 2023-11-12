@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 01:04:41 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 17:32:11 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/12 15:55:12 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void	check_map_extension(char *name);
 void	check_tex_extension(t_parse **info, t_check *check);
 void	check_spelling(t_parse **lst, t_check *check_lst);
 void	check_f_c(t_parse **info, t_mat *mat);
-void	check_if_info_after_map(t_parse **info, t_check *check);
+void	check_if_info_after_map(t_parse **info, t_check *check, t_mat *mat);
 void	check_excess_info(t_parse **info);
 void	strtrim_lst(t_parse **info, t_check *check);
 void	create_mat(t_parse **origin, t_mat *mat);
@@ -213,7 +213,6 @@ void	get_width2(t_mat *mat);
 char	*ft_strcpy(char *s1, char *s2);
 void	save_textures(char *str, t_check *check);
 t_parse	*go_through_no_map_char(t_parse *tmp, int i);
-void	save_f_c_info(int option, t_mat *matrice, int j, char *split);
 void	check_if_space_in_map(t_parse *lst, t_mat *mat);
 int		check_up(t_mat *mat, int pos_y, int pos_x);
 int		check_directions(t_mat *mat, int pos_y, int pos_x);
@@ -222,6 +221,11 @@ int		check_right(t_mat *mat, int pos_y, int pos_x);
 int		check_down(t_mat *mat, int pos_y, int pos_x);
 int		verif_malloc(void *malloc);
 void	free_parsing(t_parse *origin, t_check check);
+void	check_read_lst(t_check *check_lst);
+void	size_split(char **split);
+void	handle_f_norm(int *i, int *j, char **split, t_mat *matrice);
+void	handle_c_norm(int *j, int *i, char **split, t_mat *matrice);
+void	save_f_c_info(int option, t_mat *matrice, int j, char *split);
 
 /*----------------LISTS-----------------*/
 void	add_back(t_parse **head, t_parse *node_to_add);

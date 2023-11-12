@@ -1,7 +1,7 @@
-NO ./xpm/Purple_Nebula_01-512x512.xpm
-SO ./xpm/Purple_Nebula_04-512x512.xpm
-WE ./xpm/Purple_Nebula_05-512x512.xpm
-EA ./xpm/Purple_Nebula_07-512x512.xpm
+NO ./xpm/Nebula_01-512x512.xpm
+SO ./xpm/Nebula_04-512x512.xpm
+WE ./xpm/Nebula_05-512x512.xpm
+EA ./xpm/Nebula_07-512x512.xpm
 
 F 152  ,   100,0
 C 125,30   ,  0

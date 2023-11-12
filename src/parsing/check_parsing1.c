@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:50:42 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/09 19:28:39 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/12 15:57:09 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,13 @@ static int	is_coordinate_valid(t_parse *tmp)
 	return (0);
 }
 
-void	check_if_info_after_map(t_parse **info, t_check *check)
+void	check_if_info_after_map(t_parse **info, t_check *check, t_mat *mat)
 {
+	(void)mat;
 	t_parse	*tmp;
 
 	tmp = *info;
+
 	while (tmp->next != NULL)
 	{
 		while (tmp->content[0] != '1' && tmp->content[0] != '0')

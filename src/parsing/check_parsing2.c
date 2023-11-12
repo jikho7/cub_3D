@@ -6,16 +6,13 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:15 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 19:00:45 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/12 14:03:30 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	save_f_c_info(int option, t_mat *matrice, int j, char *split);
-void	handle_c_norm(int *j, int *i, char **split, t_mat *matrice);
-void	handle_f_norm(int *i, int *j, char **split, t_mat *matrice);
-void	size_split(char **split);
+static void	read_lst2(t_parse *tmp, t_check *check_lst);
 
 void	read_lst(t_parse **lst, t_check *check_lst)
 {
@@ -33,17 +30,24 @@ void	read_lst(t_parse **lst, t_check *check_lst)
 		if (ft_strncmp(tmp->content, "SO ./", 5) == 0
 			|| ft_strncmp(tmp->content, "SO", 2) == 0)
 			check_lst->so++;
-		if (ft_strncmp(tmp->content, "WE ./", 5) == 0
-			|| ft_strncmp(tmp->content, "WE", 2) == 0)
-			check_lst->we++;
-		if (ft_strncmp(tmp->content, "F ", 2) == 0
-			|| ft_strncmp(tmp->content, "F", 1) == 0)
-			check_lst->f++;
-		if (ft_strncmp(tmp->content, "C ", 2) == 0
-			|| ft_strncmp(tmp->content, "C", 1) == 0)
-			check_lst->c++;
+		else
+			read_lst2(tmp, check_lst);
 		tmp = tmp->next;
 	}
+	check_read_lst(check_lst);
+}
+
+static void	read_lst2(t_parse *tmp, t_check *check_lst)
+{
+	if (ft_strncmp(tmp->content, "WE ./", 5) == 0
+		|| ft_strncmp(tmp->content, "WE", 2) == 0)
+		check_lst->we++;
+	if (ft_strncmp(tmp->content, "F ", 2) == 0
+		|| ft_strncmp(tmp->content, "F", 1) == 0)
+		check_lst->f++;
+	if (ft_strncmp(tmp->content, "C ", 2) == 0
+		|| ft_strncmp(tmp->content, "C", 1) == 0)
+		check_lst->c++;
 }
 
 void	check_f_c(t_parse **info, t_mat *matrice)
@@ -91,17 +95,6 @@ void	strtrim_f_c(char *str, t_mat *matrice)
 		}
 		j = 0;
 	}
-}
-
-void	size_split(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split[i])
-		i++;
-	if (i != 3)
-		error_msg(4);
 }
 
 void	handle_f_norm(int *i, int *j, char **split, t_mat *matrice)

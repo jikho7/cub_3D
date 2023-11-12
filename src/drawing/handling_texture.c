@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:02:32 by mde-sepi          #+#    #+#             */
-/*   Updated: 2023/11/11 16:44:37 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/12 13:36:57 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	create_struct_sprites(t_data *win, t_vars *vars)
 		win->tex[i].img_ptr = mlx_xpm_file_to_image(vars->mlx, win->tex[i].path,
 				&win->tex[i].width, &win->tex[i].height);
 		if (!win->tex[i].img_ptr)
+		{
 			printf("Error: Texture not found: -%s-\n", win->tex[i].path);
+			exit (0);
+		}
 		else
 			win->tex[i].addr = mlx_get_data_addr(win->tex[i].img_ptr,
 					&win->tex[i].bpp, &win->tex[i].line_len,

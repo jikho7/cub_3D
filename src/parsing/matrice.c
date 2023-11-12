@@ -99,13 +99,13 @@ static void	calloc_maps(t_mat *mat)
 	i = -1;
 	while (++i < mat->hei)
 	{
-		mat->map[i] = my_malloc(mat->wid, sizeof(char), &mat->check->gc);
+		mat->map[i] = my_malloc(mat->wid + 1, sizeof(char), &mat->check->gc);
 		verif_malloc(mat->map[i]);
 	}
 	i = -1;
 	while (++i < mat->hei)
 	{
-		mat->map_space[i] = my_malloc(mat->wid, sizeof(char), &mat->check->gc);
+		mat->map_space[i] = my_malloc(mat->wid + 1, sizeof(char), &mat->check->gc);
 		verif_malloc(mat->map_space[i]);
 	}
 }

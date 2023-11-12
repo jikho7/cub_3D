@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:51:51 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/11 19:04:26 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/12 16:26:35 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(int ac, char **av)
 	t_player	*you;
 	t_mat		*map;
 
-	if (ac < 2)
+	if (ac != 2)
 		return (0);
 	vars = malloc(sizeof(t_vars));
 	map = parsing(av[1], vars);

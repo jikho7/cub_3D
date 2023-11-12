@@ -31,7 +31,6 @@ void	get_width(t_parse **map, t_mat *mat)
 		}
 		tmp = tmp->next;
 	}
-	printf("wid 1: %d\n", mat->wid);
 }
 
 void	get_width2(t_mat *mat)
@@ -55,7 +54,6 @@ void	get_width2(t_mat *mat)
 		j++;
 	}
 	mat->wid = max;
-	printf("wid 2: %d\n", mat->wid);
 }
 
 void	get_height(t_parse **map, t_mat *mat)

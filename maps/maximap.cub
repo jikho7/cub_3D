@@ -1,7 +1,7 @@
-EA ./textures/Wall_East.png
-NO ./textures/Wall_North.png
-SO ./textures/Wall_South.png
-WE ./textures/Wall_West.png
+NO ./xpm/Nebula_01-512x512.xpm
+SO ./xpm/Nebula_04-512x512.xpm
+WE ./xpm/Nebula_05-512x512.xpm
+EA ./xpm/Nebula_07-512x512.xpm
 F 0,190,25
 C 120,120,120
 

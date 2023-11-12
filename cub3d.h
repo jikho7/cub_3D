@@ -6,7 +6,7 @@
 /*   By: jdefayes <jdefayes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 01:04:41 by jdefayes          #+#    #+#             */
-/*   Updated: 2023/11/12 15:55:12 by jdefayes         ###   ########.fr       */
+/*   Updated: 2023/11/12 16:06:40 by jdefayes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void	check_map_extension(char *name);
 void	check_tex_extension(t_parse **info, t_check *check);
 void	check_spelling(t_parse **lst, t_check *check_lst);
 void	check_f_c(t_parse **info, t_mat *mat);
-void	check_if_info_after_map(t_parse **info, t_check *check, t_mat *mat);
+void	check_if_info_after_map(t_parse **info, t_check *check);
 void	check_excess_info(t_parse **info);
 void	strtrim_lst(t_parse **info, t_check *check);
 void	create_mat(t_parse **origin, t_mat *mat);

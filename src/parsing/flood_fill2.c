@@ -41,7 +41,8 @@ int	check_left(t_mat *mat, int pos_y, int pos_x)
 		{
 			return (0);
 		}
-		if (mat->map_space[pos_y][pos_x] == ' ')
+		if (mat->map_space[pos_y][pos_x] == ' '
+			|| mat->map_space[pos_y][pos_x] == '\n')
 			return (1);
 		pos_x--;
 	}
@@ -56,7 +57,8 @@ int	check_right(t_mat *mat, int pos_y, int pos_x)
 		{
 			return (0);
 		}
-		if (mat->map_space[pos_y][pos_x] == ' ')
+		if (mat->map_space[pos_y][pos_x] == ' '
+			|| mat->map_space[pos_y][pos_x] == '\n')
 		{
 			return (1);
 		}
@@ -73,7 +75,8 @@ int	check_up(t_mat *mat, int pos_y, int pos_x)
 		{
 			return (0);
 		}
-		if (mat->map_space[pos_y][pos_x] == ' ')
+		if (mat->map_space[pos_y][pos_x] == ' '
+			|| mat->map_space[pos_y][pos_x] == '\n')
 			return (1);
 		pos_y--;
 	}
@@ -88,7 +91,8 @@ int	check_down(t_mat *mat, int pos_y, int pos_x)
 		{
 			return (0);
 		}
-		if (mat->map_space[pos_y][pos_x] == ' ')
+		if (mat->map_space[pos_y][pos_x] == ' '
+			|| mat->map_space[pos_y][pos_x] == '\n')
 			return (1);
 		pos_y++;
 	}
